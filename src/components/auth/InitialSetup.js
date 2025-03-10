@@ -40,6 +40,7 @@ function InitialSetup() {
       // Crea il documento admin
       await setDoc(doc(db, 'users', userCredential.user.uid), {
         email,
+        name: 'Admin',
         role: 'admin',
         createdAt: new Date().toISOString(),
         status: 'active'
@@ -49,6 +50,7 @@ function InitialSetup() {
       window.location.href = '/login';
 
     } catch (error) {
+      console.error("Errore durante la configurazione:", error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -91,6 +93,9 @@ function InitialSetup() {
               onChange={(e) => setSetupCode(e.target.value)}
               required
             />
+            <small style={{display: 'block', marginTop: '5px', color: '#666'}}>
+              Codice di default: ADMIN_SETUP_2024_SECRET
+            </small>
           </div>
 
           <button 

@@ -1,4 +1,4 @@
-const IMGBB_API_KEY = 'c9509bbff3a3f926c5c86e7a4f6fe6a3';
+const IMGBB_API_KEY = 'ca886e08e1dd1294a4b99f817cc9993a';
 
 export const uploadImage = async (imageFile) => {
   try {
