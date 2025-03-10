@@ -1,0 +1,45 @@
+.sub-statistics-modal {
+  max-width: 700px;
+  width: 90%;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+}
+
+.events-stats-table {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.team-summary {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.btn-details {
+  background: #2196F3;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-details:hover {
+  background: #1976D2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sub-statistics-modal {
+    background: #1e1e1e;
+    color: white;
+  }
+
+  .team-summary {
+    background: #2d2d2d;
+  }
+} 

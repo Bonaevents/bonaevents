@@ -1,0 +1,85 @@
+.sell-ticket-modal {
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.event-info {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.event-info h4 {
+  margin: 0 0 10px 0;
+}
+
+.event-info p {
+  margin: 5px 0;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.input-with-icon input {
+  padding-left: 35px;
+}
+
+.price-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #e3f2fd;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.total-price {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+} 

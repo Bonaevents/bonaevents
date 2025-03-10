@@ -1,0 +1,149 @@
+.promoters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.promoter-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.promoter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.avatar-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.promoter-card:hover .avatar-circle {
+  transform: scale(1.1);
+}
+
+.promoter-info {
+  margin-top: 10px;
+}
+
+.promoter-info h3 {
+  margin: 0;
+  color: #333;
+}
+
+.promoter-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+@media (prefers-color-scheme: dark) {
+  .promoter-card {
+    background: #1e1e1e;
+  }
+
+  .promoter-info h3 {
+    color: #fff;
+  }
+
+  .promoter-info p {
+    color: #ccc;
+  }
+}
+
+.statistics-modal {
+  max-width: 800px;
+  width: 90%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.promoter-summary {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.events-stats-table {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.events-stats-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.events-stats-table th,
+.events-stats-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.events-stats-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.loading, .no-data {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+@media (prefers-color-scheme: dark) {
+  .statistics-modal {
+    background: #1e1e1e;
+    color: white;
+  }
+
+  .promoter-summary,
+  .events-stats-table th {
+    background: #2d2d2d;
+  }
+
+  .events-stats-table td {
+    border-color: #444;
+  }
+
+  .close-button {
+    color: #ccc;
+  }
+}
