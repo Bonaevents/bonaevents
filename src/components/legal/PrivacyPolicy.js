@@ -13,7 +13,7 @@ function PrivacyPolicy() {
 
         <div className="legal-body">
           <section>
-            <p>La presente Informativa sulla privacy descrive come Wave Events (il "Sito", "noi", "ci" o "nostro") raccoglie, utilizza e divulga le tue informazioni personali quando visiti, utilizzi i nostri servizi o effettui un acquisto da Waveeventsmalta.com (il "Sito") o comunichi in altro modo con noi in merito al Sito (collettivamente, i "Servizi"). Ai fini della presente Informativa sulla privacy, "tu" e "tuo" indicano te come utente dei Servizi, che tu sia un cliente, un visitatore del sito web o un altro individuo di cui abbiamo raccolto le informazioni ai sensi della presente Informativa sulla privacy.</p>
+            <p>La presente Informativa sulla privacy descrive come Bona Events (il "Sito", "noi", "ci" o "nostro") raccoglie, utilizza e divulga le tue informazioni personali quando visiti, utilizzi i nostri servizi o effettui un acquisto da Bonaeventsmalta.com (il "Sito") o comunichi in altro modo con noi in merito al Sito (collettivamente, i "Servizi"). Ai fini della presente Informativa sulla privacy, "tu" e "tuo" indicano te come utente dei Servizi, che tu sia un cliente, un visitatore del sito web o un altro individuo di cui abbiamo raccolto le informazioni ai sensi della presente Informativa sulla privacy.</p>
             <p>Si prega di leggere attentamente la presente Informativa sulla privacy.</p>
           </section>
 
@@ -147,7 +147,7 @@ function PrivacyPolicy() {
 
           <section>
             <h2>Contatto</h2>
-            <p>In caso di domande sulle nostre pratiche sulla privacy o sulla presente Informativa sulla privacy, o se desideri esercitare uno qualsiasi dei diritti a tua disposizione, chiamaci o inviaci un'email a wavevents.marketing@gmail.com oppure contattaci a Via Napoli 106, Mugnano di Napoli, NA, 80018, IT.</p>
+            <p>In caso di domande sulle nostre pratiche sulla privacy o sulla presente Informativa sulla privacy, o se desideri esercitare uno qualsiasi dei diritti a tua disposizione, chiamaci o inviaci un'email a bonaevents.marketing@gmail.com oppure contattaci a Via Napoli 106, Mugnano di Napoli, NA, 80018, IT.</p>
             <p>Ai fini delle leggi applicabili sulla protezione dei dati e se non esplicitamente indicato diversamente, siamo i titolari del trattamento dei dati personali.</p>
           </section>
         </div>
