@@ -111,11 +111,11 @@ function AdminDashboard() {
   };
 
   const filteredUsers = users.filter(user => {
-    const matchesSearch = (
-      user.email.toLowerCase().includes(filter.toLowerCase()) ||
-      (user.name && user.name.toLowerCase().includes(filter.toLowerCase()))
-    );
-    const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+    const emailMatch = user?.email?.toLowerCase().includes(filter.toLowerCase()) ?? false;
+    const nameMatch = user?.name?.toLowerCase().includes(filter.toLowerCase()) ?? false;
+    
+    const matchesSearch = emailMatch || nameMatch;
+    const matchesRole = roleFilter === 'all' || user?.role === roleFilter;
     return matchesSearch && matchesRole;
   });
 
