@@ -94,7 +94,7 @@ function Login() {
         </form>
 
         <div className="login-footer">
-          <p>© 2024 Wave Events</p>
+          
         </div>
       </div>
     </div>
