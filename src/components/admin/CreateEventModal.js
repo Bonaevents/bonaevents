@@ -11,8 +11,10 @@ const TICKET_TYPES = [
   { id: 'vip', name: 'VIP', description: 'Accesso a area VIP' },
   { id: 'backstage', name: 'Backstage', description: 'Include accesso backstage' },
   { id: 'early_bird', name: 'Early Bird', description: 'Prezzo scontato prevendita' },
-  { id: 'student', name: 'Studenti', description: 'Sconto per studenti' },
-  { id: 'group', name: 'Gruppo', description: 'Per gruppi di 5+ persone' }
+  { id: 'group', name: 'Gruppo', description: 'Per gruppi di 5+ persone' },
+  { id: 'last_rate', name: 'Last Rate', description: 'Biglietto ultima tariffa disponibile' },
+  { id: 'early_pass', name: 'Early Pass', description: 'Pass con accesso anticipato' },
+  { id: 'prime_vip', name: 'Prime VIP', description: 'Biglietto VIP esclusivo/prioritario' }
 ];
 
 const TABLE_TYPES = [

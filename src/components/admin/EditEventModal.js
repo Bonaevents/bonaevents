@@ -11,8 +11,10 @@ const TICKET_TYPES = [
   { id: 'vip', name: 'VIP', description: 'Accesso a area VIP' },
   { id: 'backstage', name: 'Backstage', description: 'Include accesso backstage' },
   { id: 'early_bird', name: 'Early Bird', description: 'Prezzo scontato prevendita' },
-  { id: 'student', name: 'Studenti', description: 'Sconto per studenti' },
-  { id: 'group', name: 'Gruppo', description: 'Per gruppi di 5+ persone' }
+  { id: 'group', name: 'Gruppo', description: 'Per gruppi di 5+ persone' },
+  { id: 'last_rate', name: 'Last Rate', description: 'Biglietto ultima tariffa disponibile' },
+  { id: 'early_pass', name: 'Early Pass', description: 'Pass con accesso anticipato' },
+  { id: 'prime_vip', name: 'Prime VIP', description: 'Biglietto VIP esclusivo/prioritario' }
 ];
 
 // Definizione dei tipi di tavoli disponibili
@@ -41,7 +43,7 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
       const initialEventDates = event.eventDates?.map((d, index) => ({
         id: d.id || Date.now() + index,
         date: d.date || '',
-        ticketTypes: d.ticketTypes?.map(t => ({ ...t, price: t.price ?? '', quantity: t.quantity ?? '' })) || [],
+        ticketTypes: d.ticketTypes?.map(t => ({ ...t, price: t.price ?? '', quantity: t.quantity ?? '', commission: t.commission ?? '' })) || [],
         hasTablesForDate: d.hasTablesForDate || false,
         tableTypes: d.tableTypes?.map(tb => ({ ...tb, price: tb.price ?? '', seats: tb.seats ?? TABLE_TYPES.find(tt=>tt.id === tb.id)?.defaultSeats ?? '', quantity: tb.quantity ?? '' })) || [],
       })) || [];
@@ -123,7 +125,7 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
           if (existingTicketIndex > -1) {
             updatedTicketTypes = dateItem.ticketTypes.filter(t => t.id !== ticketType.id);
       } else {
-            updatedTicketTypes = [...dateItem.ticketTypes, { ...ticketType, price: '', quantity: '' }];
+            updatedTicketTypes = [...dateItem.ticketTypes, { ...ticketType, price: '', quantity: '', commission: '' }];
           }
           return { ...dateItem, ticketTypes: updatedTicketTypes };
         }
@@ -216,8 +218,8 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
             return;
         }
         for (const ticket of dateItem.ticketTypes) {
-            if (ticket.price === '' || ticket.quantity === '' || ticket.price < 0 || ticket.quantity <= 0) {
-                setError('Inserisci prezzo (>0) e quantità (>0) validi per il biglietto "' + ticket.name + '" nella data ' + new Date(dateItem.date).toLocaleDateString() + '.');
+            if (ticket.price === '' || ticket.quantity === '' || ticket.commission === '' || ticket.price < 0 || ticket.quantity <= 0 || ticket.commission < 0) {
+                setError('Inserisci prezzo (>0), quantità (>0) e commissione (>=0) validi per il biglietto "' + ticket.name + '" nella data ' + new Date(dateItem.date).toLocaleDateString() + '.');
       setLoading(false);
       return;
     }
@@ -252,30 +254,30 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
         }
       }
 
-      const updatedEventData = {
+      const updateData = {
         name: formData.name,
         location: formData.location,
         description: formData.description,
         posterImageUrl: finalPosterImageUrl,
         eventDates: formData.eventDates.map(d => ({
           date: d.date,
-          ticketTypes: d.ticketTypes.map(t => ({ id: t.id, name: t.name, price: t.price, quantity: t.quantity })),
+          ticketTypes: d.ticketTypes.map(t => ({ id: t.id, name: t.name, price: t.price, quantity: t.quantity, commission: t.commission })),
           hasTablesForDate: d.hasTablesForDate,
           tableTypes: d.tableTypes.map(tb => ({ id: tb.id, name: tb.name, price: tb.price, seats: tb.seats, quantity: tb.quantity }))
         })),
         updatedAt: new Date().toISOString(),
       };
-        updatedEventData.eventDates = updatedEventData.eventDates.map(d => {
+        updateData.eventDates = updateData.eventDates.map(d => {
             const totalTicketsForDate = d.ticketTypes.reduce((sum, t) => sum + t.quantity, 0);
             const totalTablesForDate = d.tableTypes.reduce((sum, t) => sum + t.quantity, 0);
             return { ...d, totalTicketsForDate, totalTablesForDate };
           });
 
       const eventRef = doc(db, 'events', event.id);
-      await updateDoc(eventRef, updatedEventData);
+      await updateDoc(eventRef, updateData);
 
-      console.log("Evento aggiornato con successo:", { id: event.id, ...updatedEventData });
-      onEventUpdated({ id: event.id, ...updatedEventData });
+      console.log("Evento aggiornato con successo:", { id: event.id, ...updateData });
+      onEventUpdated({ id: event.id, ...updateData });
       onClose();
 
     } catch (error) {
@@ -386,6 +388,20 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
                                  step="1"
                                  min="1"
                             required
+                          />
+                        </div>
+                        <div className="form-group inline">
+                          <label htmlFor={`ticket-commission-${index}-${ticketType.id}`}>Commissione (€):</label>
+                          <input
+                            type="number"
+                            placeholder="Comm. (€)"
+                            title="Commissione (€)"
+                            min="0"
+                            step="0.01"
+                            value={currentTicket?.commission}
+                            onChange={(e) => handleTicketChangeForDate(index, ticketType.id, 'commission', e.target.value)}
+                            required
+                            className="ticket-commission-input"
                           />
                         </div>
                       </div>
