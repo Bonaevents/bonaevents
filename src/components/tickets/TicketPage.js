@@ -67,7 +67,7 @@ const isAndroid = () => {
 const ticketCache = new Map();
 
 // Funzione di validazione del ticket
-function validateTicketStructure(ticketData) {
+function validateTicketStructure(ticketData, eventData = null) {
   console.log('Validating ticket structure:', ticketData);
   
   // Se non è un oggetto, crea un oggetto vuoto
@@ -81,7 +81,9 @@ function validateTicketStructure(ticketData) {
       price: '0.00',
       quantity: 1,
       totalPrice: '0.00',
-      customerName: 'Cliente'
+      customerName: 'Cliente',
+      eventDescription: 'Descrizione non disponibile.',
+      eventPosterImageUrl: null
     };
   }
   
@@ -96,8 +98,16 @@ function validateTicketStructure(ticketData) {
       price: ticketData.price || '0.00',
       quantity: 1,
       totalPrice: ticketData.price || '0.00',
-      customerName: 'Cliente'
+      customerName: 'Cliente',
+      eventDescription: ticketData.description || 'Descrizione non disponibile.',
+      eventPosterImageUrl: ticketData.posterImageUrl || null
     };
+  }
+  
+  // Aggiungi i dati dell'evento se disponibili
+  if (eventData) {
+    ticketData.eventDescription = eventData.description || 'Descrizione non disponibile.';
+    ticketData.eventPosterImageUrl = eventData.posterImageUrl || null;
   }
   
   return ticketData;
@@ -413,13 +423,30 @@ function TicketPage() {
         const q = query(ticketRef, where('ticketCode', '==', ticketCode));
         const querySnapshot = await getDocs(q);
         
+        let ticketData = null;
+        let eventData = null;
+        
         if (!querySnapshot.empty) {
           console.log('Ticket trovato per ticketCode');
-          let ticketData = querySnapshot.docs[0].data();
+          ticketData = querySnapshot.docs[0].data();
           console.log('Dati ticket:', ticketData);
           
-          // Valida la struttura del ticket
-          ticketData = validateTicketStructure(ticketData);
+          // Se abbiamo un eventId, recupera i dati dell'evento
+          if (ticketData.eventId) {
+            console.log('Recupero dati evento con ID:', ticketData.eventId);
+            const eventRef = doc(db, 'events', ticketData.eventId);
+            const eventSnapshot = await getDoc(eventRef);
+            
+            if (eventSnapshot.exists()) {
+              eventData = eventSnapshot.data();
+              console.log('Dati evento trovati:', eventData);
+            } else {
+              console.warn('Evento non trovato con ID:', ticketData.eventId);
+            }
+          }
+          
+          // Valida la struttura del ticket con i dati dell'evento
+          ticketData = validateTicketStructure(ticketData, eventData);
           
           setTicket(ticketData);
           ticketCache.set(ticketCode, ticketData);
@@ -434,11 +461,25 @@ function TicketPage() {
         
         if (!codeSnapshot.empty) {
           console.log('Ticket trovato per code');
-          let ticketData = codeSnapshot.docs[0].data();
+          ticketData = codeSnapshot.docs[0].data();
           console.log('Dati ticket:', ticketData);
           
-          // Valida la struttura del ticket
-          ticketData = validateTicketStructure(ticketData);
+          // Se abbiamo un eventId, recupera i dati dell'evento
+          if (ticketData.eventId) {
+            console.log('Recupero dati evento con ID:', ticketData.eventId);
+            const eventRef = doc(db, 'events', ticketData.eventId);
+            const eventSnapshot = await getDoc(eventRef);
+            
+            if (eventSnapshot.exists()) {
+              eventData = eventSnapshot.data();
+              console.log('Dati evento trovati:', eventData);
+            } else {
+              console.warn('Evento non trovato con ID:', ticketData.eventId);
+            }
+          }
+          
+          // Valida la struttura del ticket con i dati dell'evento
+          ticketData = validateTicketStructure(ticketData, eventData);
           
           setTicket(ticketData);
           ticketCache.set(ticketCode, ticketData);
@@ -453,11 +494,25 @@ function TicketPage() {
         
         if (!idSnapshot.empty) {
           console.log('Ticket trovato per id');
-          let ticketData = idSnapshot.docs[0].data();
+          ticketData = idSnapshot.docs[0].data();
           console.log('Dati ticket:', ticketData);
           
-          // Valida la struttura del ticket
-          ticketData = validateTicketStructure(ticketData);
+          // Se abbiamo un eventId, recupera i dati dell'evento
+          if (ticketData.eventId) {
+            console.log('Recupero dati evento con ID:', ticketData.eventId);
+            const eventRef = doc(db, 'events', ticketData.eventId);
+            const eventSnapshot = await getDoc(eventRef);
+            
+            if (eventSnapshot.exists()) {
+              eventData = eventSnapshot.data();
+              console.log('Dati evento trovati:', eventData);
+            } else {
+              console.warn('Evento non trovato con ID:', ticketData.eventId);
+            }
+          }
+          
+          // Valida la struttura del ticket con i dati dell'evento
+          ticketData = validateTicketStructure(ticketData, eventData);
           
           setTicket(ticketData);
           ticketCache.set(ticketCode, ticketData);
@@ -473,7 +528,7 @@ function TicketPage() {
         
         if (!eventSnapshot.empty) {
           console.log('Trovato evento invece di un ticket');
-          let eventData = eventSnapshot.docs[0].data();
+          eventData = eventSnapshot.docs[0].data();
           console.log('Dati evento:', eventData);
           
           // Crea un ticket virtuale dall'evento
@@ -485,7 +540,9 @@ function TicketPage() {
             price: eventData.price || '0.00',
             quantity: 1,
             totalPrice: eventData.price || '0.00',
-            customerName: 'Anteprima Evento'
+            customerName: 'Anteprima Evento',
+            eventDescription: eventData.description || 'Descrizione non disponibile.',
+            eventPosterImageUrl: eventData.posterImageUrl || null
           };
           
           console.log('Ticket virtuale creato:', virtualTicket);
@@ -595,59 +652,155 @@ function TicketPage() {
         </div>
       ) : ticket ? (
         <div className="ticket-container">
-          <div className="ticket-header">
-            <h1>{typeof ticket.ticketCode === 'string' ? ticket.ticketCode : (typeof ticket.code === 'string' ? ticket.code : (typeof ticket.id === 'string' ? ticket.id : 'Ticket'))}</h1>
-            <h2>{typeof ticket.eventName === 'string' ? ticket.eventName : 'Evento'}</h2>
+          <div className="ticket-brand-header">
+            <img src={APP_LOGO} alt="App Logo" className="app-logo" />
+            <h1>{typeof ticket.eventName === 'string' ? ticket.eventName : 'Evento'}</h1>
           </div>
           
-          <div className="ticket-content">
-            <div className="ticket-info">
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Data Evento</span>
-                <span className="ticket-info-value">{ticket.eventDate && typeof ticket.eventDate === 'string' ? formatDate(ticket.eventDate) : 'N/A'}</span>
+          {ticket.eventPosterImageUrl && (
+            <div className="ticket-section event-poster-container">
+              <img 
+                src={ticket.eventPosterImageUrl} 
+                alt={`Locandina ${ticket.eventName}`} 
+                className="event-poster-image"
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
+            </div>
+          )}
+          
+          <div className="ticket-section event-details-section" style={{ padding: deviceConfig.padding.section }}>
+            <h2 style={{ fontSize: deviceConfig.fontSize.title }}>Dettagli Evento</h2>
+            <div className="info-grid">
+              <div className="info-item">
+                <IoCalendarOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Data</span>
+                  <span className="info-item-value">
+                    {ticket.eventDate && typeof ticket.eventDate === 'string' ? formatDate(ticket.eventDate) : 'N/A'}
+                  </span>
+                </div>
               </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Ora Evento</span>
-                <span className="ticket-info-value">{ticket.eventDate && typeof ticket.eventDate === 'string' ? formatTime(ticket.eventDate) : 'N/A'}</span>
+              
+              <div className="info-item">
+                <IoTimeOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Ora</span>
+                  <span className="info-item-value">
+                    {ticket.eventDate && typeof ticket.eventDate === 'string' ? formatTime(ticket.eventDate) : 'N/A'}
+                  </span>
+                </div>
               </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Luogo</span>
-                <span className="ticket-info-value">{typeof ticket.eventLocation === 'string' ? ticket.eventLocation : 'N/A'}</span>
-              </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Tipo Biglietto</span>
-                <span className="ticket-info-value">{typeof ticket.ticketType === 'string' ? ticket.ticketType : 'Standard'}</span>
-              </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Quantità</span>
-                <span className="ticket-info-value">{typeof ticket.quantity === 'number' ? ticket.quantity : 1}</span>
-              </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Prezzo Unitario</span>
-                <span className="ticket-info-value">€{typeof ticket.price === 'number' ? ticket.price.toFixed(2) : (typeof ticket.price === 'string' ? ticket.price : '0.00')}</span>
-              </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Totale Ordine</span>
-                <span className="ticket-info-value">€{typeof ticket.totalPrice === 'number' ? ticket.totalPrice.toFixed(2) : (typeof ticket.totalPrice === 'string' ? ticket.totalPrice : '0.00')}</span>
-              </div>
-              <div className="ticket-info-item">
-                <span className="ticket-info-label">Cliente</span>
-                <span className="ticket-info-value">{typeof ticket.customerName === 'string' ? ticket.customerName : 'N/A'}</span>
+              
+              <div className="info-item full-width">
+                <IoLocationOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Luogo</span>
+                  <span className="info-item-value">
+                    {typeof ticket.eventLocation === 'string' ? ticket.eventLocation : 'N/A'}
+                  </span>
+                </div>
               </div>
             </div>
-
-            <div className="ticket-qr">
+          </div>
+          
+          {ticket.eventDescription && (
+            <div className="ticket-section event-description-section" style={{ padding: deviceConfig.padding.section }}>
+              <h3 style={{ fontSize: deviceConfig.fontSize.subtitle }}>Descrizione</h3>
+              <p className="event-description-text" style={{ fontSize: deviceConfig.fontSize.normal }}>
+                {ticket.eventDescription}
+              </p>
+            </div>
+          )}
+          
+          <div className="ticket-section ticket-details-section" style={{ padding: deviceConfig.padding.section }}>
+            <h3 style={{ fontSize: deviceConfig.fontSize.subtitle }}>Dettagli Biglietto</h3>
+            <div className="info-grid">
+              <div className="info-item">
+                <IoPersonOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Cliente</span>
+                  <span className="info-item-value">
+                    {typeof ticket.customerName === 'string' ? ticket.customerName : 'N/A'}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="info-item">
+                <IoTicketOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Tipo</span>
+                  <span className="info-item-value">
+                    {typeof ticket.ticketType === 'string' ? ticket.ticketType : 'Standard'}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="info-item">
+                <IoTicketOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Quantità</span>
+                  <span className="info-item-value">
+                    {typeof ticket.quantity === 'number' ? ticket.quantity : 1}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="info-item">
+                <IoCardOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Prezzo Unit.</span>
+                  <span className="info-item-value">
+                    €{typeof ticket.price === 'number' ? ticket.price.toFixed(2) : (typeof ticket.price === 'string' ? ticket.price : '0.00')}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="info-item">
+                <IoCardOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Totale</span>
+                  <span className="info-item-value">
+                    €{typeof ticket.totalPrice === 'number' ? ticket.totalPrice.toFixed(2) : (typeof ticket.totalPrice === 'string' ? ticket.totalPrice : '0.00')}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="info-item full-width">
+                <IoPricetagOutline size={deviceConfig.iconSize.normal} />
+                <div className="info-item-text">
+                  <span className="info-item-label">Codice</span>
+                  <span className="info-item-value is-code">
+                    {typeof ticket.ticketCode === 'string' ? ticket.ticketCode : (typeof ticket.code === 'string' ? ticket.code : (typeof ticket.id === 'string' ? ticket.id : 'unknown'))}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="ticket-section qr-code-section" style={{ padding: deviceConfig.padding.section }}>
+            <h3 className="qr-title" style={{ fontSize: deviceConfig.fontSize.subtitle }}>Scansiona all'ingresso</h3>
+            <div className="qr-code-wrapper">
               <img 
                 src={typeof ticket.qrCode === 'string' ? ticket.qrCode : generateQRCode(typeof ticket.ticketCode === 'string' ? ticket.ticketCode : (typeof ticket.code === 'string' ? ticket.code : (typeof ticket.id === 'string' ? ticket.id : 'unknown')))} 
                 alt="QR Code del biglietto" 
+                className={`qr-image ${qrLoaded ? 'loaded' : ''}`}
+                onLoad={handleQRLoad}
                 onClick={handleQrCodeClick}
               />
-              <p>Mostra questo QR code all'ingresso dell'evento per la validazione</p>
+              {!qrLoaded && <div className="qr-placeholder">Caricamento QR...</div>}
             </div>
+            <p className="qr-instruction" style={{ fontSize: deviceConfig.fontSize.small }}>
+              Mostra questo QR code all'ingresso dell'evento per la validazione
+            </p>
           </div>
-
-          <div className="ticket-footer">
-            <p>Questo biglietto è valido solo per l'evento e la data indicati</p>
+          
+          <div className="ticket-footer" style={{ padding: `${deviceConfig.padding.section}` }}>
+            <p style={{ fontSize: deviceConfig.fontSize.small }}>
+              Questo biglietto è valido solo per l'evento e la data indicati
+            </p>
+            <p style={{ fontSize: deviceConfig.fontSize.small }}>
+              Generato da BonaEvents
+            </p>
           </div>
         </div>
       ) : null}

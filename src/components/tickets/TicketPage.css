@@ -10,12 +10,14 @@
 .ticket-container {
   background: white;
   border-radius: 20px;
-  padding: 40px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 100%;
+  max-width: 600px;
+  width: 95%;
   position: relative;
   overflow: hidden;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .ticket-container::before {
@@ -301,4 +303,580 @@
   .home-button:hover {
     background: #4d4d4d;
   }
+}
+
+/* Header with Logo */
+.ticket-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+}
+
+.app-logo {
+  height: 40px;
+  width: 40px;
+}
+
+.ticket-brand-header h1 {
+  font-size: 1.5rem;
+  color: #1a237e;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* General Section Styling */
+.ticket-section {
+  border-bottom: 1px dashed #ddd;
+}
+.ticket-section:last-child {
+  border-bottom: none;
+}
+
+/* Event Poster Section */
+.event-poster-container {
+  width: 100%;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.event-poster-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Event Details Section */
+.event-details-section h2,
+.ticket-details-section h3,
+.event-description-section h3,
+.qr-code-section h3 {
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Grid for Info Items */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+/* Info Item Styling */
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8f9fa;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.info-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.info-item svg {
+  color: #4CAF50;
+  flex-shrink: 0;
+}
+
+.info-item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item-label {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.info-item-value {
+  font-weight: 500;
+  color: #333;
+  word-break: break-word;
+}
+
+.info-item-value.is-code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  background-color: #e9e9e9;
+  padding: 2px 5px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Event Description Section */
+.event-description-section {
+  background-color: #f0f7ff;
+}
+
+.event-description-text {
+  color: #444;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Ticket Details Section */
+.ticket-details-section {
+}
+
+/* QR Code Section */
+.qr-code-section {
+  text-align: center;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.qr-title {
+  margin-bottom: 10px;
+}
+
+.qr-code-wrapper {
+  display: inline-block;
+  position: relative;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.qr-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 5px solid white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.qr-image.loaded {
+  opacity: 1;
+}
+
+.qr-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.qr-instruction {
+  margin-top: 15px;
+  color: #555;
+}
+
+/* QR Zoom Functionality (Optional - Basic Implementation) */
+.qr-code-section.zoomed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.qr-code-section.zoomed .qr-code-wrapper {
+  max-width: 80vw;
+  max-height: 80vh;
+}
+
+.qr-code-section.zoomed .qr-image {
+  border-width: 10px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.qr-code-section.zoomed .qr-title,
+.qr-code-section.zoomed .qr-instruction {
+  color: white;
+  margin-top: 20px;
+}
+
+/* Ticket Footer */
+.ticket-footer {
+  text-align: center;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.ticket-footer p {
+  margin: 5px 0;
+  color: #777;
+}
+
+/* Loading and Error States */
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 20px;
+}
+
+.loading-spinner, .error-container {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 400px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #4CAF50;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-icon {
+  color: #ff5252;
+  margin-bottom: 20px;
+}
+
+.error-state h2 {
+  margin-bottom: 10px;
+  color: #ff5252;
+}
+
+.error-state p {
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.error-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 10px;
+  transition: background-color 0.3s ease;
+}
+
+.retry-button {
+  background-color: #4CAF50;
+  color: white;
+}
+.retry-button:hover {
+  background-color: #45a049;
+}
+
+.home-button {
+  background-color: #6c757d;
+  color: white;
+}
+.home-button:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .ticket-container {
+    width: 90%;
+  }
+  .ticket-brand-header h1 {
+    font-size: 1.3rem;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .info-item.full-width {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticket-container {
+    width: 95%;
+    border-radius: 15px;
+  }
+  .ticket-brand-header h1 {
+    font-size: 1.2rem;
+  }
+  .app-logo {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+/* Specific styles for WhatsApp WebView if needed */
+.whatsapp-webview .ticket-container {
+  box-shadow: none;
+}
+
+/* Specific styles for iOS devices if needed */
+.ios-device .ticket-container {
+}
+
+/* Remove old styles if they conflict */
+.ticket-header, .ticket-info, .ticket-qr, .ticket-info-item, 
+.ticket-info-label, .ticket-info-value {
+  display: none;
+}
+
+/* New styles for the new event poster and description sections */
+.event-poster-container {
+  width: 100%;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.event-poster-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.event-description-section {
+  background-color: #f0f7ff;
+}
+
+.event-description-text {
+  color: #444;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.qr-code-section {
+  text-align: center;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.qr-title {
+  margin-bottom: 10px;
+}
+
+.qr-code-wrapper {
+  display: inline-block;
+  position: relative;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.qr-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 5px solid white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.qr-image.loaded {
+  opacity: 1;
+}
+
+.qr-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.qr-instruction {
+  margin-top: 15px;
+  color: #555;
+}
+
+.qr-code-section.zoomed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.qr-code-section.zoomed .qr-code-wrapper {
+  max-width: 80vw;
+  max-height: 80vh;
+}
+
+.qr-code-section.zoomed .qr-image {
+  border-width: 10px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.qr-code-section.zoomed .qr-title,
+.qr-code-section.zoomed .qr-instruction {
+  color: white;
+  margin-top: 20px;
+}
+
+.ticket-footer {
+  text-align: center;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.ticket-footer p {
+  margin: 5px 0;
+  color: #777;
+}
+
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 20px;
+}
+
+.loading-spinner, .error-container {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 400px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #4CAF50;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-icon {
+  color: #ff5252;
+  margin-bottom: 20px;
+}
+
+.error-state h2 {
+  margin-bottom: 10px;
+  color: #ff5252;
+}
+
+.error-state p {
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.error-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 10px;
+  transition: background-color 0.3s ease;
+}
+
+.retry-button {
+  background-color: #4CAF50;
+  color: white;
+}
+.retry-button:hover {
+  background-color: #45a049;
+}
+
+.home-button {
+  background-color: #6c757d;
+  color: white;
+}
+.home-button:hover {
+  background-color: #5a6268;
+}
+
+@media (max-width: 768px) {
+  .ticket-container {
+    width: 90%;
+  }
+  .ticket-brand-header h1 {
+    font-size: 1.3rem;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .info-item.full-width {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticket-container {
+    width: 95%;
+    border-radius: 15px;
+  }
+  .ticket-brand-header h1 {
+    font-size: 1.2rem;
+  }
+  .app-logo {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+.whatsapp-webview .ticket-container {
+  box-shadow: none;
+}
+
+.ios-device .ticket-container {
+}
+
+.ticket-header, .ticket-info, .ticket-qr, .ticket-info-item, 
+.ticket-info-label, .ticket-info-value {
+  display: none;
 } 
