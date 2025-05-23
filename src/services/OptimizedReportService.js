@@ -48,7 +48,7 @@ export async function generateOptimizedReport() {
 
     // Colori definiti
     const colors = {
-      primary: [41, 128, 185],    // Blu Wave
+      primary: [41, 128, 185],    // Blu Bona
       headerBg: [52, 73, 94],     // Blu Scuro Intestazione
       tableHeader: [220, 220, 220], // Grigio Chiaro per Header Tabella
       tableAltRow: [245, 245, 245], // Grigio Molto Chiaro per Righe Alternate

@@ -61,7 +61,7 @@ function PromoterDashboard() {
   async function fetchEvents() {
     try {
       const eventsRef = collection(db, 'events');
-      const q = query(eventsRef /*, where('status', '==', 'active') */);
+      const q = query(eventsRef, where('isActive', '==', true));
       const snapshot = await getDocs(q);
       const eventsData = snapshot.docs.map(doc => ({
         id: doc.id,

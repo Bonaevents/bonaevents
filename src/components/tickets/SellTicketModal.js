@@ -376,41 +376,56 @@ function SellTicketModal({ event, selectedDateItem, onClose, onSold }) {
             transaction.update(eventRef, { eventDates: updatedEventDates });
 
             // Crea il documento del biglietto venduto
-        const ticketData = {
+            let ticketDocumentData = {
                 eventId: event.id,
-          eventName: event.name,
-                eventDate: selectedDateItem.date, // Salva la data specifica
-                eventLocation: event.location, // Aggiunto per email
-                eventDescription: event.description, // Aggiunto per email
-          sellerId: currentUser.uid,
+                eventName: event.name,
+                eventDate: selectedDateItem.date, 
+                eventLocation: event.location, 
+                eventDescription: event.description, 
+                sellerId: currentUser.uid,
                 sellerName: currentUser.displayName || currentUser.email,
                 customerName,
-                customerEmail: customerEmail || null, // Salva null se vuoto
+                customerEmail: customerEmail || null, 
                 customerPhone,
                 ticketCode,
-                itemType: itemType, // 'ticket' or 'table'
+                itemType: itemType, 
                 itemId: itemId,
                 itemName: soldItem.name,
-                // Aggiungi dettagli specifici item per email (se non già inclusi)
                 ticketType: includeTable ? 'Tavolo' : soldItem.name,
-                price: itemPrice, // Alias per pricePerItem per email
+                price: itemPrice, 
                 quantity: soldQuantity,
                 pricePerItem: itemPrice,
-                totalPrice: totalPrice, // Usa il prezzo calcolato nello stato
+                totalPrice: totalPrice, 
                 status: 'sold',
                 soldAt: sellTimestamp,
                 commissionAmount: calculatedCommission,
+                paymentStatus: 'unpaid',
                 tableInfo: includeTable ? {
                     typeId: selectedTableTypeId,
                     name: formData.availableTablesForDate.find(t => t.id === selectedTableTypeId)?.name || 'Tavolo Standard',
                 } : null,
+                isPackageTicket: event.isMultiEntryPackage || false,
+                packageAuthorizedDates: [], 
+                validatedEntries: [], 
             };
+
+            if (event.isMultiEntryPackage) {
+                // Se l'evento è un pacchetto, popola le date autorizzate del pacchetto
+                // dalle eventDates dell'evento. Assumiamo che event.eventDates contenga
+                // le date valide per il pacchetto.
+                // È importante che queste date siano effettivamente quelle del pacchetto.
+                if (Array.isArray(event.eventDates)) {
+                    ticketDocumentData.packageAuthorizedDates = event.eventDates.map(ed => ed.date); // Salva solo il timestamp/stringa della data
+                }
+                // Per un pacchetto, la `quantity` si riferisce al numero di pacchetti venduti (solitamente 1).
+                // La `eventDate` principale del biglietto potrebbe rappresentare la data di acquisto o la prima data del pacchetto.
+            }
             
-            const ticketDocRef = doc(collection(db, 'tickets')); // Genera ref prima
-            transaction.set(ticketDocRef, ticketData); // Usa il ref generato
+            const ticketDocRef = doc(collection(db, 'tickets')); 
+            transaction.set(ticketDocRef, ticketDocumentData); 
 
             // Salva i dati per usarli dopo la transazione per email/whatsapp
-            ticketDataForEmailAndWhatsApp = { ...ticketData, id: ticketDocRef.id }; // Aggiungi l'ID generato
+            ticketDataForEmailAndWhatsApp = { ...ticketDocumentData, id: ticketDocRef.id }; 
 
         });
 

@@ -804,7 +804,7 @@ function TicketPage() {
               Questo biglietto è valido solo per l'evento e la data indicati
             </p>
             <p style={{ fontSize: deviceConfig.fontSize.small }}>
-              Generato da Wave Events
+              Generato da BonaEvents
             </p>
           </div>
         </div>

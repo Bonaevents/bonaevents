@@ -31,10 +31,18 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
     posterImageFile: null,
     posterImageUrl: '',
     eventDates: [],
+    isMultiEntryPackage: false,
   });
   
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Stato per il generatore di date ricorrenti
+  const [recurringDateConfig, setRecurringDateConfig] = useState({
+    startDate: '',
+    endDate: '',
+    dayOfWeek: '', // 0 per Domenica, 1 per Lunedì, ..., 6 per Sabato, '' per Ogni Giorno
+  });
 
   useEffect(() => {
     if (event) {
@@ -53,6 +61,7 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
         posterImageUrl: event.posterImageUrl || '',
         posterImageFile: null,
         eventDates: initialEventDates,
+        isMultiEntryPackage: event.isMultiEntryPackage || false,
       });
     }
   }, [event]);
@@ -70,6 +79,13 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
         [name]: value
       }));
     }
+  };
+
+  const handlePackageToggle = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      isMultiEntryPackage: e.target.checked
+    }));
   };
 
   const addEventDate = () => {
@@ -189,6 +205,99 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
     }));
   };
 
+  // --- Logica per Generatore Date Ricorrenti ---
+  const handleRecurringDateConfigChange = (e) => {
+    const { name, value } = e.target;
+    setRecurringDateConfig(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleGenerateRecurringDates = () => {
+    const { startDate, endDate, dayOfWeek } = recurringDateConfig;
+    if (!startDate || !endDate) {
+      setError('Specifica Data Inizio e Data Fine per la generazione ricorrente.');
+      return;
+    }
+
+    // Correzione per l'interpretazione della data nel fuso orario locale
+    const startParts = startDate.split('-');
+    const startYear = parseInt(startParts[0], 10);
+    const startMonth = parseInt(startParts[1], 10) - 1; // Mese 0-indexed
+    const startDay = parseInt(startParts[2], 10);
+    const start = new Date(startYear, startMonth, startDay);
+
+    const endParts = endDate.split('-');
+    const endYear = parseInt(endParts[0], 10);
+    const endMonth = parseInt(endParts[1], 10) - 1; // Mese 0-indexed
+    const endDay = parseInt(endParts[2], 10);
+    const end = new Date(endYear, endMonth, endDay);
+
+    if (end < start) {
+      setError('La Data Fine non può essere precedente alla Data Inizio.');
+      return;
+    }
+
+    const newDates = [];
+    let year = startYear;
+    let month = startMonth;
+    let day = startDay;
+
+    // Loop finché la data corrente non supera la data di fine
+    while (true) {
+      const currentDateObj = new Date(year, month, day); // Crea data per il fuso locale
+      
+      // Condizione di uscita dal loop se currentDateObj supera la data di fine
+      if (currentDateObj.getFullYear() > endYear || 
+          (currentDateObj.getFullYear() === endYear && currentDateObj.getMonth() > endMonth) ||
+          (currentDateObj.getFullYear() === endYear && currentDateObj.getMonth() === endMonth && currentDateObj.getDate() > endDay)) {
+        break; 
+      }
+
+      const currentDayOfWeekJS = currentDateObj.getDay(); // 0 per Domenica, ..., 6 per Sabato
+      const targetDay = dayOfWeek === '' ? -1 : parseInt(dayOfWeek);
+
+      console.log('[DEBUG Recurring Dates - EditModal]', {
+        currentDateDisplay: currentDateObj.toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+        currentDayOfWeekJS: currentDayOfWeekJS, 
+        selectedTargetDay: targetDay, 
+        dayOfWeekRaw: dayOfWeek, 
+        matches: targetDay === -1 || currentDayOfWeekJS === targetDay
+      });
+
+      if (targetDay === -1 || currentDayOfWeekJS === targetDay) {
+        const dateString = `${currentDateObj.getFullYear()}-${String(currentDateObj.getMonth() + 1).padStart(2, '0')}-${String(currentDateObj.getDate()).padStart(2, '0')}`;
+        if (!formData.eventDates.some(d => d.date === dateString)) {
+          newDates.push({
+            id: Date.now() + newDates.length, 
+            date: dateString,
+            ticketTypes: [],
+            hasTablesForDate: false,
+            tableTypes: [],
+          });
+        }
+      }
+
+      // Incrementa la data (passa al giorno successivo)
+      const nextDate = new Date(year, month, day + 1); 
+      year = nextDate.getFullYear();
+      month = nextDate.getMonth();
+      day = nextDate.getDate();
+    }
+
+    if (newDates.length > 0) {
+      setFormData(prev => ({
+        ...prev,
+        eventDates: [...prev.eventDates, ...newDates].sort((a, b) => new Date(a.date) - new Date(b.date))
+      }));
+      setError('');
+    } else {
+      setError('Nessuna nuova data generata. Controlla i criteri e l\'intervallo.');
+    }
+  };
+  // --- Fine Logica Generatore Date Ricorrenti ---
+
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -264,6 +373,7 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
           tableTypes: d.tableTypes.map(tb => ({ id: tb.id, name: tb.name, price: tb.price, seats: tb.seats, quantity: tb.quantity }))
         })),
         updatedAt: new Date().toISOString(),
+        isMultiEntryPackage: formData.isMultiEntryPackage,
       };
         updatedEventData.eventDates = updatedEventData.eventDates.map(d => {
             const totalTicketsForDate = d.ticketTypes.reduce((sum, t) => sum + t.quantity, 0);
@@ -307,6 +417,24 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
             <label htmlFor="description">Descrizione:</label>
             <textarea id="description" name="description" value={formData.description} onChange={handleChange}></textarea>
                   </div>
+                  <div className="form-group form-check">
+            <input 
+              type="checkbox" 
+              className="form-check-input" 
+              id="isMultiEntryPackage"
+              name="isMultiEntryPackage"
+              checked={formData.isMultiEntryPackage}
+              onChange={handlePackageToggle}
+            />
+            <label className="form-check-label" htmlFor="isMultiEntryPackage">
+              Questo evento è un pacchetto multi-ingresso?
+            </label>
+            {formData.isMultiEntryPackage && (
+              <p className="info-text">
+                Le date definite di seguito saranno valide come ingressi separati per il pacchetto.
+              </p>
+            )}
+          </div>
                   <div className="form-group">
             <label htmlFor="posterImageFile">Locandina:</label>
             <input type="file" id="posterImageFile" name="posterImageFile" onChange={handleChange} accept="image/*" />
@@ -327,7 +455,38 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
 
           <div className="event-dates-section">
             <h3>Date dell'Evento</h3>
-            <button type="button" onClick={addEventDate} className="add-date-btn">Aggiungi Data</button>
+
+            {/* Generatore Date Ricorrenti */}
+            <div className="recurring-date-generator">
+              <h4>Generatore Date Ricorrenti</h4>
+              <div className="form-group inline">
+                <label htmlFor="startDateEdit">Da:</label>
+                <input type="date" id="startDateEdit" name="startDate" value={recurringDateConfig.startDate} onChange={handleRecurringDateConfigChange} />
+              </div>
+              <div className="form-group inline">
+                <label htmlFor="endDateEdit">A:</label>
+                <input type="date" id="endDateEdit" name="endDate" value={recurringDateConfig.endDate} onChange={handleRecurringDateConfigChange} />
+              </div>
+              <div className="form-group inline">
+                <label htmlFor="dayOfWeekEdit">Giorno:</label>
+                <select id="dayOfWeekEdit" name="dayOfWeek" value={recurringDateConfig.dayOfWeek} onChange={handleRecurringDateConfigChange}>
+                  <option value="">Ogni Giorno</option>
+                  <option value="1">Lunedì</option>
+                  <option value="2">Martedì</option>
+                  <option value="3">Mercoledì</option>
+                  <option value="4">Giovedì</option>
+                  <option value="5">Venerdì</option>
+                  <option value="6">Sabato</option>
+                  <option value="0">Domenica</option>
+                </select>
+              </div>
+              <button type="button" onClick={handleGenerateRecurringDates} className="generate-dates-btn">
+                Genera Date Programmate
+              </button>
+            </div>
+            {/* Fine Generatore Date Ricorrenti */}
+
+            <button type="button" onClick={addEventDate} className="add-date-btn">Aggiungi Data Manualmente</button>
 
             {formData.eventDates.map((dateItem, index) => (
               <div key={dateItem.id || index} className="event-date-item">
@@ -375,91 +534,16 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
                             required
                           />
                         </div>
-                             <div className="form-group inline">
-                               <label htmlFor={`ticket-quantity-${index}-${ticketType.id}`}>Quantità:</label>
-                          <input
-                            type="number"
-                                 id={`ticket-quantity-${index}-${ticketType.id}`}
-                                 value={currentTicket?.quantity ?? ''}
-                                 onChange={(e) => handleTicketChangeForDate(index, ticketType.id, 'quantity', e.target.value)}
-                                 placeholder="0"
-                                 step="1"
-                                 min="1"
-                            required
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-          </div>
-
-                 <div className="tables-for-date-section">
-            <div className="form-group">
-                       <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                               checked={dateItem.hasTablesForDate}
-                               onChange={(e) => handleHasTablesToggle(index, e.target.checked)}
-                />
-                             Prevede tavoli per questa data?
-              </label>
-            </div>
-                    {dateItem.hasTablesForDate && (
-                         <>
-                            <h5>Tavoli per questa data</h5>
-                             {TABLE_TYPES.map(tableType => {
-                                const isSelected = dateItem.tableTypes.some(t => t.id === tableType.id);
-                                 const currentTable = dateItem.tableTypes.find(t => t.id === tableType.id);
-                  return (
-                                     <div key={tableType.id} className="table-type-config">
-                                         <label className="checkbox-label">
-                          <input
-                            type="checkbox"
-                            checked={isSelected}
-                                                 onChange={() => toggleTableTypeForDate(index, tableType)}
-                          />
-                                             {tableType.name} ({tableType.description})
-                        </label>
-                      {isSelected && (
-                                             <div className="table-details">
-                                                 <div className="form-group inline">
-                                                     <label htmlFor={`table-price-${index}-${tableType.id}`}>Prezzo:</label>
+                          <div className="form-group inline">
+                            <label htmlFor={`ticket-quantity-${index}-${ticketType.id}`}>Quantità:</label>
                             <input
                               type="number"
-                                                         id={`table-price-${index}-${tableType.id}`}
-                                                         value={currentTable?.price ?? ''}
-                                                         onChange={(e) => handleTableChangeForDate(index, tableType.id, 'price', e.target.value)}
-                                                         placeholder="0.00"
-                                                         step="0.01"
-                              min="0"
-                              required
-                            />
-                          </div>
-                                                  <div className="form-group inline">
-                                                     <label htmlFor={`table-seats-${index}-${tableType.id}`}>Posti:</label>
-                            <input
-                              type="number"
-                                                         id={`table-seats-${index}-${tableType.id}`}
-                                                         value={currentTable?.seats ?? tableType.defaultSeats}
-                                                         onChange={(e) => handleTableChangeForDate(index, tableType.id, 'seats', e.target.value)}
-                                                         placeholder={tableType.defaultSeats}
-                                                         step="1"
+                              id={`ticket-quantity-${index}-${ticketType.id}`}
+                              value={currentTicket?.quantity ?? ''}
+                              onChange={(e) => handleTicketChangeForDate(index, ticketType.id, 'quantity', e.target.value)}
+                              placeholder="0"
+                              step="1"
                               min="1"
-                              required
-                            />
-                          </div>
-                                                 <div className="form-group inline">
-                                                     <label htmlFor={`table-quantity-${index}-${tableType.id}`}>Quantità Tavoli:</label>
-                            <input
-                              type="number"
-                                                         id={`table-quantity-${index}-${tableType.id}`}
-                                                         value={currentTable?.quantity ?? ''}
-                                                         onChange={(e) => handleTableChangeForDate(index, tableType.id, 'quantity', e.target.value)}
-                                                         placeholder="0"
-                                                         step="1"
-                                                         min="1"
                               required
                             />
                           </div>
@@ -468,10 +552,85 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
                     </div>
                   );
                 })}
-                         </>
-            )}
-          </div>
+              </div>
 
+                 {/* Sezione Tavoli per questa Data (Ricostruita basandosi su CreateEventModal) */}
+                 <div className="tables-for-date-section">
+                   <div className="form-group">
+                     <label className="checkbox-label">
+                       <input
+                         type="checkbox"
+                         checked={dateItem.hasTablesForDate}
+                         onChange={(e) => handleHasTablesToggle(index, e.target.checked)}
+                       />
+                       Prevede tavoli per questa data?
+                     </label>
+                   </div>
+                   {dateItem.hasTablesForDate && (
+                     <>
+                       <h5>Tavoli per questa data</h5>
+                       {TABLE_TYPES.map(tableType => {
+                         const isSelectedTable = dateItem.tableTypes.some(t => t.id === tableType.id);
+                         const currentTable = dateItem.tableTypes.find(t => t.id === tableType.id);
+                         return (
+                           <div key={tableType.id} className="table-type-config">
+                             <label className="checkbox-label">
+                               <input
+                                 type="checkbox"
+                                 checked={isSelectedTable}
+                                 onChange={() => toggleTableTypeForDate(index, tableType)}
+                               />
+                               {tableType.name} ({tableType.description})
+                             </label>
+                             {isSelectedTable && (
+                               <div className="table-details">
+                                 <div className="form-group inline">
+                                   <label htmlFor={`table-price-${index}-${tableType.id}`}>Prezzo:</label>
+                                   <input
+                                     type="number"
+                                     id={`table-price-${index}-${tableType.id}`}
+                                     value={currentTable?.price ?? ''}
+                                     onChange={(e) => handleTableChangeForDate(index, tableType.id, 'price', e.target.value)}
+                                     placeholder="0.00"
+                                     step="0.01"
+                                     min="0"
+                                     required
+                                   />
+                                 </div>
+                                 <div className="form-group inline">
+                                   <label htmlFor={`table-seats-${index}-${tableType.id}`}>Posti:</label>
+                                   <input
+                                     type="number"
+                                     id={`table-seats-${index}-${tableType.id}`}
+                                     value={currentTable?.seats ?? tableType.defaultSeats}
+                                     onChange={(e) => handleTableChangeForDate(index, tableType.id, 'seats', e.target.value)}
+                                     placeholder={tableType.defaultSeats.toString()}
+                                     step="1"
+                                     min="1"
+                                     required
+                                   />
+                                 </div>
+                                 <div className="form-group inline">
+                                   <label htmlFor={`table-quantity-${index}-${tableType.id}`}>Quantità Tavoli:</label>
+                                   <input
+                                     type="number"
+                                     id={`table-quantity-${index}-${tableType.id}`}
+                                     value={currentTable?.quantity ?? ''}
+                                     onChange={(e) => handleTableChangeForDate(index, tableType.id, 'quantity', e.target.value)}
+                                     placeholder="0"
+                                     step="1"
+                                     min="1"
+                                     required
+                                   />
+                                 </div>
+                               </div>
+                             )}
+                           </div>
+                         );
+                       })}
+                     </>
+                   )}
+                 </div> {/* Chiusura di .tables-for-date-section */}
               </div>
             ))}
           </div>
@@ -490,4 +649,4 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
   );
 }
 
-export default EditEventModal; 
+export default EditEventModal;

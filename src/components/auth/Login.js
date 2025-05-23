@@ -93,21 +93,8 @@ function Login() {
           </button>
         </form>
 
-        <div className="legal-links">
-          <p>
-            Accedendo, accetti i nostri{' '}
-            <Link to="/terms">
-              Termini e Condizioni
-            </Link>{' '}
-            e la nostra{' '}
-            <Link to="/privacy">
-              Informativa sulla Privacy
-            </Link>
-          </p>
-        </div>
-
         <div className="login-footer">
-          <p>© 2024 Wave Events</p>
+          <p>© 2024 BonaEvents</p>
         </div>
       </div>
     </div>

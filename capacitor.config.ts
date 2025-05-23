@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.waveevents.app',
-  appName: 'Wave Events',
+  appId: 'com.bonaevents.app',
+  appName: 'BonaEvents',
   webDir: 'build',
   server: {
     androidScheme: 'https',

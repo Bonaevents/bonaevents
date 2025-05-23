@@ -280,6 +280,7 @@ function TicketValidator({ initializeWithScanner = true }) {
       const ticketId = ticketDoc.id;
       console.log("[VALIDATE] Ticket found:", { ticketId, ticketData });
 
+      // Estrai tutti i dati necessari per la visualizzazione, inclusi quelli del pacchetto
       ticketDataForDisplay = {
         ticketCode: currentTicketCode,
         id: ticketId,
@@ -290,48 +291,154 @@ function TicketValidator({ initializeWithScanner = true }) {
           : new Date(ticketData.eventDate).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' })
         ) : 'N/D',
         eventLocation: ticketData.eventLocation || 'N/D',
-        ticketType: ticketData.ticketType || 'Standard',
+        ticketType: ticketData.ticketType || ticketData.itemName || 'Standard',
         customerName: ticketData.customerName || 'N/D',
         customerEmail: ticketData.customerEmail || 'N/D',
         quantity: ticketData.quantity || 1,
         price: ticketData.price != null ? `€${Number(ticketData.price).toFixed(2)}` : 'N/D',
-        isValidated: ticketData.isValidated || false,
+        isValidated: ticketData.isValidated || false, 
+        validatedAt: ticketData.validatedAt?.seconds ? new Date(ticketData.validatedAt.seconds * 1000).toLocaleString('it-IT') : null,
         isDisabled: ticketData.isDisabled || false,
-        validatedAt: ticketData.validatedAt?.seconds ? new Date(ticketData.validatedAt.seconds * 1000).toLocaleString('it-IT') : null
+        isPackageTicket: ticketData.isPackageTicket || false,
+        packageAuthorizedDates: ticketData.packageAuthorizedDates || [],
+        validatedEntries: ticketData.validatedEntries || [],
       };
-      console.log("[VALIDATE] Ticket data for display:", ticketDataForDisplay);
+      console.log("[VALIDATE] Ticket data for display (pre-logic):", ticketDataForDisplay);
 
-      if (ticketData.isDisabled) {
-        showTemporaryMessage('Questo biglietto è stato disabilitato.', 'error');
-        setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'disabled', statusMessage: 'Biglietto disabilitato' });
-        setLoading(false);
-        console.log("[VALIDATE] Ticket is disabled.");
-        return;
+      // --- LOGICA BIFORCATA ---
+      if (ticketData.isPackageTicket === true) {
+        // --- NUOVA LOGICA PER BIGLIETTI PACCHETTO ---
+        console.log("[VALIDATE_PACKAGE] Processing package ticket.");
+
+        if (ticketData.isDisabled) {
+            showTemporaryMessage('Questo pacchetto è stato disabilitato.', 'error');
+            setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'disabled', statusMessage: 'Pacchetto disabilitato' });
+            setLoading(false);
+            console.log("[VALIDATE_PACKAGE] Package is disabled.");
+            return;
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        let currentEventDateForValidation = null;
+        let currentEventDateForValidationTimestamp = null; // Per salvare il timestamp originale Firestore
+
+        if (ticketData.packageAuthorizedDates && Array.isArray(ticketData.packageAuthorizedDates)) {
+            for (const authDateEntry of ticketData.packageAuthorizedDates) {
+                // authDateEntry potrebbe essere un timestamp Firestore o una stringa/data JS
+                const authDate = new Date(authDateEntry.seconds ? authDateEntry.seconds * 1000 : authDateEntry);
+                authDate.setHours(0, 0, 0, 0);
+                if (authDate.getTime() === today.getTime()) {
+                    currentEventDateForValidation = authDate; // Oggetto Date normalizzato
+                    currentEventDateForValidationTimestamp = authDateEntry; // Timestamp originale Firestore
+                    break;
+                }
+            }
+        }
+        
+        const todayFormatted = today.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const currentEventDateForValidationFormatted = currentEventDateForValidation 
+            ? currentEventDateForValidation.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' })
+            : todayFormatted;
+
+        if (!currentEventDateForValidation) {
+            showTemporaryMessage(`Pacchetto non valido per la data odierna (${todayFormatted}). Controllare le date autorizzate.`, 'error');
+            setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'invalid_date_for_package', statusMessage: `Non valido per ${todayFormatted}` });
+            setLoading(false);
+            console.log("[VALIDATE_PACKAGE] No authorized date found for today.");
+            return;
+        }
+        console.log(`[VALIDATE_PACKAGE] Validating for package date: ${currentEventDateForValidationFormatted}`);
+
+        const validatedEntries = ticketData.validatedEntries || [];
+        const alreadyValidatedForThisDate = validatedEntries.find(entry => {
+            const entryDateTimestamp = entry.eventDate; // Questo dovrebbe essere il timestamp Firestore salvato
+            const entryDate = new Date(entryDateTimestamp.seconds ? entryDateTimestamp.seconds * 1000 : entryDateTimestamp);
+            entryDate.setHours(0, 0, 0, 0);
+            return entryDate.getTime() === currentEventDateForValidation.getTime();
+        });
+
+        if (alreadyValidatedForThisDate) {
+            const validationTime = new Date(alreadyValidatedForThisDate.validatedAt.seconds ? alreadyValidatedForThisDate.validatedAt.seconds * 1000 : alreadyValidatedForThisDate.validatedAt).toLocaleString('it-IT');
+            showTemporaryMessage(`Pacchetto già utilizzato per la data ${currentEventDateForValidationFormatted}.`, 'error');
+            setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'package_already_validated_for_date', statusMessage: `Già usato per ${currentEventDateForValidationFormatted} il ${validationTime}` });
+            setLoading(false);
+            console.log(`[VALIDATE_PACKAGE] Already validated for date: ${currentEventDateForValidationFormatted}`);
+            return;
+        }
+
+        // Registra la nuova validazione per questa data
+        const newValidatedEntry = {
+            eventDate: currentEventDateForValidationTimestamp, // Salva il timestamp originale della data del pacchetto
+            validatedAt: new Date(), 
+            validatedBy: currentUser.uid,
+        };
+        const updatedValidatedEntries = [...validatedEntries, newValidatedEntry];
+
+        await updateDoc(doc(db, 'tickets', ticketId), {
+            validatedEntries: updatedValidatedEntries
+        });
+        console.log("[VALIDATE_PACKAGE] Package entry successfully validated and updated in DB.");
+
+        const allEntriesUsed = updatedValidatedEntries.length >= (ticketData.packageAuthorizedDates || []).length;
+        let successMessage = `Pacchetto VALIDO per ${currentEventDateForValidationFormatted}!`;
+        if (allEntriesUsed) {
+            successMessage += " Tutti gli ingressi del pacchetto sono stati utilizzati.";
+        }
+        
+        showTemporaryMessage(successMessage, 'success');
+        setLastScannedTicketDetails({
+            ...ticketDataForDisplay,
+            validatedEntries: updatedValidatedEntries, // Aggiorna con la nuova lista
+            status: 'package_valid_for_date',
+            statusMessage: `VALIDO per ${currentEventDateForValidationFormatted}`,
+            currentEntryValidatedAt: newValidatedEntry.validatedAt.toLocaleString('it-IT'),
+            allPackageEntriesUsed: allEntriesUsed
+        });
+        console.log(`[VALIDATE_PACKAGE] Success. All entries used: ${allEntriesUsed}`);
+
+      } else {
+        // --- LOGICA ESISTENTE PER BIGLIETTI SINGOLI ---
+        console.log("[VALIDATE_SINGLE] Processing single ticket.");
+
+        if (ticketData.isDisabled) {
+          showTemporaryMessage('Questo biglietto è stato disabilitato.', 'error');
+          setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'disabled', statusMessage: 'Biglietto disabilitato' });
+          setLoading(false);
+          console.log("[VALIDATE_SINGLE] Ticket is disabled.");
+          return;
+        }
+
+        // Per i biglietti singoli, isValidated è il campo principale
+        if (ticketData.isValidated) {
+          const validatedAtFormatted = ticketDataForDisplay.validatedAt || 'N/D';
+          showTemporaryMessage(`Biglietto già validato il ${validatedAtFormatted}.`, 'error');
+          setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'already_validated', statusMessage: `Già validato il ${validatedAtFormatted}` });
+          setLoading(false);
+          console.log("[VALIDATE_SINGLE] Ticket already validated.");
+          return;
+        }
+
+        await updateDoc(doc(db, 'tickets', ticketId), {
+          isValidated: true,
+          validatedAt: new Date(),
+          validatedBy: currentUser.uid
+        });
+        console.log("[VALIDATE_SINGLE] Ticket successfully validated and updated in DB.");
+
+        showTemporaryMessage('Biglietto validato con successo!', 'success');
+        setLastScannedTicketDetails({
+          ...ticketDataForDisplay,
+          isValidated: true, // Aggiorna lo stato per la visualizzazione
+          status: 'valid',
+          statusMessage: 'Validato con successo',
+          // Sovrascrivi validatedAt con quello corrente per visualizzazione immediata
+          validatedAt: new Date().toLocaleString('it-IT') 
+        });
+         console.log("[VALIDATE_SINGLE] Success.");
       }
-
-      if (ticketData.isValidated) {
-        showTemporaryMessage(`Biglietto già validato il ${ticketDataForDisplay.validatedAt}.`, 'error');
-        setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'already_validated', statusMessage: `Già validato il ${ticketDataForDisplay.validatedAt}` });
-        setLoading(false);
-        console.log("[VALIDATE] Ticket already validated.");
-        return;
-      }
-
-      await updateDoc(doc(db, 'tickets', ticketId), {
-        isValidated: true,
-        validatedAt: new Date(),
-        validatedBy: currentUser.uid
-      });
-      console.log("[VALIDATE] Ticket successfully validated and updated in DB.");
-
-      showTemporaryMessage('Biglietto validato con successo!', 'success');
-      setLastScannedTicketDetails({
-        ...ticketDataForDisplay,
-        isValidated: true,
-        status: 'valid',
-        statusMessage: 'Validato con successo',
-        validatedAt: new Date().toLocaleString('it-IT')
-      });
+      // --- FINE LOGICA BIFORCATA ---
 
     } catch (error) {
       console.error("[VALIDATE] Error during validation process:", error);

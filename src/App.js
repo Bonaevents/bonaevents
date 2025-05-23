@@ -21,8 +21,6 @@ import TeamLeaderDashboard from './components/teamleader/TeamLeaderDashboard';
 import PromoterDashboard from './components/promoter/PromoterDashboard';
 import TicketHistory from './components/tickets/TicketHistory';
 import TicketPage from './components/tickets/TicketPage';
-import PrivacyPolicy from './components/legal/PrivacyPolicy';
-import TermsOfService from './components/legal/TermsOfService';
 import ValidatorPage from './pages/ValidatorPage';
 
 function App() {
@@ -114,8 +112,6 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/initial-setup" element={<InitialSetup />} />
-                  <Route path="/privacy" element={<PrivacyPolicy />} />
-                  <Route path="/terms" element={<TermsOfService />} />
                   <Route 
                     path="/admin" 
                     element={

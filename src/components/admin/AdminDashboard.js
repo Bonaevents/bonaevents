@@ -112,8 +112,8 @@ function AdminDashboard() {
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = (
-      user.email.toLowerCase().includes(filter.toLowerCase()) ||
-      (user.name && user.name.toLowerCase().includes(filter.toLowerCase()))
+      (user.email ? user.email.toLowerCase().includes(filter.toLowerCase()) : false) || 
+      (user.name ? user.name.toLowerCase().includes(filter.toLowerCase()) : false)
     );
     const matchesRole = roleFilter === 'all' || user.role === roleFilter;
     return matchesSearch && matchesRole;

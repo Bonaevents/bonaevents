@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../firebase/config';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import EventStatistics from '../events/EventStatistics';
 import EditEventModal from './EditEventModal';
 import CreateEventModal from './CreateEventModal';
@@ -38,7 +38,8 @@ function EventManagement() {
       const eventsSnapshot = await getDocs(collection(db, 'events'));
       const eventsData = eventsSnapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
+        isActive: doc.data().isActive !== false
       }));
       setEvents(eventsData);
       setLoading(false);
@@ -56,6 +57,26 @@ function EventManagement() {
         fetchEvents();
       } catch (error) {
         setError('Errore nell\'eliminazione dell\'evento');
+      }
+    }
+  };
+
+  const handleToggleEventStatus = async (eventId, currentIsActive) => {
+    const newIsActive = !currentIsActive;
+    if (window.confirm(`Sei sicuro di voler ${newIsActive ? 'attivare' : 'disattivare'} questo evento?`)) {
+      try {
+        const eventRef = doc(db, 'events', eventId);
+        await updateDoc(eventRef, {
+          isActive: newIsActive
+        });
+        setEvents(prevEvents => 
+          prevEvents.map(event => 
+            event.id === eventId ? { ...event, isActive: newIsActive } : event
+          )
+        );
+      } catch (error) {
+        console.error(`Errore nell'aggiornamento dello stato dell'evento ${eventId}:`, error);
+        setError(`Errore nel ${newIsActive ? 'attivare' : 'disattivare'} l'evento.`);
       }
     }
   };
@@ -78,6 +99,7 @@ function EventManagement() {
         events={events} 
         onEdit={(event) => setSelectedEvent(event)}
         onDelete={handleDeleteEvent}
+        onToggleStatus={handleToggleEventStatus}
       />
 
       {/* Modal creazione evento */}

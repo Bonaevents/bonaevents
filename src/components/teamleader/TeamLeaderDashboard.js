@@ -45,7 +45,7 @@ function TeamLeaderDashboard() {
   const fetchEvents = async () => {
     try {
       const eventsRef = collection(db, 'events');
-      const q = query(eventsRef);
+      const q = query(eventsRef, where('isActive', '==', true));
       const snapshot = await getDocs(q);
       const eventsData = snapshot.docs.map(doc => ({
         id: doc.id,

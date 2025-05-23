@@ -82,7 +82,9 @@ function TicketHistory() {
           sellerName: data.sellerName || data.seller_name,
           usedAt: data.usedAt || data.used_at,
           cancelledAt: data.cancelledAt || data.cancelled_at,
-          previousStatus: data.previousStatus || data.previous_status
+          previousStatus: data.previousStatus || data.previous_status,
+          paymentStatus: data.paymentStatus || 'unpaid',
+          paymentStatusUpdatedAt: data.paymentStatusUpdatedAt
         };
         return mappedTicket;
       });
@@ -592,6 +594,50 @@ function TicketHistory() {
     }
   }
 
+  // Funzione per cambiare lo stato di pagamento di un biglietto
+  async function handleTogglePaymentStatus(ticketId, currentPaymentStatus) {
+    const newPaymentStatus = currentPaymentStatus === 'paid' ? 'unpaid' : 'paid';
+    const confirmationMessage = `Sei sicuro di voler segnare questo biglietto come "${newPaymentStatus === 'paid' ? 'Pagato' : 'Non Pagato'}"?`;
+
+    if (!window.confirm(confirmationMessage)) {
+      return;
+    }
+
+    try {
+      setLoading(true); // Potrebbe essere utile un loading specifico per questa azione
+      setError(null);
+
+      const ticketRef = doc(db, 'tickets', ticketId);
+      await updateDoc(ticketRef, {
+        paymentStatus: newPaymentStatus,
+        paymentStatusUpdatedAt: serverTimestamp() 
+      });
+
+      // Aggiorna l'UI localmente
+      setTickets(prevTickets =>
+        prevTickets.map(ticket =>
+          ticket.id === ticketId
+            ? { ...ticket, paymentStatus: newPaymentStatus }
+            : ticket
+        )
+      );
+
+      // Aggiorna anche il selectedTicket se è quello modificato
+      if (selectedTicket && selectedTicket.id === ticketId) {
+        setSelectedTicket(prev => ({ ...prev, paymentStatus: newPaymentStatus }));
+      }
+
+      setSuccessMessage(`Stato pagamento aggiornato a "${newPaymentStatus === 'paid' ? 'Pagato' : 'Non Pagato'}".`);
+      setTimeout(() => setSuccessMessage(null), 3000);
+
+    } catch (err) {
+      console.error("Errore nell'aggiornamento dello stato di pagamento:", err);
+      setError("Si è verificato un errore durante l'aggiornamento dello stato di pagamento.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const filteredTickets = tickets.filter(ticket => {
     if (searchQuery === '') return true;
     
@@ -685,7 +731,9 @@ function TicketHistory() {
                   <th>Cliente</th>
                   <th>Data Vendita</th>
                   <th>Quantità</th>
+                  <th>Venduto Da</th>
                   <th>Stato</th>
+                  <th>Stato Pagamento</th>
                   <th>Azioni</th>
                 </tr>
               </thead>
@@ -697,6 +745,7 @@ function TicketHistory() {
                     <td>{ticket.customerName}</td>
                     <td>{ticket.createdAtFormatted}</td>
                     <td>{ticket.quantity}</td>
+                    <td>{ticket.sellerName || 'N/A'}</td>
                     <td>
                       <div className="status">
                         {getStatusIcon(ticket.status)}
@@ -705,6 +754,12 @@ function TicketHistory() {
                           <span className="scanner-message">{getScannerMessage(ticket)}</span>
                         )}
                       </div>
+                    </td>
+                    <td>
+                      <span className={`payment-status-badge ${ticket.paymentStatus === 'paid' ? 'paid' : 'unpaid'}`}>
+                        {ticket.paymentStatus === 'paid' ? <FaCheckCircle /> : <FaTimesCircle />}
+                        {ticket.paymentStatus === 'paid' ? 'Pagato' : 'Non Pagato'}
+                      </span>
                     </td>
                     <td className="ticket-actions">
                       {/* View Details Button */}
@@ -738,6 +793,14 @@ function TicketHistory() {
                           <FaBan />
                         </button>
                       )}
+                      
+                      {/* Switch per Pagato/Non Pagato */}
+                      <button 
+                        title={ticket.paymentStatus === 'paid' ? 'Segna come Non Pagato' : 'Segna come Pagato'}
+                        onClick={() => handleTogglePaymentStatus(ticket.id, ticket.paymentStatus)}
+                        className={`action-btn payment-toggle ${ticket.paymentStatus === 'paid' ? 'paid' : 'unpaid'}`}>
+                        {ticket.paymentStatus === 'paid' ? <FaCheckCircle /> : <FaTimesCircle />}
+                      </button>
                       
                       {/* Delete Button */}
                       <button 

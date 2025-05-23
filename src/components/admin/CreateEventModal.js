@@ -31,10 +31,19 @@ function CreateEventModal({ onClose, onEventCreated }) {
     posterImageFile: null, // Per il file della locandina
     posterImageUrl: '', // URL dopo l'upload
     eventDates: [], // Array per le date specifiche dell'evento
+    isMultiEntryPackage: false, // Nuovo campo per pacchetti
+    isActive: true, // Aggiunto: i nuovi eventi sono attivi di default
   });
   
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Stato per il generatore di date ricorrenti
+  const [recurringDateConfig, setRecurringDateConfig] = useState({
+    startDate: '',
+    endDate: '',
+    dayOfWeek: '', // 0 per Domenica, 1 per Lunedì, ..., 6 per Sabato, '' per Ogni Giorno
+  });
 
   // Gestore generico per campi semplici
   const handleChange = (e) => {
@@ -50,6 +59,14 @@ function CreateEventModal({ onClose, onEventCreated }) {
         [name]: value
       }));
     }
+  };
+
+  // --- Gestione isMultiEntryPackage ---
+  const handlePackageToggle = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      isMultiEntryPackage: e.target.checked
+    }));
   };
 
   // --- Gestione Date Evento ---
@@ -194,6 +211,97 @@ const handleTableChangeForDate = (dateIndex, tableId, field, value) => {
     }));
 };
 
+  // --- Logica per Generatore Date Ricorrenti ---
+  const handleRecurringDateConfigChange = (e) => {
+    const { name, value } = e.target;
+    setRecurringDateConfig(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleGenerateRecurringDates = () => {
+    const { startDate, endDate, dayOfWeek } = recurringDateConfig;
+    if (!startDate || !endDate) {
+      setError('Specifica Data Inizio e Data Fine per la generazione ricorrente.');
+      return;
+    }
+
+    // Correzione per l'interpretazione della data nel fuso orario locale
+    const startParts = startDate.split('-');
+    const startYear = parseInt(startParts[0], 10);
+    const startMonth = parseInt(startParts[1], 10) - 1; // Mese 0-indexed
+    const startDay = parseInt(startParts[2], 10);
+    const start = new Date(startYear, startMonth, startDay);
+
+    const endParts = endDate.split('-');
+    const endYear = parseInt(endParts[0], 10);
+    const endMonth = parseInt(endParts[1], 10) - 1; // Mese 0-indexed
+    const endDay = parseInt(endParts[2], 10);
+    const end = new Date(endYear, endMonth, endDay);
+
+    if (end < start) {
+      setError('La Data Fine non può essere precedente alla Data Inizio.');
+      return;
+    }
+
+    const newDates = [];
+    let year = startYear;
+    let month = startMonth;
+    let day = startDay;
+
+    // Loop finché la data corrente non supera la data di fine
+    while (true) {
+      const currentDateObj = new Date(year, month, day); // Crea data per il fuso locale
+      
+      // Condizione di uscita dal loop se currentDateObj supera la data di fine
+      if (currentDateObj.getFullYear() > endYear || 
+          (currentDateObj.getFullYear() === endYear && currentDateObj.getMonth() > endMonth) ||
+          (currentDateObj.getFullYear() === endYear && currentDateObj.getMonth() === endMonth && currentDateObj.getDate() > endDay)) {
+        break; 
+      }
+
+      const currentDayOfWeekJS = currentDateObj.getDay(); // 0 per Domenica, ..., 6 per Sabato
+      const targetDay = dayOfWeek === '' ? -1 : parseInt(dayOfWeek);
+
+      console.log('[DEBUG Recurring Dates]', {
+        currentDateDisplay: currentDateObj.toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+        currentDayOfWeekJS: currentDayOfWeekJS, 
+        selectedTargetDay: targetDay, 
+        dayOfWeekRaw: dayOfWeek, 
+        matches: targetDay === -1 || currentDayOfWeekJS === targetDay
+      });
+
+      if (targetDay === -1 || currentDayOfWeekJS === targetDay) {
+        const dateString = `${currentDateObj.getFullYear()}-${String(currentDateObj.getMonth() + 1).padStart(2, '0')}-${String(currentDateObj.getDate()).padStart(2, '0')}`;
+        if (!formData.eventDates.some(d => d.date === dateString)) {
+          newDates.push({
+            id: Date.now() + newDates.length, 
+            date: dateString,
+            ticketTypes: [],
+            hasTablesForDate: false,
+            tableTypes: [],
+          });
+        }
+      }
+
+      // Incrementa la data (passa al giorno successivo)
+      const nextDate = new Date(year, month, day + 1); 
+      year = nextDate.getFullYear();
+      month = nextDate.getMonth();
+      day = nextDate.getDate();
+    }
+
+    if (newDates.length > 0) {
+      setFormData(prev => ({
+        ...prev,
+        eventDates: [...prev.eventDates, ...newDates].sort((a, b) => new Date(a.date) - new Date(b.date)) // Ordina le date
+      }));
+      setError(''); // Pulisce eventuali errori precedenti
+    } else {
+      setError('Nessuna nuova data generata. Controlla i criteri e l\'intervallo.');
+    }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -334,11 +442,61 @@ const handleTableChangeForDate = (dateIndex, tableId, field, value) => {
             {formData.posterImageFile && <img src={URL.createObjectURL(formData.posterImageFile)} alt="Anteprima Nuova Locandina" style={{ maxWidth: '100px', marginTop: '10px' }} />}
                   </div>
                   
+          {/* Checkbox per Pacchetto Multi-Ingresso */}
+          <div className="form-group form-check">
+            <input 
+              type="checkbox" 
+              className="form-check-input" 
+              id="isMultiEntryPackage"
+              name="isMultiEntryPackage"
+              checked={formData.isMultiEntryPackage}
+              onChange={handlePackageToggle}
+            />
+            <label className="form-check-label" htmlFor="isMultiEntryPackage">
+              Questo evento è un pacchetto multi-ingresso?
+            </label>
+            {formData.isMultiEntryPackage && (
+              <p className="info-text">
+                Le date definite di seguito saranno valide come ingressi separati per il pacchetto.
+              </p>
+            )}
+          </div>
 
           {/* Sezione Date Evento */}
           <div className="event-dates-section">
             <h3>Date dell'Evento</h3>
-            <button type="button" onClick={addEventDate} className="add-date-btn">Aggiungi Data</button>
+
+            {/* Generatore Date Ricorrenti */}
+            <div className="recurring-date-generator">
+              <h4>Generatore Date Ricorrenti</h4>
+              <div className="form-group inline">
+                <label htmlFor="startDate">Da:</label>
+                <input type="date" id="startDate" name="startDate" value={recurringDateConfig.startDate} onChange={handleRecurringDateConfigChange} />
+              </div>
+              <div className="form-group inline">
+                <label htmlFor="endDate">A:</label>
+                <input type="date" id="endDate" name="endDate" value={recurringDateConfig.endDate} onChange={handleRecurringDateConfigChange} />
+              </div>
+              <div className="form-group inline">
+                <label htmlFor="dayOfWeek">Giorno:</label>
+                <select id="dayOfWeek" name="dayOfWeek" value={recurringDateConfig.dayOfWeek} onChange={handleRecurringDateConfigChange}>
+                  <option value="">Ogni Giorno</option>
+                  <option value="1">Lunedì</option>
+                  <option value="2">Martedì</option>
+                  <option value="3">Mercoledì</option>
+                  <option value="4">Giovedì</option>
+                  <option value="5">Venerdì</option>
+                  <option value="6">Sabato</option>
+                  <option value="0">Domenica</option>
+                </select>
+              </div>
+              <button type="button" onClick={handleGenerateRecurringDates} className="generate-dates-btn">
+                Genera Date Programmate
+              </button>
+            </div>
+            {/* Fine Generatore Date Ricorrenti */}
+
+            <button type="button" onClick={addEventDate} className="add-date-btn">Aggiungi Data Manualmente</button>
 
             {formData.eventDates.map((dateItem, index) => (
               <div key={dateItem.id || index} className="event-date-item">

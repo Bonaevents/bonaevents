@@ -43,7 +43,8 @@ function TicketHistory() {
             ...data,
             // Gestione sicura delle date
             saleDate: data.saleDate ? data.saleDate.toDate() : new Date(),
-            eventDate: data.eventDate ? new Date(data.eventDate) : new Date()
+            eventDate: data.eventDate ? new Date(data.eventDate) : new Date(),
+            paymentStatus: data.paymentStatus || 'unpaid'
           };
         });
 
@@ -147,6 +148,11 @@ function TicketHistory() {
               </div>
 
               <div className="detail-row">
+                <span className="label">Codice Biglietto:</span>
+                <span className="value">{ticket.ticketCode || 'N/D'}</span>
+              </div>
+
+              <div className="detail-row">
                 <span className="label">Data vendita:</span>
                 <span className="value">{ticket.saleDate.toLocaleDateString()}</span>
               </div>
@@ -192,6 +198,13 @@ function TicketHistory() {
                   <span className="value">€{ticket.commissionAmount.toFixed(2)}</span>
                 </div>
               )}
+
+              <div className="detail-row payment-status-row">
+                <span className="label">Stato Pagamento:</span>
+                <span className={`value payment-status-badge ${ticket.paymentStatus === 'paid' ? 'paid' : 'unpaid'}`}>
+                  {ticket.paymentStatus === 'paid' ? 'Pagato' : 'Non Pagato'}
+                </span>
+              </div>
             </div>
           </div>
         ))}

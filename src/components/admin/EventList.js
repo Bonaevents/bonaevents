@@ -1,7 +1,7 @@
-import { FaCalendarAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaToggleOn, FaToggleOff } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
-function EventList({ events, onEdit, onDelete }) {
+function EventList({ events, onEdit, onDelete, onToggleStatus }) {
   const [eventsList, setEventsList] = useState(events);
 
   // Ascoltatore per aggiornare la UI quando un biglietto viene eliminato/ripristinato
@@ -73,6 +73,14 @@ function EventList({ events, onEdit, onDelete }) {
               </button>
               <button onClick={() => onDelete(event.id)} className="delete-button">
                 Elimina
+              </button>
+              <button 
+                onClick={() => onToggleStatus(event.id, event.isActive !== false)} 
+                className={`toggle-button ${event.isActive !== false ? 'active' : 'inactive'}`}
+                title={event.isActive !== false ? "Disattiva Evento" : "Attiva Evento"}
+              >
+                {event.isActive !== false ? <FaToggleOn /> : <FaToggleOff />}
+                {event.isActive !== false ? "Disattiva" : "Attiva"}
               </button>
             </div>
           </div>

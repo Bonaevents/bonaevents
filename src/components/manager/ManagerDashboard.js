@@ -217,9 +217,9 @@ function ManagerDashboard() {
       // Se non in cache, carica da Firebase
       const eventsRef = collection(db, 'events');
       
-      // Recupera tutti gli eventi senza filtrare
-      const q = query(eventsRef);
-      const querySnapshot = await getDocs(q);
+      // Recupera tutti gli eventi filtrando per isActive == true
+      const q = query(eventsRef, where('isActive', '==', true)); // Filtro ripristinato
+      const querySnapshot = await getDocs(q); // Utilizza la query con filtro
       
       const eventsList = [];
       
