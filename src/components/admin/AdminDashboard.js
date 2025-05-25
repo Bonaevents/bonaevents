@@ -6,11 +6,12 @@ import EventManagement from './EventManagement';
 import EditUserModal from './EditUserModal';
 import './AdminDashboard.css';
 import Header from '../common/Header';
-import { FaDownload, FaUsers, FaTicketAlt, FaEuroSign, FaHistory } from 'react-icons/fa';
+import { FaDownload, FaUsers, FaTicketAlt, FaEuroSign, FaHistory, FaChartLine } from 'react-icons/fa';
 import AssignmentModal from './AssignmentModal';
 import { generateDetailedPDFReport } from '../../services/ReportService';
 import TicketHistory from './TicketHistory';
 import TeamOverview from './TeamOverview';
+import SalesReports from './SalesReports';
 
 function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -210,6 +211,12 @@ function AdminDashboard() {
           >
             <FaHistory /> Storico Biglietti
           </button>
+          <button
+            className={`tab-button ${activeTab === 'salesReports' ? 'active' : ''}`}
+            onClick={() => setActiveTab('salesReports')}
+          >
+            <FaChartLine /> Report Vendite
+          </button>
         </div>
 
         {activeTab === 'users' ? (
@@ -315,9 +322,11 @@ function AdminDashboard() {
         ) : activeTab === 'events' ? (
           <EventManagement />
         ) : activeTab === 'team' ? (
-          <TeamOverview />
+          <TeamOverview teamLeaders={teamLeaders} managers={managers} users={users} fetchUsers={fetchUsers} />
         ) : activeTab === 'tickets' ? (
-          <TicketHistory />
+          <TicketHistory usersMap={usersMap} />
+        ) : activeTab === 'salesReports' ? (
+          <SalesReports usersMap={usersMap} />
         ) : null}
 
         {showCreateModal && (
@@ -404,6 +413,13 @@ function AdminDashboard() {
         >
           <FaHistory className="bottom-nav-icon" />
           <span>Biglietti</span>
+        </button>
+        <button
+          className={`bottom-nav-item ${activeTab === 'salesReports' ? 'active' : ''}`}
+          onClick={() => setActiveTab('salesReports')}
+        >
+          <FaChartLine className="bottom-nav-icon" />
+          <span>Report Vendite</span>
         </button>
       </nav>
     </div>
