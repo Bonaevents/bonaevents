@@ -43,6 +43,9 @@ function CreateEventModal({ onClose, onEventCreated }) {
     startDate: '',
     endDate: '',
     dayOfWeek: '', // 0 per Domenica, 1 per Lunedì, ..., 6 per Sabato, '' per Ogni Giorno
+    defaultCommission: '', // Nuovo campo per commissione default
+    defaultQuantity: '',   // Nuovo campo per quantità default
+    defaultPrice: '',      // Nuovo campo per prezzo default
   });
 
   // Gestore generico per campi semplici
@@ -131,8 +134,28 @@ function CreateEventModal({ onClose, onEventCreated }) {
             // Rimuovi
             updatedTicketTypes = dateItem.ticketTypes.filter(t => t.id !== ticketType.id);
           } else {
-            // Aggiungi con valori default/vuoti
-            updatedTicketTypes = [...dateItem.ticketTypes, { ...ticketType, price: '', quantity: '', commission: '' }];
+            // Aggiungi con valori default/vuoti o da defaultTicketSettings
+            let newTicketCommission = '';
+            let newTicketQuantity = '';
+            let newTicketPrice = '';
+
+            if (dateItem.defaultTicketSettings) {
+              if (typeof dateItem.defaultTicketSettings.commission === 'number') {
+                newTicketCommission = dateItem.defaultTicketSettings.commission;
+              }
+              if (typeof dateItem.defaultTicketSettings.quantity === 'number') {
+                newTicketQuantity = dateItem.defaultTicketSettings.quantity;
+              }
+              if (typeof dateItem.defaultTicketSettings.price === 'number') {
+                newTicketPrice = dateItem.defaultTicketSettings.price;
+              }
+            }
+            updatedTicketTypes = [...dateItem.ticketTypes, { 
+              ...ticketType, 
+              price: newTicketPrice,
+              quantity: newTicketQuantity, 
+              commission: newTicketCommission 
+            }];
           }
           return { ...dateItem, ticketTypes: updatedTicketTypes };
         }
@@ -221,7 +244,7 @@ const handleTableChangeForDate = (dateIndex, tableId, field, value) => {
   };
 
   const handleGenerateRecurringDates = () => {
-    const { startDate, endDate, dayOfWeek } = recurringDateConfig;
+    const { startDate, endDate, dayOfWeek, defaultCommission, defaultQuantity, defaultPrice } = recurringDateConfig;
     if (!startDate || !endDate) {
       setError('Specifica Data Inizio e Data Fine per la generazione ricorrente.');
       return;
@@ -275,13 +298,37 @@ const handleTableChangeForDate = (dateIndex, tableId, field, value) => {
       if (targetDay === -1 || currentDayOfWeekJS === targetDay) {
         const dateString = `${currentDateObj.getFullYear()}-${String(currentDateObj.getMonth() + 1).padStart(2, '0')}-${String(currentDateObj.getDate()).padStart(2, '0')}`;
         if (!formData.eventDates.some(d => d.date === dateString)) {
-          newDates.push({
+          const newDateItem = {
             id: Date.now() + newDates.length, 
             date: dateString,
             ticketTypes: [],
             hasTablesForDate: false,
             tableTypes: [],
-          });
+          };
+
+          // Applica commissione e quantità di default se specificate
+          if (defaultCommission !== '' || defaultQuantity !== '' || defaultPrice !== '') {
+            newDateItem.defaultTicketSettings = {};
+            if (defaultCommission !== '') {
+              const commissionValue = parseFloat(defaultCommission);
+              if (!isNaN(commissionValue) && commissionValue >= 0) {
+                newDateItem.defaultTicketSettings.commission = commissionValue;
+              }
+            }
+            if (defaultQuantity !== '') {
+              const quantityValue = parseInt(defaultQuantity, 10);
+              if (!isNaN(quantityValue) && quantityValue > 0) {
+                newDateItem.defaultTicketSettings.quantity = quantityValue;
+              }
+            }
+            if (defaultPrice !== '') {
+              const priceValue = parseFloat(defaultPrice);
+              if (!isNaN(priceValue) && priceValue >= 0) {
+                newDateItem.defaultTicketSettings.price = priceValue;
+              }
+            }
+          }
+          newDates.push(newDateItem);
         }
       }
 
@@ -489,6 +536,45 @@ const handleTableChangeForDate = (dateIndex, tableId, field, value) => {
                   <option value="6">Sabato</option>
                   <option value="0">Domenica</option>
                 </select>
+              </div>
+              {/* Nuovi Campi per Commissione e Quantità Default */}
+              <div className="form-group inline">
+                <label htmlFor="defaultCommission">Comm. Default (% o fisso):</label>
+                <input 
+                  type="number" 
+                  id="defaultCommission" 
+                  name="defaultCommission" 
+                  value={recurringDateConfig.defaultCommission} 
+                  onChange={handleRecurringDateConfigChange} 
+                  placeholder="Es. 10 o 1.5"
+                  step="0.01"
+                  min="0"
+                />
+              </div>
+              <div className="form-group inline">
+                <label htmlFor="defaultQuantity">Qtà Default Biglietti:</label>
+                <input 
+                  type="number" 
+                  id="defaultQuantity" 
+                  name="defaultQuantity" 
+                  value={recurringDateConfig.defaultQuantity} 
+                  onChange={handleRecurringDateConfigChange} 
+                  placeholder="Es. 100"
+                  min="1"
+                />
+              </div>
+              <div className="form-group inline">
+                <label htmlFor="defaultPrice">Prezzo Default:</label>
+                <input 
+                  type="number" 
+                  id="defaultPrice" 
+                  name="defaultPrice" 
+                  value={recurringDateConfig.defaultPrice} 
+                  onChange={handleRecurringDateConfigChange} 
+                  placeholder="Es. 25.00"
+                  step="0.01"
+                  min="0"
+                />
               </div>
               <button type="button" onClick={handleGenerateRecurringDates} className="generate-dates-btn">
                 Genera Date Programmate

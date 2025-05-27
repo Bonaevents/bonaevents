@@ -79,33 +79,64 @@
 
 /* Stili per responsività della tabella */
 @media screen and (max-width: 768px) {
+  .modal-content-st {
+    padding: 15px; /* Riduci padding del modale */
+    width: 95%; /* Rendi il modale più flessibile */
+    max-height: 90vh; /* Leggermente più alto se necessario */
+  }
+
   .tickets-detail-table-st thead {
     display: none; /* Nascondi header su mobile */
   }
+
   .tickets-detail-table-st tr {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Aumenta spazio tra le card */
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 5px; /* Leggermente più arrotondato */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Ombra più pronunciata */
+    padding: 10px; /* Aggiungi padding interno alla card-riga */
+    background-color: #fff; /* Sfondo esplicito per la card */
   }
+
   .tickets-detail-table-st td {
-    display: block;
-    text-align: right; /* Allinea il testo a destra */
-    padding-left: 50%; /* Spazio per il data-label */
+    display: flex; /* Usa flex per allineare label e contenuto */
+    justify-content: space-between; /* Spazio tra label e valore */
+    align-items: center; /* Allinea verticalmente */
+    text-align: right; /* Allinea il testo del valore a destra */
+    padding-left: 0; /* Rimuovi il padding precedente basato su % */
     position: relative;
-    border-bottom: 1px dotted #ccc; /* Separatore tra celle */
+    border-bottom: 1px solid #eee; /* Separatore più leggero */
+    padding-top: 8px;
+    padding-bottom: 8px;
+    min-height: 30px; /* Altezza minima per la riga */
   }
+
   .tickets-detail-table-st td:last-child {
     border-bottom: none;
   }
+
   .tickets-detail-table-st td::before {
-    content: attr(data-label); /* Usa l'attributo data-label per l'header */
-    position: absolute;
-    left: 10px;
-    width: calc(50% - 20px); /* Larghezza del label */
+    content: attr(data-label);
+    position: static; /* Rimuovi posizionamento assoluto */
+    width: auto; /* Larghezza automatica per il label */
     padding-right: 10px;
     font-weight: bold;
     text-align: left;
+    white-space: nowrap; /* Evita che il label vada a capo */
+    color: #337ab7; /* Colora il label per distinguerlo */
+  }
+
+  /* Stile per il valore della cella per miglior controllo */
+  .tickets-detail-table-st td > span {
+    display: inline-block; /* O block se necessario */
+    word-break: break-word; /* Va a capo se il testo è lungo */
+    text-align: right;
+    flex-grow: 1; /* Permetti al valore di occupare lo spazio rimanente */
+  }
+
+  /* Assicurati che il box-sizing sia corretto ovunque */
+  .modal-overlay-st *, .modal-overlay-st *::before, .modal-overlay-st *::after {
+    box-sizing: border-box;
   }
 } 

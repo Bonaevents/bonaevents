@@ -37,6 +37,23 @@
   min-width: 200px;
 }
 
+/* Aggiungo stili per rendere i filtri responsive */
+@media (max-width: 768px) {
+  .filters-section {
+    flex-direction: column;
+    align-items: stretch; /* Fa sì che i figli occupino tutta la larghezza */
+  }
+
+  .filter-control {
+    width: 100%; /* Assicura che ogni controllo di filtro occupi la larghezza piena */
+  }
+
+  .filter-control select {
+    width: 100%; /* Il select si adatta al contenitore */
+    min-width: 0; /* Sovrascrive il min-width precedente se necessario */
+  }
+}
+
 .loading-indicator p,
 .error-message {
   text-align: center;
@@ -79,6 +96,57 @@
 .summary-table th {
   background-color: #f2f2f2;
   font-weight: bold;
+}
+
+/* Aggiungo stili per rendere la tabella scrollabile su mobile */
+@media (max-width: 768px) {
+  .summary-table-container { /* Sarà necessario aggiungere questo div nel JSX */
+    width: 100%;
+  }
+
+  /* Stili per trasformare la summary-table in card su mobile */
+  .summary-table {
+    border: none; /* Rimuovo il bordo della tabella originale */
+  }
+
+  .summary-table thead {
+    display: none; /* Nascondi l'header della tabella */
+  }
+
+  .summary-table tbody, .summary-table tr, .summary-table td {
+    display: block; /* Elementi full-width */
+    width: 100%;
+  }
+
+  .summary-table tr {
+    margin-bottom: 15px; /* Spazio tra le "righe" trasformate in card */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .summary-table td {
+    display: flex; /* Allinea label e valore */
+    justify-content: space-between; /* Spazio tra label e valore */
+    align-items: center;
+    padding: 8px 0; /* Padding verticale per ogni coppia label-valore */
+    border-bottom: 1px dotted #eee; /* Separatore leggero */
+    text-align: right; /* Allinea il valore a destra */
+  }
+  
+  .summary-table td:last-child {
+    border-bottom: none; /* Rimuovi bordo per l'ultimo elemento */
+  }
+
+  .summary-table td::before {
+    content: attr(data-label); /* Mostra il data-label */
+    font-weight: bold;
+    text-align: left;
+    margin-right: 10px; /* Spazio tra label e valore */
+    color: #337ab7; /* Colore per il label */
+  }
 }
 
 .seller-report-card {

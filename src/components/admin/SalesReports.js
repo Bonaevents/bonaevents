@@ -211,22 +211,24 @@ function SalesReports({ usersMap }) { // Ricevi usersMap come prop
           {Object.keys(reportData.aggregated).length > 0 && (
             <>
               <h3 className="report-subtitle">Riepilogo Generale</h3>
-              <table className="summary-table">
-                <thead>
-                  <tr>
-                    <th>Totale Biglietti Venduti</th>
-                    <th>Incasso Totale</th>
-                    <th>Commissioni Totali</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{reportData.totals.tickets}</td>
-                    <td>€{reportData.totals.revenue.toFixed(2)}</td>
-                    <td>€{reportData.totals.commissions.toFixed(2)}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="summary-table-container">
+                <table className="summary-table">
+                  <thead>
+                    <tr>
+                      <th>Totale Biglietti Venduti</th>
+                      <th>Incasso Totale</th>
+                      <th>Commissioni Totali</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td data-label="Totale Biglietti Venduti">{reportData.totals.tickets}</td>
+                      <td data-label="Incasso Totale">€{reportData.totals.revenue.toFixed(2)}</td>
+                      <td data-label="Commissioni Totali">€{reportData.totals.commissions.toFixed(2)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
               <h3 className="report-subtitle">Dettaglio per Venditore</h3>
               {Object.entries(reportData.aggregated).map(([sellerId, data]) => (
