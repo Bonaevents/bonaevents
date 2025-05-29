@@ -52,7 +52,7 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
       const initialEventDates = event.eventDates?.map((d, index) => ({
         id: d.id || Date.now() + index,
         date: d.date || '',
-        ticketTypes: d.ticketTypes?.map(t => ({ ...t, price: t.price ?? '', quantity: t.quantity ?? '' })) || [],
+        ticketTypes: d.ticketTypes?.map(t => ({ ...t, price: t.price ?? '', quantity: t.quantity ?? '', commission: t.commission ?? '' })) || [],
         hasTablesForDate: d.hasTablesForDate || false,
         tableTypes: d.tableTypes?.map(tb => ({ ...tb, price: tb.price ?? '', seats: tb.seats ?? TABLE_TYPES.find(tt=>tt.id === tb.id)?.defaultSeats ?? '', quantity: tb.quantity ?? '' })) || [],
       })) || [];
@@ -416,9 +416,21 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
         posterImageUrl: finalPosterImageUrl,
         eventDates: formData.eventDates.map(d => ({
           date: d.date,
-          ticketTypes: d.ticketTypes.map(t => ({ id: t.id, name: t.name, price: t.price, quantity: t.quantity })),
+          ticketTypes: d.ticketTypes.map(t => ({
+            id: t.id,
+            name: t.name,
+            price: parseFloat(t.price || 0),
+            quantity: parseInt(t.quantity || 0),
+            commission: parseFloat(t.commission || 0) 
+          })),
           hasTablesForDate: d.hasTablesForDate,
-          tableTypes: d.tableTypes.map(tb => ({ id: tb.id, name: tb.name, price: tb.price, seats: tb.seats, quantity: tb.quantity }))
+          tableTypes: d.tableTypes.map(tb => ({ 
+            id: tb.id, 
+            name: tb.name, 
+            price: parseFloat(tb.price || 0), 
+            seats: parseInt(tb.seats || 0), 
+            quantity: parseInt(tb.quantity || 0) 
+          }))
         })),
         updatedAt: new Date().toISOString(),
         isMultiEntryPackage: formData.isMultiEntryPackage,
@@ -616,6 +628,19 @@ function EditEventModal({ event, onClose, onEventUpdated }) {
                                  onChange={(e) => handleTicketChangeForDate(index, ticketType.id, 'price', e.target.value)}
                                  placeholder="0.00"
                                  step="0.01"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div className="form-group inline">
+                          <label htmlFor={`ticket-commission-${index}-${ticketType.id}`}>Comm.:</label>
+                          <input
+                            type="number"
+                            id={`ticket-commission-${index}-${ticketType.id}`}
+                            value={currentTicket?.commission ?? ''}
+                            onChange={(e) => handleTicketChangeForDate(index, ticketType.id, 'commission', e.target.value)}
+                            placeholder="0.00"
+                            step="0.01"
                             min="0"
                             required
                           />
