@@ -29,11 +29,33 @@ function TicketHistory() {
     try {
       setLoading(true);
       setError(null);
+      
+      // Prima recuperiamo tutti i biglietti
+      const allTicketsQuery = query(collection(db, 'tickets'));
+      const allTicketsSnapshot = await getDocs(allTicketsQuery);
+      console.log('All tickets before filtering:', allTicketsSnapshot.size);
+      allTicketsSnapshot.docs.forEach(doc => {
+        const data = doc.data();
+        console.log('Ticket data:', {
+          id: doc.id,
+          code: data.ticketCode || data.code,
+          status: data.status,
+          isValidated: data.isValidated,
+          validatedAt: data.validatedAt
+        });
+      });
+
+      // Poi applichiamo il filtro
       let ticketsQueryRef = collection(db, 'tickets');
       let conditions = [];
 
       if (statusFilter && statusFilter !== 'all') {
-        conditions.push(where('status', '==', statusFilter));
+        console.log('Applying status filter:', statusFilter);
+        if (statusFilter === 'validated') {
+          conditions.push(where('isValidated', '==', true));
+        } else {
+          conditions.push(where('status', '==', statusFilter));
+        }
       }
       if (eventFilter && eventFilter !== 'all') {
         conditions.push(where('eventId', '==', eventFilter));
@@ -46,18 +68,19 @@ function TicketHistory() {
       }
 
       if (conditions.length > 0) {
-        ticketsQueryRef = query(collection(db, 'tickets'), ...conditions, orderBy('soldAt', 'desc'), limit(itemsPerPage * page));
-      } else {
-        ticketsQueryRef = query(collection(db, 'tickets'), orderBy('soldAt', 'desc'), limit(itemsPerPage * page));
+        console.log('Query conditions:', conditions);
+        ticketsQueryRef = query(ticketsQueryRef, ...conditions);
       }
       
       const snapshot = await getDocs(ticketsQueryRef);
+      console.log('Filtered query results:', snapshot.size, 'documents');
+      
       let ticketsData = snapshot.docs.map(doc => {
         const data = doc.data();
         return {
           id: doc.id,
           ...data,
-          soldAtFormatted: formatDate(data.soldAt),
+          soldAtFormatted: formatDate(data.createdAt),
           eventDateFormatted: formatDateOnly(data.eventDate),
           eventName: data.eventName || 'N/D',
           customerName: data.customerName || 'N/D',
@@ -72,6 +95,13 @@ function TicketHistory() {
           price: data.price,
           qrCode: data.qrCode,
         };
+      });
+
+      // Ordina i dati dopo averli recuperati
+      ticketsData.sort((a, b) => {
+        const dateA = a.updatedAt ? new Date(a.updatedAt.seconds * 1000) : new Date(0);
+        const dateB = b.updatedAt ? new Date(b.updatedAt.seconds * 1000) : new Date(0);
+        return dateB - dateA;
       });
 
       if (searchQuery) {
@@ -127,7 +157,9 @@ function TicketHistory() {
     setShowDetails(true);
   };
   
-  const getStatusLabel = (status) => {
+  const getStatusLabel = (status, isValidated) => {
+    if (isValidated) return 'Validato';
+    
     const statusMap = {
       active: 'Attivo',
       validated: 'Validato',
@@ -138,7 +170,9 @@ function TicketHistory() {
     return statusMap[status] || status?.toString() || 'Sconosciuto';
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status, isValidated) => {
+    if (isValidated) return <FaCheckCircle className="status-icon validated" />;
+    
     switch (status) {
       case 'active': case 'sold': return <FaCheckCircle className="status-icon active" />;
       case 'validated': return <FaCheckCircle className="status-icon validated" />;
@@ -335,7 +369,7 @@ Grazie!`
                       </button>
                     </td>
                     <td data-label="Stato Biglietto">
-                      {getStatusIcon(ticket.status)} {getStatusLabel(ticket.status)}
+                      {getStatusIcon(ticket.status, ticket.isValidated)} {getStatusLabel(ticket.status, ticket.isValidated)}
                     </td>
                     <td data-label="Azioni" className="ticket-actions">
                       <button onClick={() => handleViewDetails(ticket)} className="action-btn details-btn" title="Vedi Dettagli" disabled={actionInProgress}>
@@ -386,7 +420,7 @@ Grazie!`
             <p><strong>Prezzo Unitario:</strong> €{Number(selectedTicket.price || 0).toFixed(2)}</p>
             <p><strong>Prezzo Totale:</strong> €{Number(selectedTicket.totalPrice || 0).toFixed(2)}</p>
             <p><strong>Venduto da:</strong> {selectedTicket.sellerName}</p>
-            <p><strong>Stato:</strong> {getStatusLabel(selectedTicket.status)}</p>
+            <p><strong>Stato:</strong> {getStatusLabel(selectedTicket.status, selectedTicket.isValidated)}</p>
             <p><strong>Stato Pagamento:</strong> {selectedTicket.paymentStatus === 'paid' ? 'Pagato' : 'Non Pagato'}</p>
             {selectedTicket.qrCode && (
               <div className="qr-code-container-th">

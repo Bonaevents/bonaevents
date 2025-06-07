@@ -411,7 +411,7 @@ function TicketValidator({ initializeWithScanner = true }) {
         }
 
         // Per i biglietti singoli, isValidated è il campo principale
-        if (ticketData.isValidated) {
+        if (ticketData.status === 'validated') {
           const validatedAtFormatted = ticketDataForDisplay.validatedAt || 'N/D';
           showTemporaryMessage(`Biglietto già validato il ${validatedAtFormatted}.`, 'error');
           setLastScannedTicketDetails({ ...ticketDataForDisplay, status: 'already_validated', statusMessage: `Già validato il ${validatedAtFormatted}` });
@@ -420,20 +420,26 @@ function TicketValidator({ initializeWithScanner = true }) {
           return;
         }
 
-        await updateDoc(doc(db, 'tickets', ticketId), {
-          isValidated: true,
+        console.log("[VALIDATE_SINGLE] Current ticket data:", ticketData);
+        console.log("[VALIDATE_SINGLE] Updating ticket status to validated");
+        
+        const updateData = {
+          status: 'validated',
           validatedAt: new Date(),
-          validatedBy: currentUser.uid
-        });
+          validatedBy: currentUser.uid,
+          updatedAt: new Date()
+        };
+        
+        console.log("[VALIDATE_SINGLE] Update data:", updateData);
+        
+        await updateDoc(doc(db, 'tickets', ticketId), updateData);
         console.log("[VALIDATE_SINGLE] Ticket successfully validated and updated in DB.");
 
         showTemporaryMessage('Biglietto validato con successo!', 'success');
         setLastScannedTicketDetails({
           ...ticketDataForDisplay,
-          isValidated: true, // Aggiorna lo stato per la visualizzazione
-          status: 'valid',
+          status: 'validated',
           statusMessage: 'Validato con successo',
-          // Sovrascrivi validatedAt con quello corrente per visualizzazione immediata
           validatedAt: new Date().toLocaleString('it-IT') 
         });
          console.log("[VALIDATE_SINGLE] Success.");

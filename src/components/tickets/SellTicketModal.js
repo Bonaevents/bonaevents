@@ -396,8 +396,9 @@ function SellTicketModal({ event, selectedDateItem, onClose, onSold }) {
                 quantity: soldQuantity,
                 pricePerItem: itemPrice,
                 totalPrice: totalPrice, 
-                status: 'sold',
+                status: 'active',
                 soldAt: sellTimestamp,
+                updatedAt: sellTimestamp,
                 commissionAmount: calculatedCommission,
                 paymentStatus: 'unpaid',
                 tableInfo: includeTable ? {
