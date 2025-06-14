@@ -1,0 +1,145 @@
+.ticket-viewer {
+  padding: 20px;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+.ticket-viewer h2 {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-size: 1.5rem;
+}
+
+.tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.ticket-card {
+  background-color: var(--card-background);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.ticket-card:hover {
+  transform: translateY(-2px);
+}
+
+.ticket-header {
+  padding: 15px;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.open-icon {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.ticket-card:hover .open-icon {
+  opacity: 1;
+}
+
+.ticket-content {
+  padding: 15px;
+}
+
+.ticket-info {
+  margin-bottom: 15px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.info-row svg {
+  margin-right: 10px;
+  color: var(--primary-color);
+}
+
+.ticket-qr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.qr-code {
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.ticket-card:hover .qr-code {
+  transform: scale(1.05);
+}
+
+.ticket-footer {
+  padding: 15px;
+  background-color: var(--card-background);
+  border-top: 1px solid var(--border-color);
+}
+
+.ticket-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.detail-row svg {
+  margin-right: 8px;
+  color: var(--primary-color);
+}
+
+.ticket-viewer-loading,
+.ticket-viewer-error,
+.ticket-viewer-empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.ticket-viewer-error {
+  color: var(--error-color);
+}
+
+@media (max-width: 768px) {
+  .tickets-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ticket-card {
+    margin: 0 10px;
+  }
+  
+  .qr-code {
+    max-width: 150px;
+  }
+} 

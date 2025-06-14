@@ -1,0 +1,581 @@
+.admin-dashboard {
+  padding: var(--spacing-md);
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.btn-download {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  transition: background-color var(--transition-speed) ease;
+}
+
+.btn-download:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-download.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  background-color: var(--primary-color);
+}
+
+.btn-download:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: var(--danger-color);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-top: 0.5rem;
+}
+
+.users-section {
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.user-card {
+  background-color: var(--background-color);
+  border-radius: 6px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid var(--border-color);
+}
+
+.user-info h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.user-info p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.user-role {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--surface-color);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.user-actions button {
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: var(--button-height);
+}
+
+.user-actions button:hover {
+  background-color: var(--secondary-hover);
+  transform: translateY(-1px);
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) { /* Tablet e sotto */
+  .stats-overview {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1rem; /* Riduci padding generale */
+  }
+
+  .dashboard-header {
+    flex-direction: column; /* Header in colonna */
+    align-items: flex-start;
+    gap: var(--spacing-md); /* Aumenta gap se in colonna */
+  }
+
+  .header-actions {
+    width: 100%;
+    /* justify-content: flex-start; o center? */
+  }
+
+  .btn-download {
+    width: 100%; /* Bottone a larghezza piena */
+    max-width: 300px; /* Ma con un massimo */
+    margin: 0 auto; /* Centra se più stretto */
+    justify-content: center;
+  }
+
+  .admin-tabs {
+    flex-wrap: wrap; /* Tab a capo */
+    margin-bottom: 1.5rem;
+    justify-content: center;
+  }
+  .tab-button {
+      flex-grow: 1; /* Occupa spazio disponibile */
+      min-width: 100px; /* Larghezza minima */
+  }
+
+  .stats-overview {
+    grid-template-columns: 1fr 1fr; /* Due colonne su tablet */
+    gap: 1rem;
+  }
+
+  .users-grid {
+    grid-template-columns: 1fr; /* Griglia utenti a colonna singola */
+    gap: 1rem;
+  }
+
+  .user-card {
+    flex-direction: column; /* Card utente in colonna */
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .user-actions {
+    width: 100%;
+  }
+
+  .user-actions button {
+    width: 100%;
+  }
+
+  .filters-container, .filters {
+      flex-direction: column;
+      gap: 1rem;
+  }
+  .search-container {
+      width: 100%;
+  }
+  .filter {
+      width: 100%;
+  }
+
+  /* Rendi tabelle scrollabili */
+  .table-container { /* Se usi questa classe */
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+  }
+  .table, .tickets-table { /* Applica a tutte le tabelle */
+      min-width: 700px; /* Forza scroll, aggiusta se necessario */
+      /* Rimuovi bordi specifici se usi wrapper */
+      border: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-dashboard {
+    padding: 0.75rem;
+  }
+
+  .header-title {
+    font-size: 1.3rem;
+  }
+  .tab-button {
+     font-size: 0.85rem;
+     padding: 8px 10px;
+     min-width: 80px;
+  }
+
+  .stats-overview {
+    grid-template-columns: 1fr; /* Colonna singola su mobile */
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .user-card {
+    padding: 1rem;
+  }
+
+  .users-section {
+    padding: 1rem;
+  }
+  
+  .table th,
+  .table td,
+  .tickets-table th,
+  .tickets-table td {
+    padding: 0.6rem 0.5rem; /* Padding ridotto celle */
+    font-size: 0.8rem; /* Font piccolo */
+    white-space: nowrap; /* Evita a capo se possibile, affidati allo scroll */
+  }
+  .table, .tickets-table {
+    min-width: 500px; /* Riduci min-width su mobile stretto */
+  }
+  .actions.inline-actions {
+      white-space: nowrap; /* Non mandare a capo i bottoni azione */
+  }
+  .actions.inline-actions button {
+       padding: 4px 6px; /* Bottoni azione più piccoli */
+       font-size: 0.75rem;
+  }
+  .actions.inline-actions button svg {
+       font-size: 0.9rem;
+  }
+}
+
+/* Aggiunta per wrapper tabelle se non esistente */
+.tickets-table-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+     width: 100%;
+     margin-bottom: 1rem; 
+     border: 1px solid var(--border-color-light, #dee2e6);
+     border-radius: var(--border-radius, 6px);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+  height: var(--button-height);
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-button::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tab-button:hover {
+  color: var(--primary-color);
+}
+
+.tab-button.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.tab-button.active::after {
+  transform: scaleX(1);
+}
+
+/* Responsive table */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.action-button {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.action-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.action-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--input-bg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.filter-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.filter-input {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  min-width: 200px;
+}
+
+.filter-input:focus {
+  border-color: var(--primary-light);
+}
+
+/* Desktop Layout */
+@media (min-width: 769px) {
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--content-padding);
+    padding: var(--content-padding);
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--content-padding);
+  }
+
+  .tickets-section,
+  .team-section {
+    display: block !important;
+    width: 100%;
+  }
+
+  .tickets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--content-padding);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--content-padding);
+  }
+
+  .stats-overview {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--content-padding);
+  }
+}
+
+/* Stili per tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    min-width: calc(50% - var(--spacing-md));
+  }
+}
+
+/* Migliora la leggibilità del testo selezionato */
+.admin-dashboard ::selection {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: inherit;
+}
+
+/* Migliora l'accessibilità del focus */
+.admin-dashboard :focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Stili per le aree selezionate */
+.selected-area {
+  background-color: rgba(33, 150, 243, 0.1);
+  border: 1px solid var(--primary-light);
+  border-radius: var(--border-radius);
+}
+
+.selected-area * {
+  color: var(--text-primary);
+}
+
+/* Animazioni smooth */
+.admin-dashboard * {
+  transition: background-color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
+}
+
+/* Wrapper per rendere la tabella scorrevole su mobile */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Per uno scrolling più fluido su iOS */
+}
+
+/* Assicura che la tabella occupi almeno la larghezza necessaria per il suo contenuto */
+.users-table {
+  width: 100%; /* Fa sì che la tabella tenti di occupare lo spazio disponibile */
+  min-width: 800px; /* Imposta una larghezza minima, adattala se necessario per vedere tutte le colonne senza stringere troppo */
+  /* Considera white-space: nowrap; per le celle se il contenuto va a capo indesideratamente */
+  /* td,
+  th {
+    white-space: nowrap;
+  } */
+}
+
+/* Stili specifici per mobile potrebbero non essere più necessari per le azioni 
+   se lo scorrimento orizzontale risolve il problema, ma li lascio commentati 
+   come riferimento se servissero aggiustamenti ulteriori 
+@media (max-width: 768px) {
+  .users-table td.actions {
+    min-width: 120px; // Esempio: assicura larghezza minima per contenere i pulsanti
+  }
+  .users-table .action-button {
+     padding: 0.3rem 0.5rem; // Riduci padding su mobile
+     font-size: 0.8rem; // Riduci dimensione font
+  } 
+}*/ 

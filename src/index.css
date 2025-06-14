@@ -1,0 +1,678 @@
+:root {
+  --primary-color: #435bcc;
+  --primary-light: #64b5f6;
+  --primary-dark: #1976d2;
+  --secondary-color: #2c3e50;
+  --accent-color: #3498db;
+  --success-color: #2ecc71;
+  --warning-color: #f1c40f;
+  --danger-color: #e74c3c;
+  
+  /* Light Theme Defaults */
+  --background-light: #ffffff; /* Alias for clarity */
+  --bg-color: var(--background-light);
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --card-bg: var(--background-light);
+  --input-bg: var(--background-light);
+  --surface-color: #f8f9fa; /* e.g., for table headers */
+  --hover-bg: #f5f8ff;
+  --selected-bg: #f0f4ff;
+  --selected-text: var(--primary-color);
+
+  --ion-color-primary: var(--primary-color);
+  --ion-color-secondary: var(--secondary-color);
+  --ion-color-success: var(--success-color);
+  --ion-color-danger: var(--danger-color);
+  --ion-color-warning: var(--warning-color);
+  --ion-color-info: var(--accent-color); 
+  --ion-color-light: #f8f9fa;
+  --ion-color-dark: #343a40; /* Used for text on light bg? */
+  --ion-color-medium: #6c757d;
+  --ion-color-white: #ffffff;
+  --ion-color-black: #000000;
+  --ion-color-transparent: transparent;
+
+  /* Shared Layout/Style Variables */
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --transition-speed: 0.2s;
+  --card-min-width: 280px;
+  --card-max-width: 400px;
+  --card-height: auto;
+  --card-image-height: 200px;
+  --card-image-height-mobile: 180px;
+  --card-padding: var(--spacing-md);
+  --card-padding-mobile: var(--spacing-sm);
+  --header-height: 60px;
+  --header-height-mobile: 56px;
+  --sidebar-width: 240px;
+  --sidebar-width-mobile: 100%;
+  --container-padding: var(--spacing-md);
+  --container-padding-mobile: var(--spacing-sm);
+  --input-height: 44px;
+  --input-height-mobile: 48px;
+  --button-height: 44px;
+  --button-height-mobile: 48px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Miglioramento leggibilità testo */
+p, h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Link e elementi interattivi */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* Elementi selezionati e focus */
+.selected, 
+.active,
+[aria-selected="true"] {
+  background-color: var(--selected-bg) !important;
+  color: var(--selected-text) !important;
+  font-weight: 500;
+  border-left: 3px solid var(--primary-color);
+}
+
+/* Input e form */
+input, 
+select, 
+textarea {
+  width: 100%;
+  height: var(--input-height);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  transition: all var(--transition-speed) ease;
+  background-color: var(--background-light);
+  color: var(--text-primary);
+}
+
+input:focus, 
+select:focus, 
+textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(67, 91, 204, 0.2);
+}
+
+/* Bottoni */
+button {
+  height: var(--button-height);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  background-color: var(--primary-color);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Card e contenitori */
+.card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+  width: 100%;
+  max-width: var(--card-max-width);
+  min-width: var(--card-min-width);
+  height: var(--card-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-image {
+  width: 100%;
+  height: var(--card-image-height);
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+}
+
+.card-content {
+  padding: var(--card-padding);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.card-text {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: var(--spacing-sm);
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Grid Layout Utilities */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width), 1fr));
+  width: 100%;
+}
+
+.grid-dense {
+  grid-auto-flow: dense;
+}
+
+/* Flex Utilities */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* Spacing Utilities */
+.p-0 { padding: 0; }
+.p-1 { padding: var(--spacing-xs); }
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+
+.m-0 { margin: 0; }
+.m-1 { margin: var(--spacing-xs); }
+.m-2 { margin: var(--spacing-sm); }
+.m-3 { margin: var(--spacing-md); }
+.m-4 { margin: var(--spacing-lg); }
+
+/* Text Utilities */
+.text-sm { font-size: 0.875rem; }
+.text-md { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+
+.font-bold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  :root {
+    --card-min-width: 100%;
+    --card-image-height: var(--card-image-height-mobile);
+    --card-padding: var(--card-padding-mobile);
+    --container-padding: var(--container-padding-mobile);
+    --input-height: var(--input-height-mobile);
+    --button-height: var(--button-height-mobile);
+  }
+
+  .container {
+    padding: var(--container-padding);
+  }
+
+  .card {
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .card-content {
+    padding: var(--spacing-sm);
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+  }
+
+  .grid {
+    gap: var(--spacing-sm);
+    grid-template-columns: 1fr;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .touch-scroll > * {
+    scroll-snap-align: start;
+  }
+
+  /* Prevenzione zoom su input iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Ottimizzazione touch */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  /* Rimozione outline su focus per mobile */
+  *:focus {
+    outline: none;
+  }
+
+  /* Supporto per notch e aree sicure */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Ottimizzazione scroll */
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Prevenzione scroll body quando modal è aperto */
+  body.modal-open {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Migliora la leggibilità su mobile */
+  input, select, textarea, button {
+    font-size: 16px;
+    padding: 12px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Aumenta area di tocco per elementi interattivi */
+  a, button, .list-item {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Migliora la visibilità delle sezioni selezionate su mobile */
+  .selected,
+  .active,
+  [aria-selected="true"] {
+    background-color: var(--selected-bg);
+    border-left: 4px solid var(--primary-color);
+    padding-left: calc(var(--spacing-md) - 4px);
+  }
+
+  /* Ottimizza tabelle per mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  th, td {
+    white-space: nowrap;
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Active States */
+.active {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+/* Loading States */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.15) 37%,
+    rgba(0, 0, 0, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* Existing code ... */
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 16px;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) ease;
+}
+
+/* Migliori stili per il focus e la selezione */
+:focus {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+/* Migliori stili per il touch su mobile */
+@media (max-width: 768px) {
+  button, 
+  input[type="submit"],
+  .clickable {
+    min-height: 44px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  input, 
+  select, 
+  textarea {
+    font-size: 16px;
+    padding: var(--spacing-sm);
+  }
+
+  /* Previene lo zoom su input su iOS */
+  @supports (-webkit-touch-callout: none) {
+    input, select, textarea {
+      font-size: 16px;
+    }
+  }
+}
+
+/* Utility classes per il responsive design */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--container-padding);
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-right: var(--spacing-sm);
+    padding-left: var(--spacing-sm);
+  }
+}
+
+/* Classi per il layout flessibile */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.gap-md {
+  gap: var(--spacing-md);
+}
+
+/* Classi per la responsività */
+.hide-on-mobile {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.show-on-mobile {
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+button {
+  cursor: pointer;
+}
+
+input, select {
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Ottimizzazioni per iOS */
+@supports (-webkit-touch-callout: none) {
+  html {
+    height: -webkit-fill-available;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Fix per lo scrolling su iOS */
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Prevenzione bounce effect */
+  .no-bounce {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    overscroll-behavior: none;
+  }
+
+  /* Migliora il touch feedback */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Ottimizza gli input su iOS */
+  input, select, textarea {
+    font-size: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: var(--border-radius);
+  }
+
+  /* Fix per il focus su iOS */
+  *:focus {
+    outline: none;
+  }
+
+  /* Supporto per safe areas */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Ottimizza le animazioni su iOS */
+  .fade-in, .slide-up {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Supporto per PWA */
+@media all and (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .app {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Ottimizzazione per tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Ottimizzazione per desktop */
+@media (min-width: 1025px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+/* Utility classes */
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.bg-primary { background-color: var(--primary-color) !important; }
+.bg-light { background-color: var(--background-light) !important; }
+.font-bold { font-weight: 600 !important; }
+.text-center { text-align: center !important; }
+.w-full { width: 100% !important; }

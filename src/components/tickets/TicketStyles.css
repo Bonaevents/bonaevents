@@ -1,0 +1,255 @@
+.ticket-summary {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.ticket-summary p {
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-summary p strong {
+  color: #666;
+}
+
+.tickets-table {
+  background: var(--background-white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.tickets-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tickets-table th,
+.tickets-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tickets-table th {
+  background-color: var(--background-light);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.valid {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: var(--success-color);
+}
+
+.status-badge.used {
+  background-color: rgba(158, 158, 158, 0.1);
+  color: var(--text-secondary);
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.validation-methods {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.method-button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.method-button.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.scanner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.scanner-help {
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+}
+
+.success-message {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(76, 175, 80, 0.1);
+  color: #2e7d32;
+  border-radius: 4px;
+  white-space: pre-line;
+}
+
+.error-message {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(244, 67, 54, 0.1);
+  color: #d32f2f;
+  border-radius: 4px;
+}
+
+.ticket-type-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1em;
+  margin-top: 5px;
+}
+
+.ticket-type-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+@media (max-width: 768px) {
+  .ticket-container {
+    padding: 15px;
+  }
+
+  .ticket-details {
+    flex-direction: column;
+  }
+
+  .qr-section {
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  .ticket-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ticket-actions button {
+    width: 100%;
+  }
+}
+
+.form-section {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.form-section .form-group {
+  margin-bottom: 0.5rem;
+}
+
+.form-section label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.form-section input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.price-summary {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.price-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid #ddd;
+  font-size: 1.1em;
+}
+
+/* Stili per il componente QuantityInput */
+.quantity-input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 120px;
+}
+
+.quantity-btn {
+  background: #f5f5f5;
+  border: none;
+  color: #222;
+  font-size: 16px;
+  font-weight: bold;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.quantity-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  border: none;
+  text-align: center;
+  width: calc(100% - 72px);
+  height: 36px;
+  font-size: 16px;
+  padding: 0;
+}
+
+.quantity-input:focus {
+  outline: none;
+} 

@@ -1,0 +1,117 @@
+.legal-container {
+  min-height: 100vh;
+  background: var(--background-primary);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.legal-content {
+  max-width: 800px;
+  width: 100%;
+  background: var(--background-secondary);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.legal-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.legal-header h1 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.last-updated {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.legal-body {
+  color: var(--text-primary);
+}
+
+.legal-body section {
+  margin-bottom: 2rem;
+}
+
+.legal-body h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.legal-body p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.legal-body ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.legal-body li {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.legal-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .legal-content {
+  background: var(--background-tertiary);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .legal-container {
+    padding: 1rem;
+  }
+
+  .legal-content {
+    padding: 1.5rem;
+  }
+
+  .legal-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .legal-body h2 {
+    font-size: 1.25rem;
+  }
+
+  .legal-body p,
+  .legal-body li {
+    font-size: 0.95rem;
+  }
+} 

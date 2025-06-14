@@ -1,0 +1,471 @@
+:root {
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary-color: #06b6d4;
+  --accent-color: #fbbf24;
+  --text-color: #1f2937;
+  --text-light: #6b7280;
+  --background-light: #f9fafb;
+  --background-white: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --error-color: #ef4444;
+  --success-color: #22c55e;
+  --warning-color: #f59e0b;
+}
+
+/* Reset e stili base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Layout comune */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Card moderna con hover effect */
+.card {
+  background: var(--background-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Stili base per tutti i pulsanti */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--primary-color);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+button:hover::after {
+  opacity: 1;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Stile specifico per il pulsante logout */
+button.logout-btn,
+.navbar-logout {
+  background-color: var(--secondary-color);
+}
+
+button.logout-btn:hover,
+.navbar-logout:hover {
+  background-color: #2d8587;
+}
+
+/* Varianti di pulsanti */
+button.btn-secondary {
+  background-color: var(--secondary-color);
+}
+
+button.btn-secondary:hover {
+  background-color: #2d8587;
+}
+
+button.btn-success {
+  background-color: var(--success-color);
+}
+
+button.btn-success:hover {
+  background-color: #218838;
+}
+
+button.btn-warning {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+button.btn-warning:hover {
+  background-color: #e6e600;
+}
+
+/* Stili per pulsanti con icone */
+button svg {
+  font-size: 16px;
+}
+
+/* Stili per pulsanti piccoli */
+button.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+  min-height: 30px;
+}
+
+/* Stili per pulsanti grandi */
+button.btn-lg {
+  padding: 12px 24px;
+  font-size: 16px;
+  min-height: 44px;
+}
+
+/* Stili per pulsanti outline */
+button.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+button.btn-outline:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Form elements moderni */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--background-light);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  background-color: var(--background-white);
+}
+
+/* Tabelle */
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  background-color: var(--background-light);
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.05);
+}
+
+/* Dashboard layout */
+.dashboard {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background-color: var(--background-white);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.main-content {
+  padding: 20px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+/* Badge moderno */
+.badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s ease;
+}
+
+.badge-success {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: var(--success-color);
+}
+
+.badge-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--warning-color);
+}
+
+.badge-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .table-container {
+    margin: 0 -20px;
+    padding: 0 20px;
+    overflow-x: auto;
+  }
+
+  .card {
+    margin: 12px 0;
+    padding: 20px;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Aggiungi questi stili */
+.dashboard-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: var(--background-light);
+}
+
+/* Aggiungi/aggiorna queste media queries */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 10px;
+  }
+
+  .container {
+    padding: var(--container-padding);
+  }
+
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px;
+  }
+
+  .card {
+    margin: 10px 0;
+    padding: 15px;
+  }
+
+  /* Migliora la leggibilità dei testi su mobile */
+  body {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  /* Rendi i bottoni più facili da premere su mobile */
+  button, 
+  .btn,
+  input[type="submit"] {
+    min-height: 44px;
+    padding: 12px 20px;
+  }
+
+  /* Migliora spaziatura form su mobile */
+  input, 
+  select, 
+  textarea {
+    font-size: 16px; /* Previene lo zoom automatico su iOS */
+    padding: 12px;
+    margin: 8px 0;
+  }
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light-bg: #2d2d2d;
+    --border-color: #444;
+  }
+
+  body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .table th {
+    background-color: #2d2d2d;
+  }
+
+  .form-control {
+    background-color: #2d2d2d;
+    color: #ffffff;
+  }
+}
+
+/* Animazioni per elementi che appaiono */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease forwards;
+}
+
+/* Loading spinner moderno */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Modal moderno con animazione */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: modalFadeIn 0.3s ease forwards;
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  transform: scale(0.9);
+  animation: modalScaleIn 0.3s ease forwards;
+  box-shadow: var(--shadow-lg);
+}
+
+@keyframes modalFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes modalScaleIn {
+  to { transform: scale(1); }
+}
+
+/* Grid layout moderno */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+} 

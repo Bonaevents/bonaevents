@@ -1,0 +1,387 @@
+/* Stili comuni per tutte le dashboard */
+
+/* Rimuovo :root locale per usare variabili globali da App.css */
+/* :root { ... } */
+
+/* Base styles - Usa variabili globali */
+.dashboard-container {
+  padding: var(--spacing-lg, 24px); /* Usa variabile globale o fallback */
+  min-height: 100vh;
+  background-color: var(--background-color); /* Usa variabile globale */
+  /* Rimuovi font-family se definito globalmente in App.css */
+}
+
+/* Common card styles - Usa variabili globali */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg); /* Usa variabile globale */
+  box-shadow: var(--box-shadow); /* Usa variabile globale */
+  padding: var(--spacing-md, 24px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Riduci transizioni */
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  transform: translateY(-3px); /* Riduci effetto hover */
+  box-shadow: var(--box-shadow-lg); /* Usa variabile globale */
+}
+
+/* Common button styles - Usa stili globali .btn e .btn-* da App.css */
+/* Rimuovo definizioni locali per .btn, .btn-primary, etc. */
+/* 
+.btn { ... }
+.btn-primary { ... }
+.btn-primary:hover { ... }
+.btn-success { ... }
+.btn-success:hover { ... }
+.btn-danger { ... }
+.btn-danger:hover { ... }
+.btn-secondary { ... }
+.btn-secondary:hover { ... }
+*/
+
+/* Common grid and layout styles - Usa variabili globali */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Riduci min */
+  gap: var(--spacing-md, 24px);
+}
+
+/* Stats badges - Usa variabili globali */
+.badge {
+  padding: 4px 10px; /* Adegua padding */
+  border-radius: var(--border-radius); /* Usa variabile */
+  font-size: 0.8rem; /* Usa rem */
+  font-weight: 500;
+  display: inline-block; /* Aggiunto per spaziatura corretta */
+}
+
+.badge-success {
+  /* Usa variabili globali e RGBA */
+  background-color: rgba(var(--success-color-rgb, 76, 175, 80), 0.15);
+  color: var(--success-color);
+}
+
+.badge-danger {
+  /* Usa variabili globali e RGBA */
+  background-color: rgba(var(--error-color-rgb, 244, 67, 54), 0.15);
+  color: var(--error-color);
+}
+
+.badge-warning { /* Aggiungi se necessario */
+  background-color: rgba(var(--warning-color-rgb, 255, 193, 7), 0.15);
+  color: var(--warning-color);
+}
+
+.badge-info { /* Aggiungi se necessario */
+  background-color: rgba(var(--primary-color-rgb, 25, 118, 210), 0.15);
+  color: var(--primary-color);
+}
+
+/* Form controls - Usa stili globali input/select/textarea da App.css */
+/* Rimuovo definizioni locali per .form-control */
+/*
+.form-control { ... }
+.form-control:focus { ... }
+*/
+
+/* Rimuovi Dark mode support locale */
+/* @media (prefers-color-scheme: dark) { ... } */
+
+/* Mobile optimizations - Usa variabili globali */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: var(--spacing-md, 16px);
+  }
+
+  .card {
+    padding: var(--spacing-md, 16px);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm, 16px);
+  }
+
+  /* Stili .btn gestiti da App.css mobile */
+  /*
+  .btn {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+  */
+
+  /* Tap targets gestiti da padding in App.css mobile */
+  /* 
+  .btn, .form-control {
+    min-height: 44px;
+  }
+  */
+
+  /* iOS zoom fix gestito da App.css mobile (se font-size >= 1rem) */
+  /*
+  .form-control, .btn {
+    font-size: 16px; 
+  }
+  */
+}
+
+/* Extreme small device support - Usa variabili globali */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: var(--spacing-sm, 12px);
+  }
+
+  .card {
+    padding: var(--spacing-sm, 12px);
+  }
+
+  /* Stili .btn gestiti da App.css mobile */
+  /*
+  .btn {
+    padding: 8px 12px;
+  }
+  */
+}
+
+/* Utility classes - Mantieni ma considera se sono necessarie/duplicate */
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 { gap: var(--spacing-xs, 4px); }
+.gap-2 { gap: var(--spacing-sm, 8px); }
+.gap-3 { gap: var(--spacing-md, 12px); }
+.gap-4 { gap: var(--spacing-lg, 16px); }
+.gap-5 { gap: var(--spacing-xl, 24px); }
+
+.mt-1 { margin-top: var(--spacing-xs, 4px); }
+.mt-2 { margin-top: var(--spacing-sm, 8px); }
+.mt-3 { margin-top: var(--spacing-md, 12px); }
+.mt-4 { margin-top: var(--spacing-lg, 16px); }
+.mt-5 { margin-top: var(--spacing-xl, 24px); }
+
+.mb-1 { margin-bottom: var(--spacing-xs, 4px); }
+.mb-2 { margin-bottom: var(--spacing-sm, 8px); }
+.mb-3 { margin-bottom: var(--spacing-md, 12px); }
+.mb-4 { margin-bottom: var(--spacing-lg, 16px); }
+.mb-5 { margin-bottom: var(--spacing-xl, 24px); }
+
+/* Stili specifici dashboard (es. users, sales) - Assicurati usino variabili */
+.users-grid {
+  /* Assumi .grid applicato */
+  /* Override se necessario */
+   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.user-card {
+  /* Eredita da .card */
+  padding: var(--spacing-md, 1rem); /* Override padding */
+  display: flex;
+  flex-direction: column; /* Cambia layout */
+  gap: var(--spacing-sm, 1rem);
+}
+
+/* Rimuovi hover specifico se .card:hover è sufficiente */
+/* .user-card:hover { ... } */
+
+.user-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 1rem);
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color); /* Usa variabile */
+  color: var(--btn-primary-text); /* Usa variabile */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex-grow: 1;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 2px 0;
+}
+
+.user-email {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.user-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Due colonne per stats */
+  gap: var(--spacing-sm, 1rem);
+  margin-top: var(--spacing-sm, 1rem);
+  padding-top: var(--spacing-sm, 1rem);
+  border-top: 1px solid var(--border-color);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  display: block;
+}
+
+.stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  display: block;
+}
+
+.user-status {
+  margin-top: var(--spacing-sm, 1rem);
+  /* Usa classe .badge */
+}
+
+/* Rimuovi .status-active, .status-inactive, usa .badge-success, .badge-danger */
+/* .status-active { ... } */
+/* .status-inactive { ... } */
+
+
+.sales-summary {
+  /* Assumi .card applicato */
+}
+
+.stat-card { /* Stile specifico per stat card in Sales Summary? */
+  /* Rimuovi se duplicato o refattorizza */
+}
+
+/* .stat-card h3 { ... } */
+/* .stat-card p { ... } */
+
+
+.event-description {
+  /* Definito in Promoter/TeamLeader? Rimuovi se duplicato */
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: var(--spacing-sm, 0.5rem);
+}
+
+.event-description p {
+  margin-bottom: var(--spacing-xs, 0.5rem);
+}
+
+.event-dates {
+  /* Assumi .card applicato */
+  margin-top: var(--spacing-lg, 1.5rem);
+}
+
+.event-dates h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-md, 1rem);
+}
+
+.dates-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.date-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm, 0.75rem) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.date-item:last-child {
+  border-bottom: none;
+}
+
+.date-item .info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 0.75rem);
+}
+
+.date-item .icon {
+  color: var(--text-light);
+}
+
+.tickets-badge {
+  /* Usa classi .badge */
+}
+
+/* Rimuovi .tickets-badge.available, .tickets-badge.unavailable */
+/* .tickets-badge.available { ... } */
+/* .tickets-badge.unavailable { ... } */
+
+/* Responsive overrides per stili specifici */
+@media (max-width: 768px) {
+  .user-card {
+     /* Già 1 colonna da .grid override */
+  }
+  .user-stats {
+     grid-template-columns: 1fr; /* Stats in una colonna */
+     gap: var(--spacing-xs, 0.5rem);
+  }
+  .date-item {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: var(--spacing-xs, 0.5rem);
+  }
+  .date-item .info {
+     /* Mantiene layout */
+  }
+  .tickets-badge {
+     margin-left: calc(var(--spacing-sm, 0.75rem) + 16px); /* Allinea con testo sopra */
+  }
+}
+
+@media (max-width: 480px) {
+   .user-avatar {
+     width: 40px;
+     height: 40px;
+     font-size: 1rem;
+   }
+   .user-name {
+     font-size: 1rem;
+   }
+   .stat-value {
+     font-size: 0.9rem;
+   }
+   .tickets-badge {
+      padding: 3px 6px;
+      font-size: 0.7rem;
+   }
+} 

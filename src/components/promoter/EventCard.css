@@ -1,0 +1,459 @@
+/* Event Card Styles */
+.event-card {
+  background-color: var(--card-bg); /* Usa variabile */
+  border-radius: var(--border-radius-lg); /* Usa variabile */
+  box-shadow: var(--shadow-md); /* Usa variabile */
+  overflow: hidden;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  height: 100%; /* Occupa altezza contenitore grid */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.event-image {
+  height: var(--card-image-height, 180px);
+  overflow: hidden;
+  background-color: var(--border-color); /* Placeholder bg */
+}
+
+.event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* Rimuovi spazio sotto img */
+}
+
+.event-content {
+  padding: var(--card-padding, 1.25rem);
+  flex: 1; /* Occupa spazio rimanente */
+  display: flex;
+  flex-direction: column;
+}
+
+.event-content h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-sm, 0.75rem);
+  color: var(--text-primary);
+  font-size: 1.15rem; /* Leggermente ridotto */
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.event-dates {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #f0f7ff;
+  border-radius: 6px;
+  border-left: 4px solid #4a90e2;
+}
+
+.next-date {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.total-dates {
+  color: #4a90e2;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.event-date {
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.event-location, .dates-info p, .ticket-types-preview p {
+  margin-bottom: var(--spacing-xs, 0.5rem);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-location svg, .dates-info svg, .ticket-types-preview svg, .ticket-types-preview i {
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.ticket-info {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.ticket-types, .price-range, .tickets-available {
+  margin: 0.25rem 0;
+  color: #555;
+}
+
+.tickets-available {
+  font-weight: 600;
+  color: #4caf50;
+}
+
+.table-info {
+  background-color: #fff3e0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ff9800;
+}
+
+.table-info p {
+  margin: 0;
+  color: #e65100;
+  font-weight: 500;
+}
+
+/* Sezione Elenco Date */
+.event-dates-list {
+  margin-bottom: var(--spacing-md);
+}
+
+.event-dates-list h5 {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.event-dates-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-dates-list li {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-xs);
+  padding: 0.2rem 0;
+}
+
+/* Info Generali */
+.event-general-info {
+  margin-bottom: var(--spacing-md);
+}
+
+.price-range {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.availability-note {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: var(--spacing-sm);
+}
+
+.event-description {
+  background-color: var(--input-bg); /* Sfondo leggermente diverso */
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-md);
+  /* Rimuovi flex: 1; per non occupare tutto lo spazio se corto */
+}
+
+.event-description p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  /* Rimuovi webkit-line-clamp per mostrare tutta la descrizione? O mantieni? */
+  /* display: -webkit-box; 
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+
+/* Pulsante Vendita / Selettore Data */
+.sell-button, .date-select-button {
+  /* Usa stili .btn da App.css */
+  padding: 0.6rem 1.2rem; /* Leggermente più piccolo */
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  margin-top: auto; /* Spingi in fondo alla card */
+  width: 100%; /* Larghezza piena */
+  background-color: var(--success-color); /* Verde per vendere */
+  color: white;
+  border: none;
+}
+
+.sell-button:hover, .date-select-button:hover {
+  filter: brightness(90%);
+}
+
+.sell-button:disabled {
+   background-color: var(--text-light);
+   cursor: not-allowed;
+   opacity: 0.7;
+}
+
+.date-selector {
+    margin-top: auto; /* Spingi in fondo */
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.date-selector h5 {
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.date-selector ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-sm) 0;
+    max-height: 150px; /* Limita altezza se molte date */
+    overflow-y: auto;
+}
+
+.date-selector li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.date-select-button {
+    width: 100%;
+    text-align: left;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    justify-content: flex-start; /* Allinea testo a sx */
+}
+
+.date-select-button:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    filter: none;
+}
+
+.cancel-date-select {
+    /* Stile bottone secondario */
+    background-color: transparent;
+    color: var(--text-light);
+    border: none;
+    text-decoration: underline;
+    padding: 0.4rem 0;
+    font-size: 0.85rem;
+    width: auto; /* Non larghezza piena */
+    margin-top: 0;
+}
+
+.cancel-date-select:hover {
+    color: var(--text-color);
+}
+
+/* Stili per DatePicker input e container */
+.date-picker-container {
+  margin-top: auto; /* Spingi in fondo */
+  width: 100%;
+}
+
+.date-picker-input {
+  /* Stile simile ad altri input ma con icona calendario */
+  width: 100%;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius, 6px);
+  border: 1px solid var(--input-border, #ccc);
+  background-color: var(--input-bg, #fff);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: center; /* Centra il placeholder */
+  transition: border-color 0.2s ease;
+}
+
+.date-picker-input:hover {
+  border-color: var(--primary-color);
+}
+
+/* Stili per il calendario popup (opzionale, per coerenza) */
+.custom-calendar .react-datepicker__header {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.custom-calendar .react-datepicker__current-month, 
+.custom-calendar .react-datepicker-time__header, 
+.custom-calendar .react-datepicker__day-name {
+    color: white;
+    font-weight: 600;
+}
+
+.custom-calendar .react-datepicker__day--selected, 
+.custom-calendar .react-datepicker__day--keyboard-selected {
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+.custom-calendar .react-datepicker__day--in-range {
+    background-color: var(--primary-light);
+}
+
+.custom-calendar .react-datepicker__day:hover {
+     background-color: var(--primary-light);
+     opacity: 0.7;
+}
+
+/* Media Queries per Mobile */
+@media (max-width: 768px) {
+  .event-image {
+    height: 150px;
+  }
+  .event-content {
+    padding: 1rem;
+  }
+  .event-content h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+   .event-image {
+     height: 120px;
+   }
+    .event-content {
+      padding: 0.75rem;
+    }
+     .event-content h3 {
+       font-size: 1rem;
+     }
+     .event-location, .dates-info p, .ticket-types-preview p {
+        font-size: 0.8rem;
+     }
+     .sell-button, .date-picker-input {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+     }
+}
+
+/* Stili per il Modale Selezione Data */
+.date-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* Assicura che sia sopra altri elementi */
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+.date-modal-content {
+  background-color: var(--card-background, #fff);
+  padding: 25px 30px;
+  border-radius: var(--border-radius-lg, 12px);
+  box-shadow: var(--shadow-lg, 0 4px 20px rgba(0,0,0,0.2));
+  width: 90%;
+  max-width: 450px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.95);
+  animation: scaleUp 0.3s forwards;
+}
+
+.date-modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.date-modal-content h4 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border-color, #eee);
+  padding-bottom: 10px;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.modal-close-button:hover {
+  color: var(--text-primary);
+}
+
+.modal-dates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Spazio tra i pulsanti data */
+}
+
+.modal-date-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color, #ddd);
+  background-color: var(--background-color, #f9f9f9);
+  color: var(--text-primary);
+  border-radius: var(--border-radius, 6px);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.modal-date-button:hover {
+  background-color: var(--background-secondary, #f0f0f0);
+  border-color: var(--primary-color, #3498db);
+}
+
+.modal-date-button .date-text {
+  font-weight: 500;
+}
+
+.modal-date-button .availability-tag {
+  background-color: var(--primary-light, #eaf4ff);
+  color: var(--primary-dark, #2980b9);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Animazioni semplici per il modale */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  to { transform: scale(1); }
+} 

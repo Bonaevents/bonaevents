@@ -1,0 +1,229 @@
+/* Stili per TeamOverview.js */
+
+.team-overview-container {
+    padding: var(--spacing-lg, 1.5rem) 0; /* Padding solo verticale */
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Manda a capo su mobile */
+    gap: var(--spacing-md, 1rem);
+    margin-bottom: var(--spacing-lg, 1.5rem);
+    padding: var(--spacing-md, 1rem);
+    background-color: var(--input-bg); /* Leggero sfondo per header */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+  }
+  
+  .section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-color);
+  }
+  
+  .team-filters {
+    flex-grow: 1; /* Occupa spazio rimanente */
+    max-width: 400px; /* Limita larghezza su desktop */
+  }
+  
+  .search-input-team {
+    /* Eredita stile input globale o definisci qui */
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 0.95rem;
+    background-color: var(--input-bg); /* Assicura coerenza */
+    color: var(--input-text);
+  }
+  
+  .search-input-team:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-focus-shadow);
+  }
+  
+  .team-role-section {
+    margin-bottom: var(--spacing-xl, 2rem);
+  }
+  
+  .team-role-section h3 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md, 1rem);
+    padding-bottom: var(--spacing-sm, 0.5rem);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm, 0.5rem);
+  }
+  
+  .team-role-section h3 svg {
+    color: var(--primary-color); /* Colora icona titolo */
+  }
+  
+  /* Usa la classe .grid globale definita in DashboardStyles.css o App.css */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adatta minmax */
+    gap: var(--spacing-md, 1.5rem);
+  }
+  
+  .team-member-card-overview {
+    /* Eredita stili da .card se applicata la classe */
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    padding: var(--spacing-md, 1rem);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .team-member-card-overview:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+  }
+  
+  .member-header {
+    display: flex;
+    align-items: flex-start; /* Allinea in alto */
+    gap: var(--spacing-sm, 0.8rem);
+    margin-bottom: var(--spacing-md, 1rem);
+    padding-bottom: var(--spacing-md, 1rem);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .role-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white; /* Testo icona bianco */
+    font-size: 1.2rem;
+  }
+  
+  .role-icon.role-manager {
+    background-color: var(--primary-color); /* Blu per manager */
+  }
+  .role-icon.role-teamLeader {
+    background-color: var(--success-color); /* Verde per team leader */
+  }
+  .role-icon.role-promoter {
+    background-color: var(--warning-color); /* Giallo/Arancio per promoter */
+  }
+  
+  .member-info {
+    flex-grow: 1;
+    overflow: hidden; /* Evita overflow testo */
+  }
+  
+  .member-info h3 {
+    font-size: 1.1rem;
+    margin: 0 0 2px 0;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .member-info p {
+    font-size: 0.85rem;
+    margin: 2px 0;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .member-info p.email {
+    /* Stile specifico email? */
+  }
+  .member-info p.role {
+    font-weight: 500;
+  }
+  .member-info p.assigned {
+    font-style: italic;
+  }
+  
+  .member-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: var(--spacing-sm, 1rem);
+    margin-top: auto; /* Spinge le stats in basso se la card ha altezza variabile */
+  }
+  
+  .stat-item {
+    display: flex;
+    flex-direction: column; /* Icona sopra, testo sotto */
+    align-items: center;
+    text-align: center;
+    color: var(--text-light);
+  }
+  
+  .stat-item svg {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+  
+  .stat-item span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color); /* Rende il numero più evidente */
+  }
+  
+  .no-results {
+    text-align: center;
+    padding: var(--spacing-xl, 2rem);
+    color: var(--text-light);
+    font-style: italic;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section-header {
+      flex-direction: column;
+      align-items: stretch; /* Allunga elementi */
+    }
+    .search-input-team {
+       max-width: none; /* Rimuovi max-width su mobile */
+    }
+    .team-grid {
+      grid-template-columns: 1fr; /* Una colonna */
+      gap: var(--spacing-sm, 1rem);
+    }
+    .team-member-card-overview {
+       padding: var(--spacing-sm, 0.8rem);
+    }
+    .member-header {
+       gap: var(--spacing-xs, 0.5rem);
+       padding-bottom: var(--spacing-sm, 0.8rem);
+       margin-bottom: var(--spacing-sm, 0.8rem);
+    }
+     .role-icon {
+       width: 35px;
+       height: 35px;
+       font-size: 1rem;
+     }
+     .member-info h3 {
+       font-size: 1rem;
+     }
+  }
+  
+  @media (max-width: 480px) {
+     .team-role-section h3 {
+       font-size: 1.1rem;
+     }
+     .stat-item svg {
+        font-size: 1rem;
+     }
+     .stat-item span {
+        font-size: 0.85rem;
+     }
+  }

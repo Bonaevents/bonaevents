@@ -1,0 +1,162 @@
+.date-selector {
+  margin: 1.5rem 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+}
+
+.date-selector h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.date-selector-empty {
+  padding: 1rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.date-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.date-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: white;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.date-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: #4a90e2;
+}
+
+.date-item.selected {
+  border-color: #4a90e2;
+  background-color: #f0f7ff;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+}
+
+.date-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.date-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-day {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.date-time {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.date-tickets {
+  text-align: right;
+}
+
+.tickets-available {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.tickets-sold-out {
+  color: #f44336;
+  font-weight: 500;
+}
+
+.date-selected-indicator {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .date-item {
+    padding: 0.75rem;
+  }
+  
+  .date-item-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .date-tickets {
+    margin-top: 0.5rem;
+    text-align: left;
+  }
+}
+
+/* Stili per dispositivi mobili */
+@media (max-width: 768px) {
+  .date-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .date-card {
+    padding: 12px;
+  }
+
+  .date-card .date {
+    font-size: 16px;
+  }
+
+  .date-card .time {
+    font-size: 14px;
+  }
+
+  .date-card .availability {
+    font-size: 13px;
+  }
+}
+
+/* Stili per schermi molto piccoli */
+@media (max-width: 360px) {
+  .date-card {
+    padding: 10px;
+  }
+
+  .date-card .date,
+  .date-card .time {
+    font-size: 14px;
+  }
+
+  .date-card .availability {
+    font-size: 12px;
+  }
+} 

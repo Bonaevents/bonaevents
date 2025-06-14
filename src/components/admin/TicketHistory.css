@@ -1,0 +1,954 @@
+.ticket-history {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-history h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background-color: #2980b9;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter label {
+  font-weight: 500;
+  color: #555;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  min-width: 150px;
+}
+
+.tickets-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.tickets-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tickets-table th {
+  text-align: left;
+  padding: 12px 15px;
+  background-color: #3498db;
+  color: white;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+}
+
+.tickets-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.tickets-table tr:hover {
+  background-color: #f5f8fa;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-icon {
+  font-size: 16px;
+}
+
+.status-icon.active {
+  color: #27ae60;
+}
+
+.status-icon.used {
+  color: #e74c3c;
+}
+
+.status-icon.cancelled {
+  color: #7f8c8d;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.btn-action.info {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-action.info:hover {
+  background-color: #2980b9;
+}
+
+.btn-action.cancel {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-action.cancel:hover {
+  background-color: #c0392b;
+}
+
+.btn-action.restore {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-action.restore:hover {
+  background-color: #219653;
+}
+
+.btn-action.whatsapp {
+  background-color: #25D366;
+  color: white;
+}
+
+.btn-action.whatsapp:hover {
+  background-color: #128C7E;
+}
+
+.btn-action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Stili per gli status nella tabella */
+tr.status-active {
+  background-color: rgba(39, 174, 96, 0.05);
+}
+
+tr.status-used {
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+tr.status-cancelled {
+  background-color: rgba(127, 140, 141, 0.05);
+}
+
+/* Stili per i nuovi stati dei biglietti */
+tr.status-disabled {
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+tr.status-deleted {
+  background-color: rgba(127, 140, 141, 0.05);
+}
+
+/* Modal dei dettagli */
+.details-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.details-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.details-content h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.ticket-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.detail-group {
+  flex: 1 1 45%;
+  min-width: 250px;
+}
+
+.detail-group h4 {
+  font-size: 18px;
+  color: #3498db;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #555;
+  min-width: 130px;
+}
+
+.detail-value {
+  color: #333;
+}
+
+.detail-value.status-active {
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.detail-value.status-used {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.detail-value.status-cancelled {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.details-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.btn-close,
+.btn-cancel,
+.btn-restore {
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-close {
+  background-color: #ecf0f1;
+  color: #555;
+}
+
+.btn-close:hover {
+  background-color: #dde4e6;
+}
+
+.btn-cancel {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #c0392b;
+}
+
+.btn-restore {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-restore:hover {
+  background-color: #219653;
+}
+
+.btn-close:disabled,
+.btn-cancel:disabled,
+.btn-restore:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading, error e success */
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #3498db;
+  font-weight: 500;
+}
+
+.error-message {
+  background-color: #fdeded;
+  color: #ef5350;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid #ef5350;
+}
+
+.success-message {
+  background-color: #edf7ed;
+  color: #27ae60;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid #27ae60;
+}
+
+.no-tickets {
+  text-align: center;
+  padding: 30px;
+  color: #7f8c8d;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 0;
+}
+
+.pagination-btn {
+  padding: 8px 15px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-btn:hover {
+  background-color: #2980b9;
+}
+
+.pagination-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ticket-history {
+    padding: 15px;
+  }
+  .tickets-table-container {
+    /* Nessuna modifica necessaria qui, overflow-x gestisce lo scroll */
+  }
+  .tickets-table {
+    font-size: 13px; /* Leggermente più piccolo */
+  }
+  .tickets-table th,
+  .tickets-table td {
+    padding: 10px 8px; /* Padding ridotto ma bilanciato */
+    white-space: nowrap; /* Evita che il testo vada a capo facilmente */
+  }
+
+  .tickets-table td {
+      white-space: normal; /* Permetti a capo nelle celle dati */
+  }
+
+  .tickets-table th:first-child,
+  .tickets-table td:first-child {
+      white-space: normal; /* Permetti a capo nella prima colonna (es. codice) */
+  }
+
+  .actions {
+    /* Già gestito nel blocco successivo per .ticket-actions */
+  }
+  .btn-action {
+     /* Questi stili .btn-action sembrano vecchi, usiamo .action-btn */
+  }
+  .details-content {
+    padding: 1.5rem; /* Mantenuto dal blocco esistente */
+  }
+  .ticket-details {
+    /* Mantenuto dal blocco esistente */
+  }
+  .detail-group {
+   /* Mantenuto dal blocco esistente */
+  }
+  .details-actions {
+    flex-direction: column; /* Pulsanti modale in colonna */
+    gap: 10px;
+  }
+  .btn-whatsapp,
+  .btn-close {
+    width: 100%; /* Pulsanti modale a larghezza piena */
+  }
+  .qr-code-container {
+    /* Mantenuto dal blocco esistente */
+  }
+  .qr-image {
+    /* Mantenuto dal blocco esistente */
+  }
+  .filters-container {
+    padding: 10px;
+  }
+  .search-container {
+    flex-direction: column; /* Impila ricerca e bottone */
+    gap: 8px;
+  }
+  .search-input,
+  .search-button {
+      width: 100%; /* Larghezza piena per input e bottone */
+  }
+
+  .filters {
+      flex-direction: column; /* Impila i filtri */
+      align-items: stretch; /* Allunga i filtri */
+  }
+  .filter {
+      justify-content: space-between; /* Allinea label e select */
+  }
+  .filter-select {
+     flex-grow: 1; /* Permette al select di espandersi */
+     min-width: 0; /* Resetta min-width */
+  }
+
+  /* Rimuove hover specifico per touch */
+  .tickets-table tr:hover {
+      background-color: inherit;
+  }
+}
+
+@media (max-width: 480px) {
+    .tickets-table {
+        font-size: 12px; /* Ancora più piccolo */
+    }
+
+    .tickets-table th,
+    .tickets-table td {
+        padding: 8px 5px; /* Padding minimo */
+    }
+
+    .ticket-actions {
+      /* Stili esistenti per stack verticale */
+      gap: 8px; /* Spazio tra pulsanti impilati */
+    }
+    .action-btn {
+      min-width: 44px; /* Area tocco minima */
+      min-height: 44px;
+      padding: 10px; /* Più padding interno */
+      /* Testo e icona già gestiti */
+    }
+
+    .details-content h3 {
+        font-size: 1.2rem; /* Riduci heading nel modale */
+    }
+
+    .detail-row {
+        flex-direction: column; /* Impila label e valore nel modale */
+        align-items: flex-start;
+        gap: 2px;
+    }
+    .detail-label {
+        font-weight: bold;
+    }
+    .close-button {
+        font-size: 1.8rem; /* Assicura che X sia grande */
+        padding: 5px;
+    }
+}
+
+.qr-code-container {
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15px 0;
+}
+
+.qr-code {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.qr-image {
+  max-width: 200px;
+  height: auto;
+  display: block;
+}
+
+.btn-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: #25D366;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  width: auto;
+  min-width: 200px;
+}
+
+.btn-whatsapp:hover {
+  background-color: #128C7E;
+  transform: translateY(-1px);
+}
+
+.btn-whatsapp svg {
+  font-size: 18px;
+}
+
+/* Stili per il pulsante WhatsApp nella tabella */
+.btn-action.whatsapp {
+  background-color: #25D366;
+  color: white;
+  position: relative;
+}
+
+.btn-action.whatsapp:hover {
+  background-color: #128C7E;
+  transform: scale(1.1);
+}
+
+.btn-action.whatsapp::after {
+  content: 'WhatsApp';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+}
+
+.btn-action.whatsapp:hover::after {
+  opacity: 1;
+  visibility: visible;
+  bottom: 120%;
+}
+
+@media (max-width: 768px) {
+  .btn-action.whatsapp::after {
+    display: none;
+  }
+}
+
+/* Nuovi stili per bottoni Abilita/Disabilita - Aumento specificità */
+.btn-action.btn-action-disable {
+  /* Forza il colore di sfondo */
+  background-color: var(--error-color) !important;
+  color: var(--btn-primary-text) !important; /* O bianco puro #fff */
+}
+
+.btn-action.btn-action-disable:hover:not(:disabled) {
+  /* Forza il colore hover */
+  background-color: var(--error-hover-color, #d32f2f) !important;
+}
+
+.btn-action.btn-action-enable {
+  /* Forza il colore di sfondo */
+  background-color: var(--success-color) !important;
+  color: var(--btn-primary-text) !important;
+}
+
+.btn-action.btn-action-enable:hover:not(:disabled) {
+  /* Forza il colore hover */
+  background-color: var(--success-hover-color, #388e3c) !important;
+}
+
+/* Assicurati che gli stili :disabled siano coerenti */
+.btn-action.btn-action-disable:disabled,
+.btn-action.btn-action-enable:disabled {
+  opacity: 0.65 !important; /* Usa opacità globale */
+  cursor: not-allowed !important;
+  background-color: grey !important; /* O un colore neutro disabilitato */
+  color: #ccc !important;
+}
+
+/* Stili per lo stato del biglietto */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.validated {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.disabled {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-badge.cancelled {
+  background-color: #f5f5f5;
+  color: #616161;
+}
+
+.status-badge.sold {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+/* Stili per i pulsanti delle azioni */
+.ticket-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.action-btn {
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  min-width: 36px;
+  height: 36px;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Stili specifici per ogni tipo di pulsante */
+.details-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.enable-btn {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.disable-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #c0392b;
+  color: white;
+}
+
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+}
+
+/* Hover effects */
+.action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Responsive design per i pulsanti */
+@media (max-width: 768px) {
+  .ticket-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-start;
+  }
+
+  .action-btn {
+    padding: 6px;
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+}
+
+  /* Stack verticale su schermi molto piccoli */
+  @media (max-width: 480px) {
+    .ticket-actions {
+      flex-direction: column;
+      align-items: stretch;
+    gap: 6px;
+    padding: 5px 0;
+    }
+
+    .action-btn {
+    display: flex;
+      width: 100%;
+    height: auto;
+    padding: 10px 12px;
+    margin: 2px 0;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    border-radius: 6px;
+    }
+
+  /* Mostra sempre le etichette testuali per i pulsanti su mobile */
+    .action-btn::after {
+      content: attr(title);
+    margin-left: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-block;
+    }
+
+  /* Assicura che le icone siano sempre visibili e di dimensione appropriata */
+    .action-btn svg {
+    display: inline-block !important;
+    font-size: 1.1rem;
+    min-width: 18px;
+  }
+
+  /* Migliora i colori specifici per ogni pulsante per garantire contrasto */
+  .details-btn {
+    background-color: #2980b9;
+  }
+
+  .enable-btn {
+    background-color: #27ae60;
+  }
+
+  .disable-btn {
+    background-color: #e74c3c;
+  }
+
+  .delete-btn {
+    background-color: #c0392b;
+    }
+
+  .whatsapp-btn {
+    background-color: #25D366;
+  }
+}
+
+/* Miglioramento visibilità dei pulsanti di azione */
+.action-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.action-btn:hover::before {
+  opacity: 1;
+}
+
+/* Animazioni per i pulsanti */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.action-btn:active {
+  animation: pulse 0.2s ease-in-out;
+}
+
+/* Miglioramento accessibilità */
+.action-btn:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+.action-btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Stili specifici per ogni tipo di pulsante */
+.details-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.enable-btn {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.disable-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #c0392b;
+  color: white;
+}
+
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+}
+
+/* Stili per i badge di stato */
+.status-badge.disabled {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-badge.deleted {
+  background-color: #f5f5f5;
+  color: #616161;
+}
+
+/* Stili per il messaggio dello scanner */
+.scanner-message {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background-color: #f8f9fa;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+/* Responsive per il messaggio dello scanner */
+@media (max-width: 768px) {
+  .scanner-message {
+    display: block;
+    margin-top: 4px;
+    margin-left: 0;
+    text-align: center;
+  }
+} 

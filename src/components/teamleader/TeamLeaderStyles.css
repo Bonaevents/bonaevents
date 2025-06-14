@@ -1,0 +1,951 @@
+.promoters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.promoter-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  overflow: hidden;
+}
+
+.promoter-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.1), rgba(var(--secondary-color-rgb), 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.promoter-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  border-color: var(--primary-color);
+}
+
+.promoter-card:hover::before {
+  opacity: 1;
+}
+
+.promoter-card::after {
+  content: 'Vedi statistiche →';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-top-left-radius: 12px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.promoter-card:hover::after {
+  transform: translateY(0);
+}
+
+.promoter-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.promoter-card:hover .avatar-circle {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.promoter-info {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.promoter-info h3 {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.promoter-card:hover .promoter-info h3 {
+  color: var(--primary-color);
+}
+
+.promoter-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.promoter-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.1), rgba(var(--secondary-color-rgb), 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.promoter-card:hover .stat-item {
+  background: #f0f4ff;
+  transform: translateY(-2px);
+}
+
+.promoter-card:hover .stat-item::before {
+  opacity: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.promoter-card:hover .stat-label {
+  color: var(--primary-color);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.promoter-card:hover .stat-value {
+  transform: scale(1.05);
+  color: var(--secondary-color);
+}
+
+/* Stili per il modale delle statistiche */
+.statistics-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: #f0f0f0;
+  color: var(--primary-color);
+}
+
+.promoter-summary {
+  border-radius: 12px;
+  margin-bottom: 32px;
+  background: #f8f9fa;
+  padding: 20px;
+}
+
+.promoter-summary p {
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.promoter-summary strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* Stili Base Tabella (per Desktop/Tablet) */
+.events-stats-table {
+  margin-top: 32px;
+  /* Rimosso display: flex, justify-content, overflow-x */
+}
+
+.events-stats-table table {
+  width: 100%; /* Torna a 100% per layout base */
+  border-collapse: separate; 
+  border-spacing: 0;
+  margin-top: 0; 
+  /* Rimuovi min-width */
+}
+
+.events-stats-table th,
+.events-stats-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+  text-align: left;
+  /* Manteniamo nowrap per desktop */
+  white-space: nowrap; 
+}
+
+.events-stats-table th {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.events-stats-table tr:hover {
+  background: #f8f9fa;
+}
+
+/* Stili per il contenitore della ricerca */
+.search-filter-container {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.stats-search-input {
+  width: 100%;
+  padding: 12px 12px 12px 40px; /* Padding a sinistra per icona */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+/* Stili per Dark Mode Search */
+@media (prefers-color-scheme: dark) {
+  .stats-search-input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #eee;
+  }
+  .search-icon {
+    color: #aaa;
+  }
+}
+
+/* ... (altri stili mobile) ... */
+
+.loading, .no-data {
+  text-align: center;
+  padding: 48px;
+  color: #666;
+  font-size: 1.1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin: 24px;
+}
+
+@media (max-width: 768px) {
+  .promoters-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .modal-content {
+    padding: 24px;
+    width: 95%;
+  }
+
+  /* Nascondi header tabella */
+  .events-stats-table thead {
+    display: none;
+  }
+
+  /* Righe diventano Card */
+  .events-stats-table tr {
+    display: block;
+    background: var(--card-bg-secondary, #ffffff);
+    border: 1px solid var(--border-color-light, #eaeaea);
+    border-radius: 10px;
+    padding: 1.25rem; /* 20px */
+    margin-bottom: 1rem; /* 16px */
+    box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.04));
+  }
+  .events-stats-table tr:hover {
+      background: var(--card-bg-secondary, #ffffff); /* Rimuovi hover di riga */
+      box-shadow: var(--shadow-md, 0 4px 10px rgba(0,0,0,0.06)); /* Aggiungi effetto ombra su hover */
+      transform: translateY(-2px);
+  }
+
+  /* Celle diventano righe Label/Value */
+  .events-stats-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Allinea all'inizio per testi lunghi */
+    padding: 0.6rem 0; /* ~10px */
+    border-bottom: 1px solid var(--border-color-ultralight, #f0f0f0);
+    white-space: normal; /* TESTO A CAPO! */
+    text-align: right; /* Allinea valore a destra */
+    line-height: 1.4;
+  }
+  .events-stats-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Stile Etichetta (Label) */
+  .events-stats-table td::before {
+    content: attr(data-label); /* Prende da data-label nel JSX */
+    font-weight: 500;
+    color: var(--text-light, #555);
+    margin-right: 1rem; /* Spazio tra label e valore */
+    text-align: left;
+    flex-shrink: 0;
+    width: 90px; /* Larghezza fissa per allineamento etichette */
+  }
+
+  /* Stile Valore (Contenuto originale della cella) */
+  /* Selettore generico per il valore */
+   .events-stats-table td {
+        font-weight: 500;
+        color: var(--text-color, #333);
+        font-size: 0.95rem; 
+        word-break: break-word; /* A capo se il valore è troppo lungo */
+   }
+
+   /* Stili Card Dark Mode */
+   @media (prefers-color-scheme: dark) {
+        .events-stats-table tr {
+           background: var(--card-bg-dark, #2a2a2a);
+           border-color: var(--border-color-dark, #404040);
+        }
+        .events-stats-table td {
+            color: var(--text-color-dark, #ddd);
+            border-color: var(--border-color-darker, #353535);
+        }
+        .events-stats-table td::before {
+            color: var(--text-light-dark, #aaa);
+        }
+        /* Valore in Dark mode */
+        .events-stats-table td {
+           color: var(--text-color-dark, #eee);
+           font-weight: 500;
+        }
+   }
+
+  /* Rimuovi/Commenta le vecchie regole di overflow se ancora presenti qui */
+  /* .events-stats-table {
+    overflow-x: auto; 
+    margin: 0 -24px; 
+    padding: 0 24px; 
+  } */
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .promoter-card {
+    background: #1a1a1a;
+    border-color: #333;
+  }
+
+  .promoter-card::before {
+    background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.15), rgba(var(--secondary-color-rgb), 0.15));
+  }
+
+  .promoter-card:hover {
+    border-color: var(--accent-color);
+  }
+
+  .promoter-info h3 {
+    color: #fff;
+  }
+
+  .promoter-card:hover .promoter-info h3 {
+    color: var(--accent-color);
+  }
+
+  .promoter-info p {
+    color: #ccc;
+  }
+
+  .stat-item {
+    background: #2d2d2d;
+  }
+
+  .promoter-card:hover .stat-item {
+    background: #363636;
+  }
+
+  .stat-label {
+    color: #ccc;
+  }
+
+  .promoter-card:hover .stat-label {
+    color: var(--accent-color);
+  }
+
+  .modal-content {
+    background: #1a1a1a;
+  }
+
+  .modal-header {
+    border-color: #333;
+  }
+
+  .modal-header h2 {
+    color: #fff;
+  }
+
+  .close-button {
+    color: #ccc;
+  }
+
+  .close-button:hover {
+    background: #2d2d2d;
+    color: var(--accent-color);
+  }
+
+  .promoter-summary {
+    background: #2d2d2d;
+  }
+
+  .promoter-summary p {
+    color: #ccc;
+  }
+
+  .promoter-summary strong {
+    color: #fff;
+  }
+
+  .events-stats-table td {
+    border-color: #333;
+    color: #ccc;
+  }
+
+  .events-stats-table tr:hover {
+    background: #2d2d2d;
+  }
+
+  .loading, .no-data {
+    background: #2d2d2d;
+    color: #ccc;
+  }
+}
+
+/* Nuova classe per griglia stats generali */
+.stats-grid {
+  display: grid;
+  /* Crea colonne flessibili, minimo 120px */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+  gap: 15px; 
+}
+
+.summary-stat-item {
+  background-color: white; /* Sfondo per ogni item */
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  text-align: center; /* Centra contenuto */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.summary-value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.summary-value.email {
+  font-size: 0.9rem; /* Riduci dimensione per email lunga */
+  word-break: break-all; /* Forza a capo per email lunghe */
+}
+
+/* Dark Mode per Summary Grid */
+@media (prefers-color-scheme: dark) {
+  .promoter-summary {
+    background: #2d2d2d;
+  }
+  .summary-stat-item {
+    background-color: #383838;
+    border-color: #454545;
+  }
+  .summary-label {
+    color: #aaa;
+  }
+  .summary-value {
+    color: #eee;
+  }
+}
+
+/* Responsive styles for PromoterStats Detail Table */
+.ticket-type-detail-table-wrapper {
+  overflow-x: auto; /* Add horizontal scroll if needed on very small screens */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9; /* Slightly different background for detail */
+  border-radius: 4px;
+}
+
+.ticket-type-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-type-detail-table th,
+.ticket-type-detail-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9em; /* Slightly smaller font for detail */
+}
+
+.ticket-type-detail-table th {
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.ticket-type-detail-table td[data-label="Codici"] {
+  word-break: break-all; /* Break long code strings */
+  max-width: 150px; /* Limit width if needed */
+  white-space: normal; /* Allow wrapping */
+}
+
+/* Mobile specific styles for PromoterStats Detail Table */
+@media (max-width: 768px) {
+  .ticket-type-detail-table thead {
+    display: none; /* Hide table header on mobile */
+  }
+
+  .ticket-type-detail-table tr {
+    display: block; /* Stack rows vertically */
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #fff; /* White background for each card-like row */
+  }
+
+  .ticket-type-detail-table td {
+    display: flex; /* Use Flexbox */
+    justify-content: space-between; /* Space between label and value */
+    align-items: flex-start; /* Align items at the start vertically */
+    text-align: left; /* Reset text-align */
+    padding: 8px 0; /* Adjust padding */
+    position: relative;
+    border-bottom: 1px solid #eee; /* Add subtle border between fields */
+  }
+
+  .ticket-type-detail-table tr:last-child td:last-child {
+      border-bottom: none; /* Remove border for the very last item */
+  }
+
+  .ticket-type-detail-table td::before {
+    text-align: left;
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px; 
+    flex-shrink: 0; 
+    width: 110px; /* Give label a fixed width */
+    display: inline-block; /* Ensure width is respected */
+  }
+
+  /* We need to wrap the actual value in a span or div in the JSX for this to work perfectly */
+  /* This CSS assumes the value is the direct text content of the TD after the ::before */
+  .ticket-type-detail-table td > :last-child {
+      text-align: right; /* Align the actual value to the right */
+      word-break: break-word; /* Allow value to wrap */
+      flex-grow: 1; /* Allow value to take remaining space */
+  }
+
+  /* Adjust specific columns for mobile */
+  .ticket-type-detail-table td[data-label="Codici"]::before {
+    content: "Codici:";
+  }
+   .ticket-type-detail-table td[data-label="Tipo"]::before {
+    content: "Tipo:";
+  }
+   .ticket-type-detail-table td[data-label="Quantità"]::before {
+    content: "Quantità:";
+  }
+  .ticket-type-detail-table td[data-label="Prezzo Unitario"]::before {
+    content: "Prezzo Unit.:"; /* Abbreviate label */
+  }
+  .ticket-type-detail-table td[data-label="Incasso"]::before {
+    content: "Incasso:";
+  }
+  .ticket-type-detail-table td[data-label="Commissione"]::before {
+    content: "Commissione:";
+  }
+    .ticket-type-detail-table td[data-label="Tavolo"]::before {
+    content: "Tavolo:";
+  }
+}
+
+/* === Stili per Modale Dettaglio Evento === */
+.event-detail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Sfondo più scuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* Assicura sia sopra altri modali se necessario */
+  padding: 15px;
+}
+
+.event-detail-modal-content {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 700px; /* Larghezza massima modale dettaglio */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* Riutilizziamo modal-header, ma possiamo aggiungere specificità se serve */
+.event-detail-modal-content .modal-header {
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  border-color: #e5e5e5;
+}
+.event-detail-modal-content .modal-header h2 {
+    font-size: 1.5rem;
+}
+
+/* Riutilizziamo close-button */
+.event-detail-modal-content .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+/* Adattiamo wrapper e tabella per il modale */
+.modal-table-wrapper {
+  margin-top: 0; /* Rimuoviamo margine extra nel modale */
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Riutilizziamo stili .ticket-type-detail-table e media query mobile */
+/* Gli stili per .ticket-type-detail-table e @media (max-width: 768px) definiti prima */
+/* dovrebbero funzionare anche qui, poiché le classi sono le stesse. */
+/* Assicuriamoci solo che non ci siano conflitti o sovrascritture indesiderate. */
+
+/* Se necessario, si possono aggiungere regole più specifiche: */
+/* .event-detail-modal-content .ticket-type-detail-table { ... } */
+
+/* Dark Mode per Modale Dettaglio */
+@media (prefers-color-scheme: dark) {
+  .event-detail-modal-content {
+    background-color: #282828; /* Sfondo scuro per modale dettaglio */
+  }
+  .event-detail-modal-content .modal-header {
+    border-color: #444;
+  }
+  .event-detail-modal-content .modal-header h2 {
+      color: #eee;
+  }
+  .event-detail-modal-content .close-button {
+      color: #bbb;
+  }
+   .event-detail-modal-content .close-button:hover {
+      background-color: #3a3a3a;
+      color: #fff;
+  }
+  /* Adattare stili tabella dettaglio per dark mode se non già fatto */
+  .event-detail-modal-content .ticket-type-detail-table-wrapper {
+      background-color: transparent;
+  }
+   .event-detail-modal-content .ticket-type-detail-table th {
+      background-color: #3a3a3a;
+      color: #eee;
+  }
+   .event-detail-modal-content .ticket-type-detail-table td {
+      border-color: #444;
+      color: #ccc;
+  }
+   .event-detail-modal-content .ticket-type-detail-table tr:not(:last-child) td {
+       border-bottom: 1px solid #444;
+   }
+  .event-detail-modal-content .ticket-type-detail-table td::before {
+    color: #aaa;
+  }
+  .event-detail-modal-content .ticket-type-detail-table td > span {
+      color: #eee;
+  }
+  /* Stili per righe mobile in dark mode */
+  @media (max-width: 768px) {
+      .event-detail-modal-content .ticket-type-detail-table tr {
+            background-color: #333;
+            border-color: #484848;
+      }
+  }
+
+}
+
+/* Aggiungiamo stile cursore per le righe cliccabili */
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.clickable-row:hover {
+    background-color: #f0f4ff; /* O un colore adatto al tema */
+}
+@media (prefers-color-scheme: dark) {
+    .clickable-row:hover {
+        background-color: #303848; /* Colore hover scuro */
+    }
+}
+
+/* Specific styles for the detail table INSIDE the event detail modal */
+.event-detail-modal-content .ticket-type-detail-table-wrapper {
+  /* Reset potentially conflicting styles */
+  background-color: transparent; 
+  margin-top: 0;
+  padding: 0;
+  overflow-x: auto; /* Ensure horizontal scroll works if needed */
+}
+
+.event-detail-modal-content .ticket-type-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.event-detail-modal-content .ticket-type-detail-table th,
+.event-detail-modal-content .ticket-type-detail-table td {
+  padding: 9px 12px; /* Slightly more padding */
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.9em;
+  color: #333; /* Explicit text color */
+  vertical-align: top; /* Align text top */
+}
+
+.event-detail-modal-content .ticket-type-detail-table th {
+  background-color: #f2f2f2; /* Lighter header */
+  font-weight: 600; /* Bolder header */
+  color: #111;
+}
+
+.event-detail-modal-content .ticket-type-detail-table td[data-th="Codici"] span {
+  word-break: break-all; 
+  white-space: normal; 
+  display: block; /* Ensure block display for wrapping */
+  max-width: 250px; /* Allow more width for codes */
+}
+
+/* Mobile specific styles for the detail table INSIDE the modal */
+@media (max-width: 768px) {
+  .event-detail-modal-content .ticket-type-detail-table thead {
+    display: none;
+  }
+
+  .event-detail-modal-content .ticket-type-detail-table tr {
+    display: block; 
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* Slightly darker border for card */
+    border-radius: 6px;
+    padding: 12px;
+    background-color: #fff; 
+  }
+
+  .event-detail-modal-content .ticket-type-detail-table td {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+    text-align: left; 
+    padding: 8px 0; 
+    position: relative;
+    border-bottom: 1px solid #eee;
+    color: #444; /* Ensure text color */
+  }
+
+  .event-detail-modal-content .ticket-type-detail-table tr:last-child td:last-child {
+      border-bottom: none;
+  }
+
+  .event-detail-modal-content .ticket-type-detail-table td::before {
+    text-align: left;
+    font-weight: bold;
+    color: #111; /* Darker label color */
+    margin-right: 15px; 
+    flex-shrink: 0; 
+    width: 100px; /* Slightly smaller width for label */
+    display: inline-block; 
+  }
+
+  .event-detail-modal-content .ticket-type-detail-table td > span {
+      text-align: right; 
+      word-break: break-word; 
+      flex-grow: 1; 
+      color: #333; /* Ensure value color */
+  }
+
+  /* Adjust specific columns labels for mobile inside modal */
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Codici"]::before { content: "Codici:"; }
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Tipo"]::before { content: "Tipo:"; }
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Quantità"]::before { content: "Quantità:"; }
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Prezzo Unitario"]::before { content: "Prezzo U.:"; } /* Shorter */
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Incasso"]::before { content: "Incasso:"; }
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Commissione"]::before { content: "Commiss.:"; } /* Shorter */
+  .event-detail-modal-content .ticket-type-detail-table td[data-th="Tavolo"]::before { content: "Tavolo:"; }
+}
+
+/* Dark Mode for Detail Table INSIDE Modal - Increased Specificity */
+@media (prefers-color-scheme: dark) {
+
+  /* ... (other dark mode styles) ... */
+
+  .event-detail-modal-content .ticket-type-detail-table th {
+      background-color: #3a3a3a;
+      color: #eee;
+      border-color: #4a4a4a;
+  }
+   .event-detail-modal-content .ticket-type-detail-table td {
+      border-color: #4a4a4a;
+      color: #ccc; /* Explicit dark mode text color */
+  }
+   .event-detail-modal-content .ticket-type-detail-table tr:not(:last-child) td {
+       /* border-bottom: 1px solid #4a4a4a; Re-evaluate if needed */
+   }
+  .event-detail-modal-content .ticket-type-detail-table td::before {
+    color: #aaa; /* Explicit dark mode label color */
+  }
+  .event-detail-modal-content .ticket-type-detail-table td > span {
+      color: #eee; /* Explicit dark mode value color */
+  }
+  /* Mobile card styles in dark mode */
+  @media (max-width: 768px) {
+      .event-detail-modal-content .ticket-type-detail-table tr {
+            background-color: #333;
+            border-color: #484848;
+      }
+       .event-detail-modal-content .ticket-type-detail-table td {
+           border-color: #4a4a4a;
+           color: #ddd; /* Ensure text visibility */
+       }
+       .event-detail-modal-content .ticket-type-detail-table td::before {
+           color: #bbb; /* Ensure label visibility */
+       }
+        .event-detail-modal-content .ticket-type-detail-table td > span {
+           color: #eee; /* Ensure value visibility */
+       }
+  }
+}

@@ -1,0 +1,444 @@
+/* Stili Base Modal Vendita */
+.sell-ticket-modal {
+  /* Eredita da .modal-content in AdminStyles.css o App.css */
+  max-width: 550px; /* Leggermente più largo */
+}
+
+.sell-ticket-modal h2 {
+    /* Eredita da .modal-content h2 */
+    font-size: 1.4rem;
+    margin-bottom: 1rem; /* Riduci spazio sotto */
+}
+
+/* Sovrascrivi se necessario o usa classi globali */
+.sell-ticket-modal .modal-header {
+  /* Rimosso se usa la struttura globale */
+  /* Aggiungere qui se necessario per dare contesto al pulsante */
+  position: relative; /* Assicura che top/right del pulsante siano relativi all'header */
+  padding: 1rem 1.5rem; /* Padding standard header modale */
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sell-ticket-modal .close-button {
+  /* Usa .close-modal-btn da AdminStyles */
+  /* Rimuoviamo le sovrascritture specifiche */
+  /* position: absolute; */
+  /* top: 5px; */
+  /* right: 10px; */
+  /* font-size: 1.6rem; */
+  /* ... eventuali altri stili specifici aggiunti verranno ereditati o rimossi ... */
+}
+
+/* .sell-ticket-modal .close-button:hover {
+    color: var(--error-color); 
+} */
+
+.sell-ticket-modal p strong {
+    color: var(--text-light);
+    margin-right: 0.5rem;
+}
+
+.sell-form {
+    margin-top: 1rem;
+}
+
+/* Stili sezioni form */
+.sell-form .form-section {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: var(--input-bg); /* Usa variabile */
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color); /* Usa variabile */
+}
+
+.sell-form .form-section h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--primary-color); /* Usa variabile */
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.sell-form .form-section h4 svg {
+  color: inherit; /* Eredita colore da h4 */
+  font-size: 1em;
+  margin-right: 0.2rem;
+}
+
+/* Stili gruppi form */
+.sell-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.sell-form .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.sell-form .form-group label {
+  display: flex; /* Allinea icona e testo */
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-light); /* Usa variabile */
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.sell-form .form-group label svg {
+    font-size: 1em; /* Dimensione icona */
+    color: var(--text-light); /* Colore icona */
+}
+
+/* Input, Select */
+.sell-form .form-group input[type="text"],
+.sell-form .form-group input[type="email"],
+.sell-form .form-group input[type="tel"],
+.sell-form .form-group input[type="number"],
+.sell-form .form-group select {
+  /* Usa stili globali da App.css */
+  width: 100%; /* Assicura larghezza piena se non ereditato */
+  background-color: var(--background-color); /* Sfondo leggermente diverso da input base? */
+}
+
+/* Input Quantità */
+.sell-form .form-group input[type="number"] {
+  width: 80px; /* Larghezza fissa per quantità */
+  padding-right: 0.5rem; 
+  text-align: center;
+}
+.sell-form .form-group span {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-left: 0.5rem;
+}
+
+/* Checkbox per Tavolo */
+.sell-form .form-group.table-option label {
+    font-weight: normal; /* Rendi meno prominente */
+    color: var(--text-color);
+}
+
+.sell-form .form-group.table-option input[type="checkbox"] {
+     width: auto;
+     height: auto;
+     margin-right: 0.5rem;
+     accent-color: var(--primary-color);
+}
+
+/* Stile per select disabilitate */
+.sell-form .form-group select option:disabled {
+    color: var(--text-light); 
+    font-style: italic;
+}
+
+/* Riepilogo Prezzo */
+.sell-form .price-summary {
+  /* Rimosso - Integrato in .summary-actions */
+}
+
+.sell-form .summary-actions {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.sell-form .total-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Metti a dx il prezzo */
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem; /* Spazio prima dei bottoni */
+}
+
+.sell-form .total-price strong {
+    color: var(--primary-color); /* Evidenzia prezzo */
+}
+
+.sell-form .total-price svg {
+    margin-right: 0.3rem;
+    color: var(--primary-color);
+}
+
+/* Messaggio Warning/Unavailable */
+.warning-message, .unavailable-message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+}
+
+.warning-message {
+    background-color: rgba(var(--warning-color-rgb, 255, 193, 7), 0.1);
+    color: var(--warning-color);
+    border: 1px solid var(--warning-color);
+}
+
+.unavailable-message {
+     background-color: rgba(var(--error-color-rgb, 244, 67, 54), 0.08);
+     color: var(--error-color);
+     text-align: center;
+     border: 1px solid rgba(var(--error-color-rgb, 244, 67, 54), 0.3);
+}
+
+.unavailable-message .modal-actions {
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+
+/* Azioni Modal */
+.sell-form .modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0; /* Rimosso margine sopra se dentro .summary-actions */
+  padding-top: 0; /* Rimosso padding sopra se dentro .summary-actions */
+  border-top: none; /* Rimosso bordo sopra se dentro .summary-actions */
+}
+
+.sell-confirm-btn, .cancel-btn {
+  /* Ereditano da .btn */
+  flex: 1; /* Occupa spazio uguale */
+}
+
+.sell-confirm-btn {
+    background-color: var(--success-color); /* Verde conferma */
+    color: white;
+}
+.sell-confirm-btn:hover {
+     filter: brightness(90%);
+}
+
+.cancel-btn {
+  /* Usa stile secondario globale */
+   background-color: var(--input-bg);
+   color: var(--text-color);
+   border: 1px solid var(--border-color);
+}
+.cancel-btn:hover {
+   filter: brightness(95%);
+}
+
+.sell-confirm-btn:disabled {
+   background-color: var(--text-light);
+  cursor: not-allowed;
+   opacity: 0.7;
+   filter: grayscale(50%);
+}
+
+/* Responsività */
+@media (max-width: 768px) {
+   .sell-ticket-modal {
+     max-width: 95%;
+   }
+   .sell-form .form-section {
+       padding: 1rem;
+   }
+    .sell-form .modal-actions {
+     flex-direction: column;
+     gap: 0.8rem;
+   }
+   .sell-form .modal-actions button {
+     width: 100%;
+   }
+   /* Rimuoviamo anche le regole aggiunte per mobile */
+   /* .close-button {
+     position: absolute;
+     top: 5px;
+     right: 10px;
+     z-index: 10;
+     ...
+   } */
+   /* .close-button:hover {
+       color: var(--error-color);
+   } */
+}
+
+@media (max-width: 480px) {
+    .sell-ticket-modal h2 {
+        font-size: 1.2rem;
+    }
+    .sell-form .form-section {
+        padding: 0.8rem;
+    }
+    .sell-form .form-section h4 {
+        font-size: 1rem;
+    }
+     .sell-form .total-price {
+         font-size: 1.1rem;
+  }
+}
+
+/* Stili per dispositivi mobili */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 0;
+  }
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-header {
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .close-button {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  .event-info {
+    margin-bottom: 1rem;
+  }
+
+  .event-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .form-section {
+    margin-bottom: 1.2rem;
+  }
+
+  .form-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .date-selector {
+    margin-bottom: 1rem;
+  }
+
+  .date-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .date-item {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .date-info {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .date-day {
+    font-size: 1rem;
+  }
+
+  .date-time {
+    font-size: 0.9rem;
+  }
+
+  .available-tickets {
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+  }
+
+  .price-summary {
+    margin: 1rem 0;
+    padding: 0.8rem;
+  }
+
+  .total-price {
+    font-size: 1.2rem;
+  }
+
+  .modal-actions {
+    margin-top: auto;
+    padding: 1rem 0;
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    flex: 1;
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .whatsapp-icon {
+    font-size: 1.1rem;
+    margin-left: 0.4rem;
+  }
+
+  .error-message {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Stili per schermi molto piccoli */
+@media (max-width: 360px) {
+  .modal-content {
+    padding: 12px;
+  }
+
+  .form-group.total-price {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+/* Ottimizzazioni per input numerici */
+@media (max-width: 768px) {
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+/* Ottimizzazioni per il focus su mobile */
+@media (max-width: 768px) {
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+  }
+} 

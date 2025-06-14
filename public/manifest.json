@@ -1,0 +1,51 @@
+{
+  "short_name": "BonaEvents",
+  "name": "BonaEvents - Sistema di Gestione Biglietti",
+  "description": "Sistema di gestione biglietti per eventi",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ],
+  "start_url": ".",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#435bcc",
+  "background_color": "#ffffff",
+  "categories": ["business", "productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Visualizza Biglietti",
+      "short_name": "Biglietti",
+      "description": "Visualizza tutti i tuoi biglietti",
+      "url": "/tickets",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Scansiona Codice QR",
+      "short_name": "Scansiona",
+      "description": "Scansiona un codice QR per verificare un biglietto",
+      "url": "/validate",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "dir": "ltr",
+  "lang": "it"
+}

@@ -1,0 +1,371 @@
+.promoters-container {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.promoters-container h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.promoter-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+.promoter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.promoter-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.promoter-info .icon {
+  font-size: 2rem;
+  color: #3498db;
+}
+
+.promoter-info h4 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.promoter-info p {
+  margin: 0.5rem 0 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.promoter-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-item .icon {
+  color: #2ecc71;
+  font-size: 1.2rem;
+}
+
+.stat-item span {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.promoter-events {
+  border-top: 1px solid #ecf0f1;
+  padding-top: 1.5rem;
+}
+
+.promoter-events h5 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.event-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.event-name {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.event-tickets {
+  color: #7f8c8d;
+}
+
+.event-revenue {
+  color: #2ecc71;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+}
+
+.error {
+  color: #e74c3c;
+  text-align: center;
+  padding: 1rem;
+  background: #fde8e8;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 15px;
+  padding-left: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #2196F3;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  color: #9e9e9e;
+}
+
+/* Media Queries for Responsiveness */
+
+@media (max-width: 768px) {
+  .promoter-card {
+    padding: 1rem;
+  }
+
+  .promoter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .promoter-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .stat-item .icon {
+      font-size: 1rem; /* Riduci icona stat */
+  }
+
+  .event-stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 0.6rem;
+  }
+
+  .promoters-container h3 {
+      font-size: 1.3rem;
+  }
+  
+  .promoter-info h4 {
+      font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .promoters-container {
+    padding: 0.5rem;
+  }
+
+  .promoter-card {
+    padding: 0.8rem;
+  }
+
+  .promoter-info {
+      gap: 0.5rem;
+  }
+  
+  .promoter-info .icon {
+      font-size: 1.5rem;
+  }
+  
+  .promoter-info h4 {
+      font-size: 1rem;
+  }
+  
+  .promoter-info p {
+      font-size: 0.8rem;
+  }
+
+  .promoter-events h5 {
+      font-size: 1rem;
+  }
+
+  .event-stat {
+      font-size: 0.9rem;
+  }
+}
+
+.promoter-events-detailed {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color-light, #eee);
+}
+
+.promoter-events-detailed h5 {
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--text-light, #666);
+  text-transform: uppercase;
+}
+
+.event-sale-item {
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--border-color-ultralight, #f0f0f0);
+  border-radius: 6px;
+  overflow: hidden; /* Per contenere sfondo */
+}
+
+.event-summary-header {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  background-color: var(--background-hover, #f9f9f9);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.event-summary-header:hover {
+  background-color: var(--background-hover-darker, #f0f0f0);
+}
+
+.event-name {
+  flex-grow: 1;
+  font-weight: 500;
+  color: var(--text-color, #333);
+  margin-right: 1rem;
+}
+
+.event-totals {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-light, #555);
+  white-space: nowrap;
+}
+
+.event-tickets,
+.event-revenue {
+  min-width: 80px; /* Larghezza minima per allineamento */
+  text-align: right;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  color: var(--text-light, #888);
+  cursor: pointer;
+  padding: 0 0 0 0.5rem;
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.ticket-type-details {
+  padding: 0.8rem 1rem 1rem 1rem;
+  background-color: #fff; /* Sfondo leggermente diverso per i dettagli */
+  border-top: 1px solid var(--border-color-light, #eee);
+}
+
+.type-sale-header,
+.type-sale-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* Colonne: Nome, Qta, Incasso */
+  gap: 1rem;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #444);
+}
+
+.type-sale-header {
+  font-weight: 500;
+  color: var(--text-light, #777);
+  border-bottom: 1px solid var(--border-color-ultralight, #f0f0f0);
+  margin-bottom: 0.4rem;
+}
+
+.type-sale-header span,
+.type-sale-row span {
+  text-align: left;
+}
+
+.type-sale-header span:nth-child(2),
+.type-sale-row span.type-quantity,
+.type-sale-header span:nth-child(3),
+.type-sale-row span.type-revenue {
+  text-align: right;
+}
+
+.type-name {
+   /* Stile specifico se necessario */
+}
+
+.type-quantity {
+   font-weight: 500;
+}
+
+.type-revenue {
+   font-weight: 500;
+}
+
+.no-sales-message,
+.no-promoters-message {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-light, #888);
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+/* Dark Mode per dettagli */
+@media (prefers-color-scheme: dark) {
+  .event-summary-header {
+    background-color: var(--background-hover-dark, #2f2f2f);
+  }
+  .event-summary-header:hover {
+     background-color: var(--background-hover-darker, #3a3a3a);
+  }
+   .event-name {
+     color: var(--text-color-dark, #eee);
+   }
+   .event-totals {
+     color: var(--text-light-dark, #aaa);
+   }
+   .expand-button {
+     color: var(--text-light-dark, #aaa);
+   }
+   .ticket-type-details {
+     background-color: var(--card-bg-dark, #252525);
+     border-color: var(--border-color-dark, #404040);
+   }
+   .type-sale-header {
+     color: var(--text-light-dark, #999);
+     border-color: var(--border-color-darker, #353535);
+   }
+   .type-sale-row {
+      color: var(--text-secondary-dark, #bbb);
+   }
+} 

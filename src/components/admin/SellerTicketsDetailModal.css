@@ -1,0 +1,142 @@
+/* SellerTicketsDetailModal.css */
+.modal-overlay-st {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* Assicurati sia sopra gli altri contenuti */
+}
+
+.modal-content-st {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 800px; /* Limita la larghezza massima */
+  max-height: 85vh; /* Limita l'altezza massima */
+  overflow-y: auto; /* Abilita scroll se il contenuto è troppo alto */
+  position: relative;
+}
+
+.modal-close-st {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+}
+
+.modal-content-st h3 {
+  margin-top: 0;
+  color: #337ab7;
+  margin-bottom: 10px;
+}
+
+.modal-content-st p {
+  margin-bottom: 15px;
+  font-size: 0.95em;
+}
+
+.table-responsive-st {
+  width: 100%;
+  overflow-x: auto; /* Scroll orizzontale per tabelle larghe su schermi piccoli */
+}
+
+.tickets-detail-table-st {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 0.9em;
+}
+
+.tickets-detail-table-st th,
+.tickets-detail-table-st td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tickets-detail-table-st th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #333;
+}
+
+.tickets-detail-table-st tbody tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+/* Stili per responsività della tabella */
+@media screen and (max-width: 768px) {
+  .modal-content-st {
+    padding: 15px; /* Riduci padding del modale */
+    width: 95%; /* Rendi il modale più flessibile */
+    max-height: 90vh; /* Leggermente più alto se necessario */
+  }
+
+  .tickets-detail-table-st thead {
+    display: none; /* Nascondi header su mobile */
+  }
+
+  .tickets-detail-table-st tr {
+    display: block;
+    margin-bottom: 20px; /* Aumenta spazio tra le card */
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Leggermente più arrotondato */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Ombra più pronunciata */
+    padding: 10px; /* Aggiungi padding interno alla card-riga */
+    background-color: #fff; /* Sfondo esplicito per la card */
+  }
+
+  .tickets-detail-table-st td {
+    display: flex; /* Usa flex per allineare label e contenuto */
+    justify-content: space-between; /* Spazio tra label e valore */
+    align-items: center; /* Allinea verticalmente */
+    text-align: right; /* Allinea il testo del valore a destra */
+    padding-left: 0; /* Rimuovi il padding precedente basato su % */
+    position: relative;
+    border-bottom: 1px solid #eee; /* Separatore più leggero */
+    padding-top: 8px;
+    padding-bottom: 8px;
+    min-height: 30px; /* Altezza minima per la riga */
+  }
+
+  .tickets-detail-table-st td:last-child {
+    border-bottom: none;
+  }
+
+  .tickets-detail-table-st td::before {
+    content: attr(data-label);
+    position: static; /* Rimuovi posizionamento assoluto */
+    width: auto; /* Larghezza automatica per il label */
+    padding-right: 10px;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap; /* Evita che il label vada a capo */
+    color: #337ab7; /* Colora il label per distinguerlo */
+  }
+
+  /* Stile per il valore della cella per miglior controllo */
+  .tickets-detail-table-st td > span {
+    display: inline-block; /* O block se necessario */
+    word-break: break-word; /* Va a capo se il testo è lungo */
+    text-align: right;
+    flex-grow: 1; /* Permetti al valore di occupare lo spazio rimanente */
+  }
+
+  /* Assicurati che il box-sizing sia corretto ovunque */
+  .modal-overlay-st *, .modal-overlay-st *::before, .modal-overlay-st *::after {
+    box-sizing: border-box;
+  }
+} 

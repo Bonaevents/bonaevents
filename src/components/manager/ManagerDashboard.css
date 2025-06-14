@@ -1,0 +1,628 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.tabs-container {
+  background: var(--card-bg);
+  padding: 0 var(--spacing-md, 20px);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  gap: var(--spacing-md, 20px);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-button {
+  padding: var(--spacing-sm, 15px) var(--spacing-md, 25px);
+  border: none;
+  background: none;
+  font-size: 1rem;
+  color: var(--text-light);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs, 8px);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tab-button.active {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.dashboard-content {
+  padding: var(--spacing-md, 20px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.leaders-grid,
+.events-grid,
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--spacing-md, 20px);
+  margin-top: var(--spacing-md, 20px);
+}
+
+.leader-card,
+.event-card,
+.team-leader-card,
+.stats-card {
+  background: var(--card-bg);
+  padding: var(--spacing-md, 20px);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.leader-card:hover,
+.event-card:hover,
+.team-leader-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow-lg);
+}
+
+.leader-card {
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leader-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm, 15px);
+  color: var(--btn-primary-text);
+}
+
+.leader-stats {
+  margin-top: var(--spacing-sm, 15px);
+  padding-top: var(--spacing-sm, 15px);
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs, 8px);
+  color: var(--text-light);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm, 15px);
+  margin-bottom: var(--spacing-md, 20px);
+}
+
+.search-input,
+.date-filter {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  flex-grow: 1;
+}
+
+.team-leader-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  padding: var(--spacing-sm, 15px);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  padding: var(--spacing-lg, 30px);
+  border-radius: var(--border-radius-lg);
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--box-shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.close-button {
+  position: absolute;
+  top: var(--spacing-sm, 15px);
+  right: var(--spacing-sm, 15px);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.close-button:hover {
+  color: var(--error-color);
+}
+
+.stats-card {
+  background: var(--background-color);
+  text-align: center;
+}
+
+.stats-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 5px;
+}
+
+.stats-label {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    padding: var(--spacing-md, 20px);
+    max-height: 85vh;
+  }
+
+  .stats-container,
+  .leaders-grid,
+  .events-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm, 15px);
+  }
+
+  .tabs-container {
+    gap: var(--spacing-sm, 15px);
+    padding: 0 var(--spacing-sm, 15px);
+  }
+
+  .tab-button {
+    padding: var(--spacing-sm, 15px);
+    font-size: 0.95rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input,
+  .date-filter {
+    width: 100%;
+  }
+}
+
+.manager-dashboard {
+  padding: var(--spacing-md, 20px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-title {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.header-subtitle {
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.dashboard-content {
+  padding: var(--spacing-md, 20px) 0;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md, 1.5rem);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md, 1.5rem);
+  border: 1px solid var(--border-color);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow-lg);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.stat-info .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.sell-tickets-container,
+.team-management-container {
+  background: var(--card-bg);
+  padding: var(--spacing-lg, 1.5rem);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: var(--spacing-lg, 2rem);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+}
+
+.sell-tickets-container h2,
+.team-management-container h2 {
+  color: var(--text-color);
+  margin-bottom: var(--spacing-md, 1.5rem);
+  font-size: 1.3rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--spacing-sm, 0.75rem);
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-image img {
+  transform: scale(1.05);
+}
+
+.event-content {
+  padding: var(--spacing-md, 1rem);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-content h3 {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-xs, 0.5rem);
+}
+
+.event-content p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-xs, 0.5rem);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs, 0.3rem);
+}
+
+.event-content p svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.event-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-top: auto;
+  padding-top: var(--spacing-sm, 0.5rem);
+}
+
+.event-description {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-sm, 0.5rem);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tickets-available {
+  font-size: 0.85rem;
+  color: var(--success-color);
+  font-weight: 500;
+  margin-bottom: var(--spacing-md, 1rem);
+}
+
+.sell-button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.search-container {
+  margin-bottom: var(--spacing-md, 1.5rem);
+  position: relative;
+}
+
+.search-input {
+  padding-left: 2.5rem;
+}
+
+.search-input:focus {
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+.leader-card {
+}
+
+.leader-card h3 {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-xs, 0.5rem);
+  margin-top: var(--spacing-sm, 1rem);
+}
+
+.leader-card p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: var(--spacing-sm, 1rem);
+}
+
+.leader-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--spacing-sm, 1rem);
+}
+
+.leader-stats .stat {
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.leader-stats .stat span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-top: 0.2rem;
+}
+
+.leader-stats .stat svg {
+  width: 18px;
+  height: 18px;
+  margin-bottom: 0.3rem;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: var(--spacing-lg, 2rem);
+}
+
+.loading-spinner {
+}
+
+.error {
+  color: var(--error-color);
+  background-color: rgba(var(--error-color-rgb, 244, 67, 54), 0.1);
+  padding: var(--spacing-sm, 1rem);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-md, 1.5rem);
+  text-align: center;
+  border: 1px solid var(--error-color);
+}
+
+@media (max-width: 992px) { /* Tablet */
+   .stats-overview {
+       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   }
+}
+
+@media (max-width: 768px) {
+  .manager-dashboard {
+    padding: 1rem;
+  }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+   .tabs-container {
+     flex-wrap: wrap;
+     justify-content: center;
+     margin-bottom: 1.5rem;
+   }
+   .tab-button {
+     flex-grow: 1;
+     min-width: 100px;
+   }
+   .stats-overview {
+     grid-template-columns: 1fr 1fr; /* 2 colonne */
+     gap: 1rem;
+   }
+   .dashboard-overview h2 {
+       font-size: 1.3rem;
+   }
+}
+
+@media (max-width: 576px) {
+  .manager-dashboard {
+    padding: 0.75rem;
+  }
+  .dashboard-header h1 {
+      font-size: 1.4rem;
+  }
+  .tab-button {
+     font-size: 0.8rem;
+     padding: 8px 10px;
+     min-width: 70px;
+  }
+  .stats-overview {
+    grid-template-columns: 1fr; /* Colonna singola */
+    gap: 0.75rem;
+  }
+  .stat-card {
+    flex-direction: column; /* Icona sopra testo */
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  .stat-card .stat-icon {
+       font-size: 1.8rem;
+       margin-bottom: 0.5rem;
+  }
+   .stat-card h3 {
+       font-size: 0.85rem;
+       margin-bottom: 0.2rem;
+   }
+   .stat-card p {
+       font-size: 1.1rem;
+   }
+
+   /* Adattamento sezioni tab */
+   .sell-tickets-container h2,
+   .validate-section h2,
+   .history-section h2,
+   .dashboard-overview h2 {
+       font-size: 1.2rem;
+       margin-bottom: 1rem;
+   }
+   .events-grid {
+       gap: 0.75rem; /* Riduci gap tra event cards */
+   }
+
+   /* Assicurati che le tabelle nello storico siano scrollabili */
+   .history-section .table-responsive-wrapper table, /* Usa il wrapper se applicato nel JSX */
+   .history-section .tickets-table /* Fallback se il wrapper non c'è */
+   {
+      min-width: 500px;
+   }
+   .history-section .tickets-table th,
+   .history-section .tickets-table td {
+        padding: 0.6rem 0.5rem; 
+        font-size: 0.8rem; 
+   }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 1.3rem;
+  }
+  
+  .event-image {
+    height: 150px;
+  }
+  
+  .event-content {
+    padding: var(--spacing-sm, 0.8rem);
+  }
+  
+  .leader-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .leader-card h3 {
+    font-size: 1rem;
+  }
+  
+  .sell-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .stat-info h3 {
+    font-size: 0.8rem;
+  }
+  
+  .stat-info .value {
+    font-size: 1.2rem;
+  }
+  
+  .leader-stats .stat {
+    font-size: 0.8rem;
+  }
+
+  .leader-stats .stat span {
+    font-size: 1rem;
+  }
+}
+
+[data-theme="dark"] .tab-button {
+}
+
+[data-theme="dark"] .tab-button.active {
+}
+
+[data-theme="dark"] .sell-button {
+}
+
+[data-theme="dark"] .stat svg,
+[data-theme="dark"] .leader-stats .stat svg,
+[data-theme="dark"] .event-content p svg,
+[data-theme="dark"] .search-icon {
+  color: var(--text-light);
+} 

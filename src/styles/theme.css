@@ -1,0 +1,1407 @@
+:root {
+  /* Light theme variables */
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --secondary-color: #6c757d;
+  --secondary-hover: #5a6268;
+  --background-color: #ffffff;
+  --surface-color: #f8f9fa;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #dddddd;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --loading-background: #ffffff;
+  --loading-foreground: #f0f0f0;
+  --card-background: #ffffff;
+  --input-background: #ffffff;
+  --input-text: #333333;
+  --button-text: #ffffff;
+  --card-text: #333333;
+}
+
+[data-theme="dark"] {
+  --primary-color: #57b3ff;
+  --primary-hover: #7bc5ff;
+  --secondary-color: #9ea7b1;
+  --secondary-hover: #b8c1cc;
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --border-color: #555555;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --error-color: #ff6b6b;
+  --success-color: #6dff6d;
+  --warning-color: #ffe066;
+  --info-color: #66e7ff;
+  --loading-background: #121212;
+  --loading-foreground: #333333;
+  --card-background: #242424;
+  --input-background: #333333;
+  --input-text: #ffffff;
+  --button-text: #ffffff;
+  --card-text: #ffffff;
+  --background-primary: #1a1b1e;
+  --background-secondary: #2c2d31;
+  --background-tertiary: #3a3b3f;
+  --text-tertiary: #94a3b8;
+  --card-border: #4a4b4f;
+  --input-border: #4a4b4f;
+  --button-background: #3a3b3f;
+  --hover-background: #3a3b3f;
+  --success-background: rgba(34, 197, 94, 0.2);
+  --success-text: #4ade80;
+  --error-background: rgba(239, 68, 68, 0.2);
+  --error-text: #f87171;
+  --warning-background: rgba(234, 179, 8, 0.2);
+  --warning-text: #facc15;
+  --info-background: rgba(59, 130, 246, 0.2);
+  --info-text: #60a5fa;
+}
+
+/* System preference dark theme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary-color: #57b3ff;
+    --primary-hover: #7bc5ff;
+    --secondary-color: #9ea7b1;
+    --secondary-hover: #b8c1cc;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --border-color: #555555;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --error-color: #ff6b6b;
+    --success-color: #6dff6d;
+    --warning-color: #ffe066;
+    --info-color: #66e7ff;
+    --loading-background: #121212;
+    --loading-foreground: #333333;
+    --card-background: #242424;
+    --input-background: #333333;
+    --input-text: #ffffff;
+    --button-text: #ffffff;
+    --card-text: #ffffff;
+  }
+}
+
+/* Global styles */
+html, body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Evita pagine bianche durante il caricamento */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  z-index: -1;
+}
+
+/* Common components */
+.card {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--card-text);
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--button-text);
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+}
+
+.button-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.button-secondary {
+  background-color: var(--secondary-color);
+}
+
+.button-secondary:hover {
+  background-color: var(--secondary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn-download::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-dark);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.btn-download:hover {
+  transform: translateY(-1px);
+}
+
+.btn-download:hover::before {
+  opacity: 1;
+}
+
+.btn-download:active {
+  transform: translateY(0);
+}
+
+.btn-download.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-download:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Stili specifici per iOS */
+@supports (-webkit-touch-callout: none) {
+  .btn-download {
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 12px 20px;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+
+  .btn-download:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+
+  .btn-download i {
+    font-size: 1.25rem;
+  }
+}
+
+/* Media queries per responsività */
+@media (max-width: 768px) {
+  .btn-download {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 12px 20px;
+  }
+}
+
+/* Supporto per PWA */
+@media all and (display-mode: standalone) {
+  .btn-download {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Form elements */
+input, select, textarea {
+  background-color: var(--input-background);
+  color: var(--input-text);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.75rem;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  font-size: 16px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--surface-color);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Loading placeholder animation */
+.loading-placeholder {
+  background: linear-gradient(90deg, var(--loading-foreground) 25%, var(--loading-background) 50%, var(--loading-foreground) 75%);
+  background-size: 200% 100%;
+  animation: loadingAnimation 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes loadingAnimation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 540px;
+  }
+  
+  .card {
+    padding: 1rem;
+  }
+  
+  .button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    min-height: 48px;
+    font-size: 16px;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important;
+    padding: 12px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .button, input[type="button"], input[type="submit"], button {
+    min-height: 48px;
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 10px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}
+
+/* High contrast improvements for dark theme */
+@media (prefers-color-scheme: dark) {
+  .button-primary {
+    background-color: #57b3ff; /* More vibrant blue for dark mode */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .button-secondary {
+    background-color: #9ea7b1; /* Lighter gray for dark mode */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  input, select, textarea {
+    background-color: #333333; /* Darker than before for better contrast */
+    border-color: #666666;
+    color: #ffffff;
+  }
+  
+  .card {
+    background-color: #242424;
+    border: 1px solid #555555;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  a {
+    color: #80ccff; /* Brighter links for dark mode */
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  
+  /* Specific improvements for form elements */
+  input::placeholder {
+    color: #bbbbbb;
+  }
+  
+  button {
+    background-color: #57b3ff;
+    color: white;
+    font-weight: 500;
+  }
+  
+  .input-with-icon .input-icon {
+    color: #cccccc;
+  }
+  
+  /* Table improvements */
+  table {
+    border: 1px solid #555555;
+  }
+  
+  th {
+    background-color: #333333;
+    color: #ffffff;
+    font-weight: 600;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #1e1e1e;
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #242424;
+  }
+  
+  tr:hover {
+    background-color: #3a3a3a;
+  }
+  
+  td {
+    border-bottom: 1px solid #444444;
+  }
+  
+  /* Miglioriamo lo stile dei pulsanti */
+  .btn-download {
+    background-color: #57b3ff;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .btn-download:hover {
+    background-color: #7bc5ff;
+  }
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+.p-4 { padding: 2rem; }
+
+/* iOS specific styles */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea, button {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+  }
+  
+  button, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+  }
+  
+  /* Fix for iOS rendering issues */
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Fix iOS dark mode issues */
+  @media (prefers-color-scheme: dark) {
+    body::before {
+      background-color: #121212;
+    }
+    
+    input, select, textarea {
+      background-color: #333333;
+      color: #ffffff;
+      border-color: #666666;
+    }
+    
+    .card, .button {
+      border: 1px solid #555555;
+    }
+    
+    /* Migliorando il contrasto su iOS */
+    button, .btn {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    select {
+      background-image: linear-gradient(45deg, transparent 50%, #ffffff 50%), 
+                         linear-gradient(135deg, #ffffff 50%, transparent 50%);
+      background-position: calc(100% - 20px) calc(1em + 2px), 
+                           calc(100% - 15px) calc(1em + 2px);
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+[data-theme='dark'] .card,
+[data-theme='dark'] .event-card,
+[data-theme='dark'] .promoter-card,
+[data-theme='dark'] .team-leader-card,
+[data-theme='dark'] .stats-card {
+  background-color: var(--card-background);
+  border-color: var(--card-border);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .sale-history-card,
+[data-theme='dark'] .event-stat-card,
+[data-theme='dark'] .stats-content {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .stat-item,
+[data-theme='dark'] .detail-item,
+[data-theme='dark'] .promoter-info,
+[data-theme='dark'] .event-details {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] input,
+[data-theme='dark'] select,
+[data-theme='dark'] textarea {
+  background-color: var(--input-background);
+  border-color: var(--input-border);
+  color: var(--input-text);
+}
+
+[data-theme='dark'] .badge {
+  background-color: var(--background-tertiary);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .badge-success {
+  background-color: var(--success-background);
+  color: var(--success-text);
+}
+
+[data-theme='dark'] .badge-error {
+  background-color: var(--error-background);
+  color: var(--error-text);
+}
+
+[data-theme='dark'] .badge-warning {
+  background-color: var(--warning-background);
+  color: var(--warning-text);
+}
+
+[data-theme='dark'] .badge-info {
+  background-color: var(--info-background);
+  color: var(--info-text);
+}
+
+:root[data-theme="light"] {
+  --background-primary: #ffffff;
+  --background-secondary: #f8f9fa;
+  --background-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-tertiary: #6c757d;
+  --primary-color: #4a90e2;
+  --primary-color-dark: #357abd;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --border-color: #dee2e6;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --card-background: #ffffff;
+  --notification-background: #ffffff;
+  --notification-text: #212529;
+  --notification-success: #d4edda;
+  --notification-error: #f8d7da;
+  --notification-warning: #fff3cd;
+  --ticket-background: #ffffff;
+  --ticket-text: #212529;
+  --ticket-border: #dee2e6;
+}
+
+:root[data-theme="dark"] {
+  --background-primary: #1a1a1a;
+  --background-secondary: #2d2d2d;
+  --background-tertiary: #404040;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-tertiary: #999999;
+  --primary-color: #4a90e2;
+  --primary-color-dark: #357abd;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --border-color: #404040;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-background: #2d2d2d;
+  --notification-background: #2d2d2d;
+  --notification-text: #ffffff;
+  --notification-success: #1e4c2c;
+  --notification-error: #4c1e1e;
+  --notification-warning: #4c401e;
+  --ticket-background: #2d2d2d;
+  --ticket-text: #ffffff;
+  --ticket-border: #404040;
+}
+
+/* Ottimizzazioni per mobile */
+@media (max-width: 768px) {
+  :root {
+    --spacing-unit: 8px;
+  }
+}
+
+/* Stili per le notifiche */
+.notification {
+  position: fixed;
+  bottom: var(--spacing-unit);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: var(--notification-background);
+  color: var(--notification-text);
+  box-shadow: 0 2px 10px var(--shadow-color);
+  z-index: 1000;
+  max-width: 90vw;
+  width: auto;
+  text-align: center;
+  font-size: 14px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.notification.success {
+  background: var(--notification-success);
+}
+
+.notification.error {
+  background: var(--notification-error);
+}
+
+.notification.warning {
+  background: var(--notification-warning);
+}
+
+/* Stili per il biglietto WhatsApp */
+.ticket-whatsapp {
+  background: var(--ticket-background);
+  color: var(--ticket-text);
+  border: 1px solid var(--ticket-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px auto;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  max-width: 400px;
+  width: 100%;
+}
+
+.ticket-whatsapp .header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+}
+
+.ticket-whatsapp .event-name {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+}
+
+.ticket-whatsapp .ticket-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--text-primary);
+}
+
+.ticket-whatsapp .qr-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 25px 0;
+  gap: 15px;
+}
+
+.ticket-whatsapp .qr-code img {
+  max-width: 200px;
+  height: auto;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.ticket-whatsapp .qr-instructions {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.ticket-whatsapp .footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: var(--text-tertiary);
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+}
+
+.ticket-whatsapp .footer p {
+  margin: 5px 0;
+  color: var(--text-secondary);
+}
+
+.ticket-whatsapp .footer small {
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin-top: 8px;
+  color: var(--text-tertiary);
+}
+
+/* Dark theme specific styles */
+[data-theme="dark"] .ticket-whatsapp {
+  background: var(--background-secondary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .ticket-whatsapp .header {
+  background: var(--primary-color);
+  color: white;
+}
+
+[data-theme="dark"] .ticket-whatsapp .event-name,
+[data-theme="dark"] .ticket-whatsapp .ticket-info {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ticket-whatsapp .qr-instructions {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .ticket-whatsapp .footer {
+  border-color: var(--border-color);
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .ticket-whatsapp {
+    margin: 5px;
+    padding: 15px;
+  }
+
+  .ticket-whatsapp .header {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  .ticket-whatsapp .qr-code img {
+    max-width: 180px;
+  }
+}
+
+/* Ottimizzazioni per la leggibilità del testo */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Miglioramenti per l'accessibilità */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Layout verticale per manager e admin su mobile */
+@media (max-width: 768px) {
+  .manager-dashboard .dashboard-content,
+  .admin-dashboard .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .stats-overview,
+  .events-grid,
+  .team-leaders-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .stat-card,
+  .event-card,
+  .leader-card {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* Miglioramenti per il tema scuro */
+[data-theme="dark"] {
+  /* Colori di base migliorati per il contrasto */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-tertiary: #b0b0b0;
+  --background-secondary: #2d2d2d;
+  --border-color: #4a4a4a;
+  
+  /* Colori specifici per i form e input */
+  --input-background: #3a3a3a;
+  --input-text: #ffffff;
+  --input-border: #5a5a5a;
+  --input-placeholder: #999999;
+  
+  /* Colori per le date e i sotto-eventi */
+  --date-text: #ffffff;
+  --date-background: #3a3a3a;
+  --date-border: #5a5a5a;
+}
+
+/* Stili specifici per le date e i sotto-eventi nel tema scuro */
+[data-theme="dark"] .date-select,
+[data-theme="dark"] .sub-event-date {
+  background-color: var(--date-background);
+  color: var(--date-text);
+  border: 1px solid var(--date-border);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: var(--input-background);
+  color: var(--input-text);
+  border: 1px solid var(--input-border);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] select::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--input-placeholder);
+}
+
+[data-theme="dark"] .event-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .leader-card {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+}
+
+/* Miglioramenti specifici per i sotto-eventi */
+[data-theme="dark"] .sub-events-list {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+[data-theme="dark"] .sub-event-item {
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 0;
+}
+
+[data-theme="dark"] .sub-event-item:last-child {
+  border-bottom: none;
+}
+
+[data-theme="dark"] .sub-event-date,
+[data-theme="dark"] .sub-event-details {
+  color: var(--text-primary);
+}
+
+/* Miglioramenti per la leggibilità delle date disponibili */
+[data-theme="dark"] .available-dates {
+  background-color: var(--date-background);
+  border: 1px solid var(--date-border);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+[data-theme="dark"] .date-option {
+  background-color: var(--input-background);
+  color: var(--text-primary);
+  border: 1px solid var(--input-border);
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .date-option:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Card degli eventi modernizzate */
+.event-card {
+  background: var(--card-background);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+.event-card .event-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+}
+
+.event-card .event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-image img {
+  transform: scale(1.05);
+}
+
+.event-card .event-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.event-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.event-card p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.event-card .event-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-top: 0.5rem;
+}
+
+.event-card .tickets-available {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--success-background, rgba(40, 167, 69, 0.1));
+  color: var(--success-text, #28a745);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.event-card .sell-button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.event-card .sell-button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.event-card .sell-button:disabled {
+  background: var(--background-tertiary);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* Storico biglietti modernizzato */
+.ticket-history {
+  background: var(--card-background);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.history-card {
+  background: var(--background-secondary);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.history-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.history-card .ticket-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-card .ticket-event {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.history-card .ticket-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.history-card .ticket-price {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.history-card .ticket-status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.history-card .ticket-status.valid {
+  background: var(--success-background);
+  color: var(--success-text);
+}
+
+.history-card .ticket-status.used {
+  background: var(--warning-background);
+  color: var(--warning-text);
+}
+
+.history-card .ticket-status.expired {
+  background: var(--error-background);
+  color: var(--error-text);
+}
+
+/* Ottimizzazioni per mobile */
+@media (max-width: 768px) {
+  .event-card {
+    padding: 1rem;
+  }
+
+  .event-card .event-image {
+    height: 160px;
+    margin: -1rem -1rem 1rem -1rem;
+  }
+
+  .history-card {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .history-card .ticket-status {
+    justify-self: start;
+  }
+
+  .history-card:hover {
+    transform: none;
+  }
+}
+
+/* Dark theme specific styles */
+[data-theme="dark"] .event-card,
+[data-theme="dark"] .history-card {
+  background: var(--background-secondary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .event-card:hover,
+[data-theme="dark"] .history-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .tickets-available {
+  background: var(--success-background, rgba(40, 167, 69, 0.2));
+  color: var(--success-text, #4ade80);
+}
+
+[data-theme="dark"] .ticket-meta {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .history-card {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .history-card:hover {
+  background: var(--background-tertiary);
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .history-details {
+  background: var(--background-tertiary);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+[data-theme="dark"] .history-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+[data-theme="dark"] .history-value {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .history-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .history-row:last-child {
+  border-bottom: none;
+}
+
+[data-theme="dark"] .history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+[data-theme="dark"] .history-item {
+  background: var(--background-tertiary);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+/* Stili per le etichette dei dettagli */
+[data-theme="dark"] .detail-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+[data-theme="dark"] .detail-value {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Stili per i campi specifici */
+[data-theme="dark"] .sale-date,
+[data-theme="dark"] .event-date,
+[data-theme="dark"] .quantity,
+[data-theme="dark"] .price,
+[data-theme="dark"] .event-name,
+[data-theme="dark"] .client-email {
+  padding: 0.5rem;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  margin: 0.25rem 0;
+}
+
+[data-theme="dark"] .sale-date .label,
+[data-theme="dark"] .event-date .label,
+[data-theme="dark"] .quantity .label,
+[data-theme="dark"] .price .label,
+[data-theme="dark"] .event-name .label,
+[data-theme="dark"] .client-email .label {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+[data-theme="dark"] .sale-date .value,
+[data-theme="dark"] .event-date .value,
+[data-theme="dark"] .quantity .value,
+[data-theme="dark"] .price .value,
+[data-theme="dark"] .event-name .value,
+[data-theme="dark"] .client-email .value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Ottimizzazioni per mobile */
+@media (max-width: 768px) {
+  [data-theme="dark"] .history-grid {
+    grid-template-columns: 1fr;
+  }
+
+  [data-theme="dark"] .history-row {
+    padding: 0.5rem;
+  }
+
+  [data-theme="dark"] .history-details {
+    padding: 0.75rem;
+  }
+}
+
+/* Stili per evidenziare i valori importanti */
+[data-theme="dark"] .price .value {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .quantity .value {
+  color: var(--success-text);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .event-name .value {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.ticket-history {
+  padding: 20px;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .ticket-history {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.history-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .history-card {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.history-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 10px;
+}
+
+[data-theme="dark"] .history-details {
+  color: #e0e0e0;
+}
+
+.history-label {
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+[data-theme="dark"] .history-label {
+  color: #8e8e8e;
+}
+
+.history-value {
+  font-size: 1.1em;
+  color: #333;
+}
+
+[data-theme="dark"] .history-value {
+  color: #ffffff;
+}
+
+.ticket-price {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #2196f3;
+}
+
+[data-theme="dark"] .ticket-price {
+  color: #64b5f6;
+}
+
+.ticket-quantity {
+  font-weight: 600;
+  color: #4caf50;
+}
+
+[data-theme="dark"] .ticket-quantity {
+  color: #81c784;
+}
+
+.ticket-date {
+  color: #ff9800;
+}
+
+[data-theme="dark"] .ticket-date {
+  color: #ffb74d;
+}
+
+.history-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .history-card:hover {
+  background-color: #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .history-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .history-label {
+    margin-top: 10px;
+  }
+}

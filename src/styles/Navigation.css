@@ -1,0 +1,123 @@
+.navbar {
+  background-color: #1976D2;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+.nav-button {
+  background-color: white;
+  color: #1976D2;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #E3F2FD;
+  transform: translateY(-1px);
+}
+
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Stili per dispositivi mobili */
+@media (max-width: 768px) {
+  .nav-container {
+    position: relative;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1976D2;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+    margin-top: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+  }
+
+  .nav-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Stili per schermi molto piccoli */
+@media (max-width: 360px) {
+  .navbar {
+    padding: 12px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+  }
+
+  .mobile-menu-button {
+    font-size: 20px;
+  }
+} 
