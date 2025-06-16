@@ -180,15 +180,15 @@ function TeamLeaderDashboard() {
     setSelectedPromoter(null);
   };
 
-  if (loading) return <div className="loading-container"><div className="loading-spinner"></div>Caricamento dashboard...</div>;
+  if (loading) return <div className="loading-container"><div className="loading-spinner"></div>Loading dashboard...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div className="team-leader-dashboard">
       <Header />
       <div className="dashboard-header">
-        <h1 className="header-title">Dashboard Team Leader</h1>
-        <p className="header-subtitle">Gestisci il tuo team e monitora le vendite</p>
+        <h1 className="header-title">Team Leader Dashboard</h1>
+        <p className="header-subtitle">Manage your team and monitor sales</p>
       </div>
 
       <div className="tabs-container">
@@ -202,19 +202,19 @@ function TeamLeaderDashboard() {
           className={`tab-button ${activeTab === 'sell' ? 'active' : ''}`}
           onClick={() => setActiveTab('sell')}
         >
-          Vendi Biglietti
+          Sell Tickets
         </button>
         <button
           className={`tab-button ${activeTab === 'promoters' ? 'active' : ''}`}
           onClick={() => setActiveTab('promoters')}
         >
-          I Miei Promoter
+          My Promoters
         </button>
         <button
           className={`tab-button ${activeTab === 'history' ? 'active' : ''}`}
           onClick={() => setActiveTab('history')}
         >
-          Storico Vendite
+          Sales History
         </button>
       </div>
 
@@ -225,21 +225,21 @@ function TeamLeaderDashboard() {
               <div className="stat-card">
                 <FaTicketAlt />
                 <div>
-                  <h3>Biglietti Totali (Team)</h3>
+                  <h3>Total Tickets (Team)</h3>
                   <p>{stats.totalSales}</p>
                 </div>
               </div>
               <div className="stat-card">
                 <FaEuroSign />
                 <div>
-                  <h3>Commissioni Totali (Team)</h3>
+                  <h3>Total Commissions (Team)</h3>
                   <p>€ {stats.totalCommissions.toFixed(2)}</p>
                 </div>
               </div>
               <div className="stat-card">
                 <FaUsers />
                 <div>
-                  <h3>Vendite Promoter</h3>
+                  <h3>Promoter Sales</h3>
                   <p>{stats.promoterSales}</p>
                 </div>
               </div>

@@ -89,7 +89,7 @@ function PromoterDashboard() {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Caricamento dashboard...</p>
+        <p>Loading dashboard...</p>
       </div>
     );
   }
@@ -98,8 +98,8 @@ function PromoterDashboard() {
     <div className="promoter-dashboard">
       <Header />
       <div className="dashboard-header">
-        <h1 className="header-title">Dashboard Promoter</h1>
-        <p className="header-subtitle">Gestisci i tuoi eventi e monitora le vendite</p>
+        <h1 className="header-title">Promoter Dashboard</h1>
+        <p className="header-subtitle">Manage your events and monitor sales</p>
       </div>
 
       <div className="tabs-container">
@@ -113,7 +113,7 @@ function PromoterDashboard() {
           className={`tab-button ${activeTab === 'sell' ? 'active' : ''}`}
           onClick={() => setActiveTab('sell')}
         >
-          Vendi Biglietti
+          Sell Tickets
         </button>
       </div>
 
@@ -126,7 +126,7 @@ function PromoterDashboard() {
                   <FaTicketAlt />
                 </div>
                 <div className="stat-info">
-                  <h3>Biglietti Venduti</h3>
+                  <h3>Tickets Sold</h3>
                   <div className="value">{stats.totalTickets}</div>
                 </div>
               </div>
@@ -138,7 +138,7 @@ function PromoterDashboard() {
                   <FaEuroSign />
                 </div>
                 <div className="stat-info">
-                  <h3>Commissioni Totali</h3>
+                  <h3>Total Commissions</h3>
                   <div className="value">€{stats.totalCommissions.toFixed(2)}</div>
                 </div>
               </div>
@@ -149,7 +149,7 @@ function PromoterDashboard() {
         </div>
       ) : (
         <div className="sell-tickets-container">
-          <h2>Seleziona un Evento e una Data per la Vendita</h2>
+          <h2>Select an Event and Date for Sale</h2>
           <div className="events-grid">
             {events.length > 0 ? (
                 events.map((event) => (
@@ -160,7 +160,7 @@ function PromoterDashboard() {
                 />
                 ))
             ) : (
-                <p>Nessun evento disponibile al momento.</p>
+                <p>No events available at the moment.</p>
             )}
           </div>
         </div>

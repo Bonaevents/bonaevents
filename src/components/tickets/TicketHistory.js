@@ -99,36 +99,36 @@ function TicketHistory() {
     }
   });
 
-  if (loading) return <div className="loading">Caricamento storico vendite...</div>;
+  if (loading) return <div className="loading">Loading sales history...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="ticket-history">
-      <h2>Storico Vendite</h2>
+      <h2>Sales History</h2>
       
       <div className="filters-section">
         <div className="search-box">
-          <label htmlFor="searchInput" className="filter-label">Cerca vendite:</label>
+          <label htmlFor="searchInput" className="filter-label">Search sales:</label>
           <input
             type="text"
             id="searchInput"
-            placeholder="Nome, email, evento, codice..."
+            placeholder="Name, email, event, code..."
             value={searchTerm}
             onChange={handleSearch}
             className="search-input"
           />
-          <label htmlFor="filterSelect" className="filter-label">Filtra per:</label>
+          <label htmlFor="filterSelect" className="filter-label">Filter by:</label>
           <select
             id="filterSelect"
             value={filterBy}
             onChange={handleFilterChange}
             className="filter-select"
           >
-            <option value="all">Tutti i campi</option>
-            <option value="email">Email cliente</option>
-            <option value="name">Nome cliente</option>
-            <option value="event">Nome evento</option>
-            <option value="code">Codice biglietto</option>
+            <option value="all">All fields</option>
+            <option value="email">Customer email</option>
+            <option value="name">Customer name</option>
+            <option value="event">Event name</option>
+            <option value="code">Ticket code</option>
           </select>
         </div>
       </div>
@@ -138,71 +138,71 @@ function TicketHistory() {
           <div key={ticket.id} className="ticket-card">
             <div className="ticket-header">
               <h3>{ticket.eventName}</h3>
-              <span className="ticket-code">Codice: {ticket.ticketCode}</span>
+              <span className="ticket-code">Code: {ticket.ticketCode}</span>
             </div>
             
             <div className="ticket-details">
               <div className="detail-row">
-                <span className="label">Evento:</span>
-                <span className="value">{ticket.eventName || 'N/D'}</span>
+                <span className="label">Event:</span>
+                <span className="value">{ticket.eventName || 'N/A'}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Codice Biglietto:</span>
-                <span className="value">{ticket.ticketCode || 'N/D'}</span>
+                <span className="label">Ticket Code:</span>
+                <span className="value">{ticket.ticketCode || 'N/A'}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Data vendita:</span>
+                <span className="label">Sale date:</span>
                 <span className="value">{ticket.saleDate.toLocaleDateString()}</span>
               </div>
               
               <div className="detail-row">
-                <span className="label">Data evento:</span>
+                <span className="label">Event date:</span>
                 <span className="value">{ticket.eventDate.toLocaleDateString()}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Cliente:</span>
+                <span className="label">Customer:</span>
                 <span className="value">{ticket.customerName}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Email cliente:</span>
-                <span className="value">{ticket.customerEmail || 'N/D'}</span>
+                <span className="label">Customer email:</span>
+                <span className="value">{ticket.customerEmail || 'N/A'}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Telefono cliente:</span>
-                <span className="value">{ticket.customerPhone || 'N/D'}</span>
+                <span className="label">Customer phone:</span>
+                <span className="value">{ticket.customerPhone || 'N/A'}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Quantità:</span>
+                <span className="label">Quantity:</span>
                 <span className="value">{ticket.quantity}</span>
               </div>
 
               <div className="detail-row">
-                <span className="label">Prezzo unitario:</span>
+                <span className="label">Unit price:</span>
                 <span className="value">€{ticket.price?.toFixed(2) || '0.00'}</span>
               </div>
 
               <div className="detail-row total">
-                <span className="label">Totale:</span>
+                <span className="label">Total:</span>
                 <span className="value">€{ticket.totalPrice?.toFixed(2) || '0.00'}</span>
               </div>
 
               {typeof ticket.commissionAmount === 'number' && (
                 <div className="detail-row commission">
-                  <span className="label">Commissione Guadagnata:</span>
+                  <span className="label">Commission Earned:</span>
                   <span className="value">€{ticket.commissionAmount.toFixed(2)}</span>
                 </div>
               )}
 
               <div className="detail-row payment-status-row">
-                <span className="label">Stato Pagamento:</span>
+                <span className="label">Payment Status:</span>
                 <span className={`value payment-status-badge ${ticket.paymentStatus === 'paid' ? 'paid' : 'unpaid'}`}>
-                  {ticket.paymentStatus === 'paid' ? 'Pagato' : 'Non Pagato'}
+                  {ticket.paymentStatus === 'paid' ? 'Paid' : 'Unpaid'}
                 </span>
               </div>
             </div>
@@ -212,7 +212,7 @@ function TicketHistory() {
 
       {filteredTickets.length === 0 && (
         <div className="no-results">
-          Nessuna vendita trovata con i filtri selezionati
+          No sales found with selected filters
         </div>
       )}
     </div>

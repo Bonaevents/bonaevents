@@ -234,7 +234,23 @@ function SellTicketModal({ event, selectedDateItem, onClose, onSold }) {
       setLoading(false);
       return;
     }
-     if (!includeTable && (!selectedTicketTypeId || quantity < 1)) {
+
+    // Validazione data di vendita
+    const eventDate = new Date(selectedDateItem.date);
+    const nextDay = new Date(eventDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setHours(4, 0, 0, 0); // Imposta a 04:00 AM del giorno successivo
+
+    const now = new Date();
+
+    // Confronta le date usando getTime()
+    if (now.getTime() > nextDay.getTime()) {
+      setError("Le vendite per questo evento sono chiuse. La vendita dei biglietti termina alle 04:00 AM del giorno successivo all'evento.");
+      setLoading(false);
+      return;
+    }
+
+    if (!includeTable && (!selectedTicketTypeId || quantity < 1)) {
       setError("Seleziona un tipo di biglietto e una quantità valida (almeno 1).");
       setLoading(false);
       return;

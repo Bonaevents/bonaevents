@@ -578,4 +578,43 @@
      padding: 0.3rem 0.5rem; // Riduci padding su mobile
      font-size: 0.8rem; // Riduci dimensione font
   } 
-}*/ 
+}*/
+
+.tab-button[data-tab='ticketManagement'] {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.tab-button[data-tab='ticketManagement']:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.tab-button[data-tab='ticketManagement'].active {
+  background-color: var(--primary-color-dark);
+  border-bottom: 3px solid var(--accent-color);
+}
+
+/* Bottom Navigation Styles */
+.bottom-nav-item[data-tab='ticketManagement'] .bottom-nav-icon {
+  color: var(--primary-color);
+}
+
+.bottom-nav-item[data-tab='ticketManagement'].active {
+  color: var(--primary-color);
+  border-top: 3px solid var(--primary-color);
+}
+
+/* Dark Theme Support */
+[data-theme='dark'] .tab-button[data-tab='ticketManagement'] {
+  background-color: var(--dark-primary-color);
+  color: var(--dark-text-color);
+}
+
+[data-theme='dark'] .tab-button[data-tab='ticketManagement']:hover {
+  background-color: var(--dark-primary-color-hover);
+}
+
+[data-theme='dark'] .tab-button[data-tab='ticketManagement'].active {
+  background-color: var(--dark-primary-color-active);
+  border-bottom: 3px solid var(--dark-accent-color);
+} 

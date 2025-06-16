@@ -12,6 +12,7 @@ import { generateDetailedPDFReport } from '../../services/ReportService';
 import TicketHistory from './TicketHistory';
 import TeamOverview from './TeamOverview';
 import SalesReports from './SalesReports';
+import TicketManagement from './TicketManagement';
 
 function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -212,6 +213,12 @@ function AdminDashboard() {
             <FaHistory /> Storico Biglietti
           </button>
           <button
+            className={`tab-button ${activeTab === 'ticketManagement' ? 'active' : ''}`}
+            onClick={() => setActiveTab('ticketManagement')}
+          >
+            <FaTicketAlt /> Gestione Biglietti
+          </button>
+          <button
             className={`tab-button ${activeTab === 'salesReports' ? 'active' : ''}`}
             onClick={() => setActiveTab('salesReports')}
           >
@@ -325,6 +332,8 @@ function AdminDashboard() {
           <TeamOverview teamLeaders={teamLeaders} managers={managers} users={users} fetchUsers={fetchUsers} />
         ) : activeTab === 'tickets' ? (
           <TicketHistory usersMap={usersMap} />
+        ) : activeTab === 'ticketManagement' ? (
+          <TicketManagement />
         ) : activeTab === 'salesReports' ? (
           <SalesReports usersMap={usersMap} />
         ) : null}
@@ -413,6 +422,13 @@ function AdminDashboard() {
         >
           <FaHistory className="bottom-nav-icon" />
           <span>Biglietti</span>
+        </button>
+        <button
+          className={`bottom-nav-item ${activeTab === 'ticketManagement' ? 'active' : ''}`}
+          onClick={() => setActiveTab('ticketManagement')}
+        >
+          <FaTicketAlt className="bottom-nav-icon" />
+          <span>Gestione Biglietti</span>
         </button>
         <button
           className={`bottom-nav-item ${activeTab === 'salesReports' ? 'active' : ''}`}
