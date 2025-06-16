@@ -1,10 +1,10 @@
 import emailjs from '@emailjs/browser';
 
-const SERVICE_ID = 'service_co17e5g';
-const TEMPLATE_ID = 'template_0t7v2ts';
-const PUBLIC_KEY = '66gL3F6watdN_JHl2';
+const SERVICE_ID = 'service_qgnc64i';
+const TEMPLATE_ID = 'template_oxpembg';
+const PUBLIC_KEY = 'xSjIE1ggREjwtKbYK';
 
-// Inizializza EmailJS
+// Inizializza EmailJS con la chiave pubblica
 emailjs.init(PUBLIC_KEY);
 
 export const sendTicketEmail = async (email, ticketData) => {
@@ -44,14 +44,15 @@ export const sendTicketEmail = async (email, ticketData) => {
       }
     };
 
+    // Prepara i parametri per il template
     const templateParams = {
       to_name: ticketData.customerName,
       customer_email: email,
       event_name: ticketData.eventName,
-      event_description: ticketData.eventDescription || 'Nessuna descrizione disponibile',
+      event_description: ticketData.eventDescription || 'Dettagli evento non disponibili',
       event_date: formatDate(ticketData.eventDate),
-      event_location: ticketData.eventLocation || 'N/A',
-      ticket_type: ticketData.ticketType,
+      event_location: ticketData.eventLocation || 'Luogo da definire',
+      ticket_type: ticketData.ticketType || 'Standard',
       unit_price: ticketData.price.toFixed(2),
       quantity: ticketData.quantity,
       ticket_code: ticketData.ticketCode,
@@ -61,22 +62,22 @@ export const sendTicketEmail = async (email, ticketData) => {
 
     console.log('Parametri template preparati:', templateParams);
 
+    // Invia l'email usando EmailJS
     const response = await emailjs.send(
       SERVICE_ID,
       TEMPLATE_ID,
-      templateParams,
-      PUBLIC_KEY
+      templateParams
     );
 
-    console.log('Risposta EmailJS completa:', response);
+    console.log('Risposta EmailJS:', response);
 
-    if (response.status !== 200) {
-      console.error('Errore nell\'invio dell\'email:', response);
+    if (response.status === 200) {
+      console.log('Email inviata con successo');
+      return true;
+    } else {
+      console.error('Errore nell\'invio dell\'email. Status:', response.status);
       return false;
     }
-
-    console.log('Email inviata con successo');
-    return true;
   } catch (error) {
     console.error('Errore dettagliato nell\'invio dell\'email:', error);
     if (error.text) {
